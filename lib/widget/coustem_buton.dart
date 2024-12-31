@@ -36,7 +36,7 @@ class CoustemButon extends StatelessWidget {
           width: double.infinity,
           height: 60,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: ontap,
             style: ElevatedButton.styleFrom(backgroundColor: MyColors.buttun),
             child: Center(
                 child: Text(

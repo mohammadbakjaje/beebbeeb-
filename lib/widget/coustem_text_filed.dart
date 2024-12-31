@@ -6,24 +6,24 @@ import '../helper/my_colors.dart';
 class CoustemTextFormFiled extends StatelessWidget {
   String? hintText;
   Function(String)? onchanged;
+  final String? Function(String?)? validator;
   bool obsecure, password;
-
+  TextEditingController? controller;
   CoustemTextFormFiled(
       {this.onchanged,
+      this.validator,
       required this.hintText,
       this.obsecure = false,
-      this.password = false});
+      this.password = false,
+      this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       style: TextStyle(color: Colors.white),
       obscureText: obsecure,
-      validator: (data) {
-        if (data!.isEmpty) {
-          return "this field is required";
-        }
-      },
+      validator: validator,
       onChanged: onchanged,
       decoration: InputDecoration(
         fillColor: MyColors.dark_2,
@@ -40,6 +40,18 @@ class CoustemTextFormFiled extends StatelessWidget {
         border: OutlineInputBorder(
           borderSide: BorderSide(color: MyColors.dark_2),
           borderRadius: BorderRadius.circular(4),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: MyColors.buttun),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: MyColors.buttun),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        errorStyle: TextStyle(
+          color: Colors.red,
+          letterSpacing: 2,
         ),
       ),
     );
