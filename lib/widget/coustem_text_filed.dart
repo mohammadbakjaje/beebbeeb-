@@ -51,7 +51,7 @@ class CoustemTextFormFiled extends StatelessWidget {
         ),
         errorStyle: TextStyle(
           color: Colors.red,
-          letterSpacing: 2,
+          letterSpacing: 1,
         ),
       ),
     );

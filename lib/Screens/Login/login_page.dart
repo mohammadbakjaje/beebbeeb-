@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
-import 'package:untitled1/Screens/register_page.dart';
+import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/widget/coustem_buton.dart';
 import 'package:untitled1/widget/coustem_text_filed.dart';
@@ -65,7 +65,7 @@ class LoginPage extends StatelessWidget {
                           validator: (value) {
                             if ((value ?? '').isEmpty) {
                               return 'Please Enter Your Number';
-                            } else if ((value ?? '').length < 2) {
+                            } else if ((value ?? '').length < 10) {
                               return 'At least 10 number';
                             } else {
                               return null;

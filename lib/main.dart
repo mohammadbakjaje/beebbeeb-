@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
-import 'package:untitled1/Screens/register_page.dart';
+import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
+import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/Screens/reset_page.dart';
 import 'package:untitled1/Screens/send_email_page.dart';
-
 import 'Screens/Added/Cart.dart';
 import 'Screens/Added/CartEmpity.dart';
 import 'Screens/Added/Favourit.dart';
@@ -30,6 +30,7 @@ class BebBeb extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => LoginCubit()),
+        BlocProvider(create: (BuildContext context) => RegisterCubit()),
       ],
       child: MaterialApp(
         routes: {
