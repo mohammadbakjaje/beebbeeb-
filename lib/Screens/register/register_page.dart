@@ -136,7 +136,7 @@ class RegisterPage extends StatelessWidget {
                                       ),
                                       errorStyle: TextStyle(
                                         color: Colors.red,
-                                        letterSpacing: 2,
+                                        letterSpacing: 1,
                                       ),
                                       suffixIcon: Row(
                                         mainAxisAlignment:
@@ -209,7 +209,7 @@ class RegisterPage extends StatelessWidget {
                                     ),
                                     errorStyle: TextStyle(
                                       color: Colors.red,
-                                      letterSpacing: 2,
+                                      letterSpacing: 1,
                                     ),
                                     suffixIcon: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,

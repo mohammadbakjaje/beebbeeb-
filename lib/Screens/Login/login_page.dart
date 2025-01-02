@@ -108,7 +108,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 errorStyle: TextStyle(
                                   color: Colors.red,
-                                  letterSpacing: 2,
+                                  letterSpacing: 1,
                                 ),
                                 suffixIcon: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
@@ -197,7 +197,6 @@ class LoginPage extends StatelessWidget {
                                   ));
                                 }
                                 if (state is LoginSuccessState) {
-                                  box.write('token', state.model.token);
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => HomePage(),

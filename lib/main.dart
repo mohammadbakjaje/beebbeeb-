@@ -6,6 +6,7 @@ import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/Screens/reset_page.dart';
 import 'package:untitled1/Screens/send_email_page.dart';
+import 'package:untitled1/helper/local_network.dart';
 import 'Screens/Added/Cart.dart';
 import 'Screens/Added/CartEmpity.dart';
 import 'Screens/Added/Favourit.dart';
@@ -17,8 +18,14 @@ import 'Screens/ProductAndStore/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
 import 'Screens/ProductAndStore/Stores2.dart';
 import 'Screens/Profile.dart';
+import 'helper/constants.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheNetwork.cacheInitialization();
+  token = CacheNetwork.getCacheData(key: "token");
+  print("token is $token");
+
   runApp(BebBeb());
 }
 
@@ -47,7 +54,7 @@ class BebBeb extends StatelessWidget {
           RegisterPage.id: (context) => RegisterPage()
         },
         debugShowCheckedModeBanner: false,
-        home: LoginPage(),
+        home: token != null && token != "" ? HomePage() : LoginPage(),
       ),
     );
   }
