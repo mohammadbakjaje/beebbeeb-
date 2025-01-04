@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/Screens/Drawer/bloc/logout_state.dart';
+import 'package:untitled1/Screens/Login/login_page.dart';
 
-import '../helper/local_network.dart';
-import '../helper/my_colors.dart';
-import 'Profile.dart';
+import '../../helper/local_network.dart';
+import '../../helper/my_colors.dart';
+import '../Profile.dart';
+import 'bloc/logout_cubit.dart';
 
-class CustomDrawer extends StatefulWidget {
-  @override
-  State<CustomDrawer> createState() => _CustomDrawerState();
-}
-
-class _CustomDrawerState extends State<CustomDrawer> {
+class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -81,15 +80,43 @@ class _CustomDrawerState extends State<CustomDrawer> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 14, top: 7),
-            child: ListTile(
-              leading: Icon(Icons.exit_to_app, color: Colors.white),
-              title: Text('Logout', style: TextStyle(color: Colors.white)),
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-            ),
+          BlocConsumer<LogoutCubit, LogoutState>(
+            builder: (BuildContext context, LogoutState state) {
+              if (state is LogoutLoadingState) {
+                return CircularProgressIndicator(
+                  color: Colors.white,
+                );
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 14, top: 7),
+                  child: ListTile(
+                    leading: Icon(Icons.exit_to_app, color: Colors.white),
+                    title:
+                        Text('Logout', style: TextStyle(color: Colors.white)),
+                    onTap: () {
+                      context
+                          .read<LogoutCubit>()
+                          .logoutBloc(CacheNetwork.getCacheData(key: "token"));
+                    },
+                  ),
+                );
+              }
+            },
+            listener: (BuildContext context, LogoutState state) {
+              if (state is LogoutErrorState) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(state.errorMsg),
+                ));
+              }
+              if (state is LogoutSuccessState) {
+                // box.write('token', state.model.accessToken);
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+              }
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(left: 14, top: 7),
