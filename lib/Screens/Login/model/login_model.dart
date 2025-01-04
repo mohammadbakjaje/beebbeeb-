@@ -10,7 +10,7 @@ class LoginModel {
   factory LoginModel.fromJson(Map<dynamic, dynamic> json) {
     return LoginModel(
       status: json["status"],
-      token: json["msg"]["token"],
+      token: json["token"],
     );
   }
 }

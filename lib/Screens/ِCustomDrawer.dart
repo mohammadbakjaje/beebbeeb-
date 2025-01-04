@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
+import '../helper/local_network.dart';
 import '../helper/my_colors.dart';
 import 'Profile.dart';
-
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -87,6 +88,17 @@ class _CustomDrawerState extends State<CustomDrawer> {
               title: Text('Logout', style: TextStyle(color: Colors.white)),
               onTap: () {
                 Navigator.of(context).pop();
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 14, top: 7),
+            child: ListTile(
+              leading: Icon(Icons.cleaning_services, color: Colors.white),
+              title: Text('Clear Cache', style: TextStyle(color: Colors.white)),
+              onTap: () async {
+                await CacheNetwork.clearCache();
+                SystemNavigator.pop();
               },
             ),
           ),

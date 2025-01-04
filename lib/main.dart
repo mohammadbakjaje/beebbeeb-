@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
+import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
 import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/Screens/reset_page.dart';
@@ -22,9 +23,6 @@ import 'helper/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await CacheNetwork.cacheInitialization();
-  token = CacheNetwork.getCacheData(key: "token");
-  print("token is $token");
 
   runApp(BebBeb());
 }
@@ -40,22 +38,22 @@ class BebBeb extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
       ],
       child: MaterialApp(
-        routes: {
-          Orders.id: (context) => Orders(),
-          Favourit.id: (context) => Favourit(),
-          Cart.id: (context) => Cart(),
-          Products2.id: (context) => Products2(),
-          Products.id: (context) => Products(),
-          Stores.id: (context) => Stores(),
-          Stores2.id: (context) => Stores2(),
-          HomePage.id: (context) => HomePage(),
-          Profile.id: (context) => Profile(),
-          LoginPage.id: (context) => LoginPage(),
-          RegisterPage.id: (context) => RegisterPage()
-        },
-        debugShowCheckedModeBanner: false,
-        home: token != null && token != "" ? HomePage() : LoginPage(),
-      ),
+          routes: {
+            Orders.id: (context) => Orders(),
+            Favourit.id: (context) => Favourit(),
+            Cart.id: (context) => Cart(),
+            Products2.id: (context) => Products2(),
+            Products.id: (context) => Products(),
+            Stores.id: (context) => Stores(),
+            Stores2.id: (context) => Stores2(),
+            HomePage.id: (context) => HomePage(),
+            Profile.id: (context) => Profile(),
+            LoginPage.id: (context) => LoginPage(),
+            RegisterPage.id: (context) => RegisterPage()
+          },
+          debugShowCheckedModeBanner: false,
+          // home: token != null && token != "" ? HomePage() : LoginPage(),
+          home: Splashscreen()),
     );
   }
 }

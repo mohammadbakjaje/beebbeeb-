@@ -19,4 +19,8 @@ class CacheNetwork {
   static Future<bool> deleteCacheItem({required String key}) async {
     return await sharedPreferences.remove(key);
   }
+
+  static Future<bool> clearCache() async {
+    return await sharedPreferences.clear();
+  }
 }
