@@ -14,6 +14,7 @@ import 'Screens/Added/Favourit.dart';
 import 'Screens/Added/Orders.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
+import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Login/bloc/login_cubit.dart';
 import 'Screens/ProductAndStore/Products.dart';
 import 'Screens/ProductAndStore/Products2.dart';
@@ -38,6 +39,8 @@ class BebBeb extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => LogoutCubit()),
         BlocProvider(create: (BuildContext context) => LoginCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
+        BlocProvider(
+            create: (BuildContext context) => LayoutCubit()..getUserData())
       ],
       child: MaterialApp(
           routes: {

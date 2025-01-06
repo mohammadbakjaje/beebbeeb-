@@ -7,8 +7,6 @@ import '../../../helper/constants.dart';
 import '../model/login_model.dart';
 
 class LoginServerManager {
-  String BaseUrl = 'http://$ipv4/api';
-
   Future<LoginModel> login(String phone, String password) async {
     print("hello");
     final http.Response response = await http.post(

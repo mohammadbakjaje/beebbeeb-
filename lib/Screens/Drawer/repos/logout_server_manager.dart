@@ -7,8 +7,6 @@ import 'package:untitled1/helper/local_network.dart';
 import '../../../helper/constants.dart';
 
 class LogoutServerManager {
-  String BaseUrl = 'http://$ipv4/api';
-
   Future<LogoutModel> logout(String token) async {
     final http.Response response = await http.post(Uri.parse('$BaseUrl/logout'),
         headers: {"Authorization": "Bearer ${token}"});

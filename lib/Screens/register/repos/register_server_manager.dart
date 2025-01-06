@@ -7,8 +7,6 @@ import '../../../helper/constants.dart';
 import '../../../helper/local_network.dart';
 
 class RegisterServerManager {
-  String BaseUrl = 'http://$ipv4/api';
-
   Future<RegisterModel> register(String firstName, String lastName,
       String phone, String password, String confirmPassword) async {
     print("hello");
