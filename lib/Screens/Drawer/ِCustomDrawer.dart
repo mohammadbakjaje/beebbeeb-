@@ -13,6 +13,7 @@ import 'bloc/logout_cubit.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
+  String token = CacheNetwork.getCacheData(key: "token");
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => LayoutCubit()..getUserData(),

@@ -16,6 +16,7 @@ class LoginServerManager {
     Map<String, dynamic> data = jsonDecode(response.body);
     if (response.statusCode == 200 && data["status"] == true) {
       await CacheNetwork.insertToCache(key: "token", value: data["token"]);
+      print(data["token"]);
       return LoginModel.fromJson(data);
     } else {
       throw (data["msg"]);
