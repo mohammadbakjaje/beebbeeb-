@@ -10,7 +10,7 @@ import 'Cart.dart';
 import 'Favourit.dart';
 
 class Orders extends StatefulWidget {
-  static String id = "o";
+  static String id = "Orders";
 
   @override
   State<Orders> createState() => _OrdersState();
