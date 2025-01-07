@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
+import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/product_cubit.dart';
 import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
 import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
@@ -16,7 +17,7 @@ import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Login/bloc/login_cubit.dart';
-import 'Screens/ProductAndStore/Products.dart';
+import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'Screens/ProductAndStore/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
 import 'Screens/ProductAndStore/Stores2.dart';
@@ -40,7 +41,9 @@ class BebBeb extends StatelessWidget {
         BlocProvider(create: (BuildContext context) => LoginCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
         BlocProvider(
-            create: (BuildContext context) => LayoutCubit()..getUserData())
+            create: (BuildContext context) => LayoutCubit()..getUserData()),
+        BlocProvider(
+            create: (BuildContext context) => ProductCubit()..getProducts()),
       ],
       child: MaterialApp(
           routes: {

@@ -39,7 +39,7 @@ dependencies:
   http: ^1.2.2
   get_storage: ^2.1.1
   lottie: ^3.2.0
-  image_picker: ^0.7.0
+  image_picker: ^0.8.7+4
   permission_handler: ^10.2.0
   shared_preferences: ^2.3.4
   audioplayers: ^6.1.0

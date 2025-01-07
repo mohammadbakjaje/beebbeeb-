@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../helper/my_colors.dart';
 import '../widget/coustembutonm.dart';
@@ -11,6 +14,19 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  XFile? _imageFile; // لتخزين الصورة المختارة
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _imageFile = pickedFile;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +45,18 @@ class _ProfileState extends State<Profile> {
           child: Column(
             children: <Widget>[
               GestureDetector(
-                child: CircleAvatar(
-                  radius: 60,
-                  backgroundImage: null,
-                ),
+                onTap: () {
+                  _pickImage(ImageSource.camera);
+                },
+                child: _imageFile != null
+                    ? CircleAvatar(
+                        radius: 50,
+                        backgroundImage: FileImage(File(_imageFile!.path)),
+                      )
+                    : CircleAvatar(
+                        radius: 50,
+                        child: Icon(Icons.person, size: 50),
+                      ),
               ),
               TextField(
                 decoration: InputDecoration(
