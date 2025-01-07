@@ -13,12 +13,16 @@ class LayoutCubit extends Cubit<LayoutStates> {
   UserModel? userModel;
   String? token = CacheNetwork.getCacheData(key: "token");
   void getUserData() async {
+    emit(GetUserDataLoadingState());
     Response response = await http.get(Uri.parse("$BaseUrl/getUser"),
         headers: {"Authorization": "Bearer ${token}"});
+
+    print(response.body);
     var responseData = jsonDecode(response.body);
 
     print(responseData);
     if (responseData["status"] == true) {
+      emit(GetUserDataSuccsesState());
       userModel = UserModel.fromJson(data: responseData['user']);
       emit(GetUserDataSuccsesState());
     } else {
