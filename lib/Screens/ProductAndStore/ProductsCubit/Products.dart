@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/product_cubit.dart';
-import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/prooducts_states.dart';
 
 import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonSearch.dart';
 import '../../Drawer/ِCustomDrawer.dart';
-import '../Products2.dart';
+import 'Bloc/product_details_cubit.dart';
+import 'Bloc/products_cubit.dart';
+import 'Bloc/prooducts_states.dart';
+import 'Products2.dart';
 
 class Products extends StatefulWidget {
   static String id = "Products";
@@ -16,24 +17,16 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsOfStoresState extends State<Products> {
-  bool lovely = false;
-  Icon favorite = Icon(
-    Icons.favorite,
-    color: Colors.red,
-  );
-
   @override
   Widget build(BuildContext context) {
-    ProductCubit cubit = BlocProvider.of<ProductCubit>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return BlocProvider(
+      create: (context) => ProductCubit()..getProducts(),
+      child: Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
           backgroundColor: MyColors.dark_1,
           foregroundColor: Colors.white,
         ),
-        //drawer: Drawer(),
         backgroundColor: MyColors.dark_1,
         body: Padding(
           padding: EdgeInsets.only(right: 14, left: 14),
@@ -56,11 +49,13 @@ class _ProductsOfStoresState extends State<Products> {
                 Container(
                   height: 10,
                 ),
-                BlocConsumer<ProductCubit, ProductsState>(
-                  builder: (BuildContext context, ProductsState state) {
-                    if (state is getProducatsLoadingState) {
+                BlocBuilder<ProductCubit, ProductsState>(
+                  builder: (context, state) {
+                    ProductCubit cubit = BlocProvider.of<ProductCubit>(context);
+
+                    if (state is GetProductsLoadingState) {
                       return Center(child: CircularProgressIndicator());
-                    } else if (state is getProducatsSuccessState) {
+                    } else if (state is GetProductsSuccessState) {
                       return GridView.builder(
                         itemCount: cubit.data!.length,
                         physics: NeverScrollableScrollPhysics(),
@@ -71,10 +66,15 @@ class _ProductsOfStoresState extends State<Products> {
                         itemBuilder: (context, i) {
                           return InkWell(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Products2(
-                                        data: cubit.data![i],
-                                      )));
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => BlocProvider(
+                                    create: (context) => ProductDetailsCubit()
+                                      ..getOneProduct(cubit.data![i]["id"]),
+                                    child: Products2(),
+                                  ),
+                                ),
+                              );
                             },
                             child: Card(
                               child: Container(
@@ -127,24 +127,6 @@ class _ProductsOfStoresState extends State<Products> {
                                                 fontWeight: FontWeight.w900),
                                           ),
                                         ),
-                                        /*IconButton(
-                                            onPressed: () {
-                                              setState(() {});
-                                              if (cubit.data![i]["lovely"] ==
-                                                  "false") {
-                                                cubit.data![i]["lovely"] =
-                                                    "true";
-                                              } else {
-                                                cubit.data![i]["lovely"] =
-                                                    "false";
-                                              }
-                                              ;
-                                            },
-                                            icon: cubit.data![i]["lovely"] ==
-                                                    "true"
-                                                ? favorite
-                                                : Icon(Icons
-                                                    .favorite_outline_rounded)),*/
                                       ],
                                     ),
                                   ],
@@ -154,10 +136,10 @@ class _ProductsOfStoresState extends State<Products> {
                           );
                         },
                       );
-                    } else
-                      return Text("Failed to get data");
+                    } else {
+                      return Center(child: Text("Failed to get data"));
+                    }
                   },
-                  listener: (BuildContext context, ProductsState state) {},
                 ),
               ],
             ),

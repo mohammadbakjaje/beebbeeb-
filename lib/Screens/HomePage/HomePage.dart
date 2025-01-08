@@ -7,7 +7,7 @@ import '../Added/Cart.dart';
 import '../Added/Favourit.dart';
 import '../Added/Orders.dart';
 import '../ProductAndStore/ProductsCubit/Products.dart';
-import '../ProductAndStore/Products2.dart';
+import '../ProductAndStore/ProductsCubit/Products2.dart';
 import '../ProductAndStore/Stores.dart';
 import '../Drawer/ِCustomDrawer.dart';
 import 'HomePage2.dart';
@@ -213,9 +213,7 @@ class _HomePageState extends State<HomePage> {
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Products2(
-                                  data: bestSelling[i],
-                                )));
+                            builder: (context) => Products2()));
                       },
                       child: Card(
                         child: Container(

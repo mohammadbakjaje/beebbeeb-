@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
-import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/product_cubit.dart';
+import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
 import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
 import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
@@ -18,7 +18,7 @@ import 'Screens/HomePage/HomePage.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Login/bloc/login_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
-import 'Screens/ProductAndStore/Products2.dart';
+import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
 import 'Screens/ProductAndStore/Stores2.dart';
 import 'Screens/Profile.dart';
@@ -50,7 +50,6 @@ class BebBeb extends StatelessWidget {
             Orders.id: (context) => Orders(),
             Favourit.id: (context) => Favourit(),
             Cart.id: (context) => Cart(),
-            Products2.id: (context) => Products2(),
             Products.id: (context) => Products(),
             Stores.id: (context) => Stores(),
             Stores2.id: (context) => Stores2(),

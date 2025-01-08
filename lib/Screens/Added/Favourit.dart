@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../helper/my_colors.dart';
 import '../../widget/CustomBottomNavigationBar.dart';
 import '../HomePage/HomePage.dart';
-import '../ProductAndStore/Products2.dart';
+import '../ProductAndStore/ProductsCubit/Products2.dart';
 
 import '../Drawer/ِCustomDrawer.dart';
 import 'Cart.dart';
@@ -169,10 +169,8 @@ class _FavouritState extends State<Favourit> {
                 itemBuilder: (context, i) {
                   return InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Products2(
-                                data: bestSelling[i],
-                              )));
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Products2()));
                     },
                     child: Card(
                       child: Container(

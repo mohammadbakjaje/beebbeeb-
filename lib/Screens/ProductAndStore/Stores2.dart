@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../helper/my_colors.dart';
 import '../../widget/ButtonStores.dart';
-import 'Products2.dart';
+import 'ProductsCubit/Products2.dart';
 
 class Stores2 extends StatefulWidget {
   static String id = "Stores2";
@@ -243,9 +243,7 @@ class Stores2State extends State<Stores2> {
                           return InkWell(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Products2(
-                                        data: bestSelling[i],
-                                      )));
+                                  builder: (context) => Products2()));
                             },
                             child: Card(
                               child: Container(

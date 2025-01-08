@@ -81,7 +81,7 @@ class _MovingImageState extends State<MovingImage>
       return;
     }
     try {
-      await _audioPlayer!.play(AssetSource('bebbeb.wav'));
+      await _audioPlayer!.play(AssetSource('bebbebnew.wav'));
       print('Sound played successfully');
     } catch (e) {
       print('Error playing sound: $e');

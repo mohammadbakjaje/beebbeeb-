@@ -4,7 +4,7 @@ import '../../helper/my_colors.dart';
 import '../../widget/CustomBottomNavigationBar.dart';
 import '../../widget/coustembutonm.dart';
 import '../HomePage/HomePage.dart';
-import '../ProductAndStore/Products2.dart';
+import '../ProductAndStore/ProductsCubit/Products2.dart';
 import '../Drawer/ِCustomDrawer.dart';
 import 'Favourit.dart';
 import 'Orders.dart';
@@ -163,10 +163,8 @@ class _CartState extends State<Cart> {
               itemBuilder: (context, i) {
                 return InkWell(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Products2(
-                              data: bestSelling[i],
-                            )));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Products2()));
                   },
                   child: Card(
                     child: Container(
