@@ -10,7 +10,7 @@ import 'package:untitled1/Screens/Login/login_page.dart';
 import '../../helper/local_network.dart';
 import '../../helper/my_colors.dart';
 import '../Layout/Layout_cubit/layout_states.dart';
-import '../Profile/Profile.dart';
+import '../Layout/Profile/Profile.dart';
 import 'bloc/logout_cubit.dart';
 
 class CustomDrawer extends StatelessWidget {

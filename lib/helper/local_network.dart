@@ -12,8 +12,17 @@ class CacheNetwork {
     return await sharedPreferences.setString(key, value);
   }
 
+  static Future<bool> insertBoolToCache(
+      {required String key, required bool value}) async {
+    return await sharedPreferences.setBool(key, value);
+  }
+
   static String getCacheData({required String key}) {
     return sharedPreferences.getString(key) ?? "";
+  }
+
+  static bool getBoolCacheData({required String key}) {
+    return sharedPreferences.getBool(key) ?? true;
   }
 
   static Future<bool> deleteCacheItem({required String key}) async {

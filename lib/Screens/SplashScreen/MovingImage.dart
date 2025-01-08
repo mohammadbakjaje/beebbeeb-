@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
+import 'package:untitled1/Screens/on%20Boarding/presentation/on_boarding_view.dart';
 
 import '../../helper/constants.dart';
 import '../../helper/local_network.dart';
@@ -57,18 +58,26 @@ class _MovingImageState extends State<MovingImage>
     });
     print("token is $token");
 
-    if (token == null || token!.isEmpty) {
-      print("navigater to LoginPage");
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
-      );
+    if (CacheNetwork.getBoolCacheData(key: "isFirstTime") == false) {
+      if (token == null || token!.isEmpty) {
+        print("navigater to LoginPage");
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+      } else {
+        print("navigater to HomePage");
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      }
     } else {
-      print("navigater to HomePage");
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => OnBoardingView(),
         ),
       );
     }

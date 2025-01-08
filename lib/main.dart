@@ -18,12 +18,12 @@ import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
+import 'Screens/Layout/Profile/Profile.dart';
 import 'Screens/Login/bloc/login_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
 import 'Screens/ProductAndStore/Stores2.dart';
-import 'Screens/Profile/Profile.dart';
 import 'helper/constants.dart';
 
 void main() async {
@@ -64,7 +64,7 @@ class BebBeb extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           // home: token != null && token != "" ? HomePage() : LoginPage(),
-          home: Profile()),
+          home: Splashscreen()),
     );
   }
 }

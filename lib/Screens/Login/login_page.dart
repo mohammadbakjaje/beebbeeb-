@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
+import 'package:untitled1/Screens/reset_page.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/widget/coustem_buton.dart';
 import 'package:untitled1/widget/coustem_text_filed.dart';
@@ -156,11 +157,20 @@ class LoginPage extends StatelessWidget {
                               "Forget Password ? ",
                               style: TextStyle(color: Colors.white),
                             ),
-                            Text(
-                              "Reset",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => ResetPage(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                "Reset",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
