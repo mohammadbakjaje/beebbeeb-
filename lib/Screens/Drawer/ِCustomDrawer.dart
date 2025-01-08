@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/Screens/Drawer/AboutUs.dart';
 import 'package:untitled1/Screens/Drawer/bloc/logout_state.dart';
+import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 
 import '../../helper/local_network.dart';
 import '../../helper/my_colors.dart';
 import '../Layout/Layout_cubit/layout_states.dart';
-import '../Profile.dart';
+import '../Profile/Profile.dart';
 import 'bloc/logout_cubit.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -95,7 +97,8 @@ class CustomDrawer extends StatelessWidget {
                         title: Text('About Us',
                             style: TextStyle(color: Colors.white)),
                         onTap: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => AboutUs()));
                         },
                       ),
                     ),
@@ -106,7 +109,8 @@ class CustomDrawer extends StatelessWidget {
                         title: Text('Contact Us',
                             style: TextStyle(color: Colors.white)),
                         onTap: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ConnectUs()));
                         },
                       ),
                     ),
