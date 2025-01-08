@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
 import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
@@ -13,6 +14,7 @@ import 'Screens/Added/Cart.dart';
 import 'Screens/Added/CartEmpity.dart';
 import 'Screens/Added/Favourit.dart';
 import 'Screens/Added/Orders.dart';
+import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
@@ -21,7 +23,7 @@ import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
 import 'Screens/ProductAndStore/Stores2.dart';
-import 'Screens/Profile.dart';
+import 'Screens/Profile/Profile.dart';
 import 'helper/constants.dart';
 
 void main() async {
@@ -56,11 +58,13 @@ class BebBeb extends StatelessWidget {
             HomePage.id: (context) => HomePage(),
             Profile.id: (context) => Profile(),
             LoginPage.id: (context) => LoginPage(),
-            RegisterPage.id: (context) => RegisterPage()
+            RegisterPage.id: (context) => RegisterPage(),
+            ConnectUs.id: (context) => ConnectUs(),
+            AboutUs.id: (context) => AboutUs(),
           },
           debugShowCheckedModeBanner: false,
           // home: token != null && token != "" ? HomePage() : LoginPage(),
-          home: Splashscreen()),
+          home: Profile()),
     );
   }
 }

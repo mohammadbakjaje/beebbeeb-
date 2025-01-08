@@ -42,7 +42,7 @@ class CoustemButonM extends StatelessWidget {
                 child: Text(
               "$text",
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 color: Colors.white,
               ),
             )),
