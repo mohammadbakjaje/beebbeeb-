@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Drawer/connectUs.dart';
+import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
 import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
@@ -25,6 +26,7 @@ import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
 import 'Screens/ProductAndStore/Stores2.dart';
 import 'helper/constants.dart';
+import 'helper/my_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +50,7 @@ class BebBeb extends StatelessWidget {
             create: (BuildContext context) => ProductCubit()..getProducts()),
       ],
       child: MaterialApp(
+          color: MyColors.dark_1,
           routes: {
             Orders.id: (context) => Orders(),
             Favourit.id: (context) => Favourit(),

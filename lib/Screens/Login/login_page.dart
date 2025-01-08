@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
+import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/Screens/reset_page.dart';
 import 'package:untitled1/helper/my_colors.dart';
@@ -209,7 +210,7 @@ class LoginPage extends StatelessWidget {
                                 if (state is LoginSuccessState) {
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
-                                      builder: (context) => HomePage(),
+                                      builder: (context) => LayoutScreen(),
                                     ),
                                   );
                                 }

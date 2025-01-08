@@ -10,3 +10,5 @@ class FailedToGetUserDataState extends LayoutStates {
 }
 
 class GetUserDataSuccsesState extends LayoutStates {}
+
+class ChangeBottomIndexNavState extends LayoutStates {}

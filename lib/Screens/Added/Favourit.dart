@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../helper/my_colors.dart';
-import '../../widget/CustomBottomNavigationBar.dart';
 import '../HomePage/HomePage.dart';
 import '../ProductAndStore/ProductsCubit/Products2.dart';
 
@@ -126,28 +125,6 @@ class _FavouritState extends State<Favourit> {
     return Scaffold(
         drawer: CustomDrawer(),
         backgroundColor: MyColors.dark_1,
-        bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: onItemTapped,
-          items: [
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/home.png')),
-              label: "*",
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/sss.png')),
-              label: "*",
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/orders.png')),
-              label: "*",
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/hhh.png')),
-              label: "*",
-            ),
-          ],
-        ),
         appBar: AppBar(
           title: Text(
             "My Favourite things",

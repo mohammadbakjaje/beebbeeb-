@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
+import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/on%20Boarding/presentation/on_boarding_view.dart';
 
 import '../../helper/constants.dart';
@@ -70,7 +71,7 @@ class _MovingImageState extends State<MovingImage>
         print("navigater to HomePage");
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => LayoutScreen(),
           ),
         );
       }

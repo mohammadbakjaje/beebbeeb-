@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../helper/my_colors.dart';
-import '../../widget/CustomBottomNavigationBar.dart';
 import '../../widget/coustembutonm.dart';
 import '../Added/Cart.dart';
 import '../Added/Favourit.dart';
@@ -21,33 +20,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //NaffBar
-  int selectedIndex = 0;
-
-  void onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-    switch (index) {
-      case 0:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => HomePage()));
-        break;
-      case 1:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => Cart()));
-        break;
-      case 2:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => Orders()));
-        break;
-      case 3:
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => Favourit()));
-        break;
-    }
-  }
-
   List bestSelling = [
     {
       "image": "https://m.media-amazon.com/images/I/811RreTN3rL.jpg",
@@ -99,28 +71,6 @@ class _HomePageState extends State<HomePage> {
         ),
         drawer: CustomDrawer(),
         backgroundColor: MyColors.dark_1,
-        bottomNavigationBar: CustomBottomNavigationBar(
-          currentIndex: selectedIndex,
-          onTap: onItemTapped,
-          items: [
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/home.png')),
-              label: "*",
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/sss.png')),
-              label: "*",
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/orders.png')),
-              label: "*",
-            ),
-            BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('images/hhh.png')),
-              label: "*",
-            ),
-          ],
-        ),
         body: Container(
           padding: EdgeInsets.only(left: 15, right: 15),
           child: ListView(

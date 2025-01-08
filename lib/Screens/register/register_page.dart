@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/bloc/register_states.dart';
 
@@ -298,7 +299,7 @@ class RegisterPage extends StatelessWidget {
                               // box.write('token', state.model.accessToken);
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => HomePage(),
+                                  builder: (context) => LayoutScreen(),
                                 ),
                               );
                             }
