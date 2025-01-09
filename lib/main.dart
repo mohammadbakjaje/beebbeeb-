@@ -61,7 +61,6 @@ class BebBeb extends StatelessWidget {
             Cart.id: (context) => Cart(),
             Products.id: (context) => Products(),
             Stores.id: (context) => Stores(),
-            Stores2.id: (context) => Stores2(),
             HomePage.id: (context) => HomePage(),
             Profile.id: (context) => Profile(),
             LoginPage.id: (context) => LoginPage(),

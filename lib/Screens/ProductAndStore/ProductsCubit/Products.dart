@@ -46,7 +46,9 @@ class _ProductsOfStoresState extends State<Products> {
                     return ButtonSearch(
                       hintText: "Search for products",
                       onchanged: (query) {
-                        context.read<SearchCubit>().searchProducts(query);
+                        context
+                            .read<SearchCubit>()
+                            .search(query: query, type: storesSearch);
                       },
                       prefixImage: Image.asset("images/search.png"),
                     );
@@ -79,8 +81,8 @@ class _ProductsOfStoresState extends State<Products> {
                                           builder: (context) => BlocProvider(
                                             create: (context) =>
                                                 ProductDetailsCubit()
-                                                  ..getOneProduct(product[
-                                                      "id"]),
+                                                  ..getOneProduct(
+                                                      product["id"]),
                                             child: Products2(),
                                           ),
                                         ),

@@ -9,7 +9,7 @@ import '../../../../helper/constants.dart';
 class SearchCubit extends Cubit<SearchStates> {
   SearchCubit() : super(SearchInitial());
 
-  Future<void> searchProducts(String query) async {
+  Future<void> search({required String query, required String type}) async {
     if (query.isEmpty) {
       emit(SearchInitial());
       return;
@@ -19,10 +19,12 @@ class SearchCubit extends Cubit<SearchStates> {
 
     try {
       final response =
-          await http.get(Uri.parse("$BaseUrl/products/search/$query"));
+          await http.get(Uri.parse("$BaseUrl/$type/search/$query"));
 
       if (response.statusCode == 200) {
+        print("$BaseUrl/$type/search/$query");
         final List<dynamic> data = json.decode(response.body);
+        print(data);
         emit(SearchSuccess(data));
       } else {
         emit(SearchError("Failed to load search results"));

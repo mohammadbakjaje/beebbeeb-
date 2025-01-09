@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/helper/constants.dart';
 
 import '../../helper/my_colors.dart';
 import '../../widget/ButtonSearch.dart';
@@ -85,7 +86,9 @@ class _HomePageState extends State<HomePage> {
                   return ButtonSearch(
                     hintText: "Search for products",
                     onchanged: (query) {
-                      context.read<SearchCubit>().searchProducts(query);
+                      context
+                          .read<SearchCubit>()
+                          .search(query: query, type: productsSearch);
                     },
                     prefixImage: Image.asset("images/search.png"),
                   );
@@ -110,37 +113,36 @@ class _HomePageState extends State<HomePage> {
                             itemCount: state.data.length,
                             itemBuilder: (context, index) {
                               final product = state.data[index];
-                              return ListTile(
-                                onTap: () {
-                                  // الانتقال إلى واجهة تفاصيل المنتج
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => BlocProvider(
-                                        create: (context) =>
-                                            ProductDetailsCubit()
-                                              ..getOneProduct(product[
-                                                  "id"]), // جلب تفاصيل المنتج
-                                        child: Products2(),
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: ListTile(
+                                  onTap: () {
+                                    // الانتقال إلى واجهة تفاصيل المنتج
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => BlocProvider(
+                                          create: (context) =>
+                                              ProductDetailsCubit()
+                                                ..getOneProduct(product[
+                                                    "id"]), // جلب تفاصيل المنتج
+                                          child: Products2(),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                leading: CircleAvatar(
-                                  backgroundImage:
-                                      NetworkImage(product["image"]),
-                                  radius: 30,
-                                ),
-                                title: Text(
-                                  product["name"],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                subtitle: Text(
-                                  product["description"],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                trailing: Text(
-                                  "\$${product["price"]}",
-                                  style: TextStyle(color: Colors.white),
+                                    );
+                                  },
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "http://$ipv4/${product["image"]}"),
+                                    radius: 30,
+                                  ),
+                                  title: Text(
+                                    product["name"],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: Text(
+                                    "\$${product["price"]}",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               );
                             },
