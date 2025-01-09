@@ -187,7 +187,7 @@ class _FavouritState extends State<Favourit> {
                               height: 5,
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 25),
+                              padding: const EdgeInsets.only(left: 10, top: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

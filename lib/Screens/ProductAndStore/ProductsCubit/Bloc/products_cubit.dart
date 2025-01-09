@@ -23,6 +23,8 @@ class ProductCubit extends Cubit<ProductsState> {
     if (response.statusCode == 200) {
       emit(GetProductsSuccessState());
       data = json.decode(response.body);
+      print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm$data");
+      print(data![0]["image"]);
       print(data);
       for (var item in data!) {
         products.add(ProductModel.fromJson(item));

@@ -49,41 +49,41 @@ class ConnectUs extends StatelessWidget {
               },
             ),
             SizedBox(height: 10),
-            Text("Malak Mobark",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
+            Text("Mohammad Bakjaje",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
             ListTile(
               leading: Icon(Icons.email, color: Colors.white),
               title: Text(
-                'Email: malakmobark4@gmail.com',
+                'Email: mbakjaje@gmail.com',
                 style: TextStyle(color: Colors.white70),
               ),
             ),
             ListTile(
               leading: Icon(Icons.phone, color: Colors.white),
               title: Text(
-                'Phone: 0995658340',
+                'Phone: 0943704418',
                 style: TextStyle(color: Colors.white70),
               ),
               onTap: () {
-                _launchPhone('+1234567890');
+                _launchPhone('0943704418');
               },
             ),
             SizedBox(height: 10),
-            Text("Malak Mobark",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
+            Text("Hala Barhoom",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
             ListTile(
               leading: Icon(Icons.email, color: Colors.white),
               title: Text(
-                'Email: malakmobark4@gmail.com',
+                'Email: halabarhoom@gmail.com',
                 style: TextStyle(color: Colors.white70),
               ),
             ),
             ListTile(
               leading: Icon(Icons.phone, color: Colors.white),
               title: Text(
-                'Phone: 0995658340',
+                'Phone: 0998687702',
                 style: TextStyle(color: Colors.white70),
               ),
               onTap: () {
-                _launchPhone('+1234567890');
+                _launchPhone('0998687702');
               },
             ),
             SizedBox(height: 10),
@@ -95,41 +95,41 @@ class ConnectUs extends StatelessWidget {
                 thickness: 1,
                 height: 20,
               ),),
-            Text("Malak Mobark",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
+            Text("Hadi Al_Gafer",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
             ListTile(
               leading: Icon(Icons.email, color: Colors.white),
               title: Text(
-                'Email: malakmobark4@gmail.com',
+                'Email: algaferm@gmail.com',
                 style: TextStyle(color: Colors.white70),
               ),
             ),
             ListTile(
               leading: Icon(Icons.phone, color: Colors.white),
               title: Text(
-                'Phone: 0995658340',
+                'Phone: 0938523272',
                 style: TextStyle(color: Colors.white70),
               ),
               onTap: () {
-                _launchPhone('+1234567890');
+                _launchPhone('0938523272');
               },
             ),
             SizedBox(height: 10),
-            Text("Malak Mobark",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
+            Text("Nour Naief Al_Haies",style: TextStyle(color: MyColors.buttun,fontSize: 18),),
             ListTile(
               leading: Icon(Icons.email, color: Colors.white),
               title: Text(
-                'Email: malakmobark4@gmail.com',
+                'Email: naiefnoura@gmail.com',
                 style: TextStyle(color: Colors.white70),
               ),
             ),
             ListTile(
               leading: Icon(Icons.phone, color: Colors.white),
               title: Text(
-                'Phone: 0995658340',
+                'Phone: 0955422200',
                 style: TextStyle(color: Colors.white70),
               ),
               onTap: () {
-                _launchPhone('+1234567890');
+                _launchPhone('0955422200');
               },
             ),
             SizedBox(height: 20),

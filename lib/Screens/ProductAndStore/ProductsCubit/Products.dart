@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../helper/constants.dart';
 import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonSearch.dart';
 import '../../Drawer/ِCustomDrawer.dart';
@@ -87,8 +88,8 @@ class _ProductsOfStoresState extends State<Products> {
                                   },
                                   leading: CircleAvatar(
                                     backgroundImage: NetworkImage(
-                                        product["image"]), // عرض صورة المنتج
-                                    radius: 30, // حجم الصورة
+                                        product["image"]),
+                                    radius: 30, //
                                   ),
                                   title: Text(
                                     product["name"],
@@ -171,7 +172,7 @@ class _ProductsOfStoresState extends State<Products> {
                                             topRight: Radius.circular(8),
                                             topLeft: Radius.circular(8)),
                                         child: Image.network(
-                                          cubit.data![i]["image"],
+                                          "http://$ipv4/storage/app/public/images/products/food/corn.jpg",
                                           height: 220,
                                           fit: BoxFit.fill,
                                         ),
@@ -183,7 +184,7 @@ class _ProductsOfStoresState extends State<Products> {
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10),
                                       child: Text(
-                                        cubit.data![i]["description"],
+                                        cubit.data![i]["name"],
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 18),
                                       ),
