@@ -21,9 +21,9 @@ class ButtonSearch extends StatelessWidget {
         decoration: InputDecoration(
             prefixIcon: prefixImage,
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+                const EdgeInsets.symmetric(vertical: 13, horizontal: 10.0),
             hintText: hintText,
-            hintStyle: TextStyle(fontSize: 18, color: Colors.white),
+            hintStyle: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.w300),
             fillColor: MyColors.dark_2,
             filled: true,
             enabledBorder: OutlineInputBorder(

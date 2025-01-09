@@ -41,7 +41,6 @@ class _ProfileState extends State<Profile> {
       });
     }
   }
-
   void _showImageSourceOptions() {
     showDialog(
       context: context,

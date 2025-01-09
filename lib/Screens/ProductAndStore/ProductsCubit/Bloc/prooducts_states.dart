@@ -2,7 +2,6 @@ abstract class ProductsState {}
 
 class ProductsInitialState extends ProductsState {}
 
-// حالات ProductsCubit
 class GetProductsLoadingState extends ProductsState {}
 
 class GetProductsSuccessState extends ProductsState {}

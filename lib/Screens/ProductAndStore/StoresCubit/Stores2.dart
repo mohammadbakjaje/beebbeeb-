@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../helper/my_colors.dart';
-import '../../widget/ButtonStores.dart';
-import 'ProductsCubit/Products2.dart';
+import '../../../helper/my_colors.dart';
+import '../../../widget/ButtonStores.dart';
+import '../ProductsCubit/Products2.dart';
 
 class Stores2 extends StatefulWidget {
   static String id = "Stores2";

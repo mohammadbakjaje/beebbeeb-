@@ -12,7 +12,7 @@ import '../ProductAndStore/ProductsCubit/Bloc/search_cubit.dart';
 import '../ProductAndStore/ProductsCubit/Bloc/search_states.dart';
 import '../ProductAndStore/ProductsCubit/Products.dart';
 import '../ProductAndStore/ProductsCubit/Products2.dart';
-import '../ProductAndStore/Stores.dart';
+import '../ProductAndStore/StoresCubit/Stores.dart';
 import '../Drawer/ِCustomDrawer.dart';
 import 'HomePage2.dart';
 import 'Slideshow.dart';

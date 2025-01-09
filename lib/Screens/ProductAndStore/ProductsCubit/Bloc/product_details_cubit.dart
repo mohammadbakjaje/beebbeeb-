@@ -10,6 +10,12 @@ import 'products_models.dart';
 class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   ProductDetailsCubit() : super(ProductDetailsInitialState());
   ProductModel? product;
+  bool isLiked = false;
+  void toggleLike() {
+    isLiked = !isLiked;
+    emit(GetOneProductSuccessState());
+  }
+
 
   String? token = CacheNetwork.getCacheData(key: "token");
 

@@ -10,7 +10,7 @@ import 'Bloc/products_cubit.dart';
 import 'Bloc/prooducts_states.dart';
 import 'Bloc/search_cubit.dart';
 import 'Bloc/search_states.dart';
-import 'Products2.dart'; // استيراد SearchCubit
+import 'Products2.dart';
 
 class Products extends StatefulWidget {
   static String id = "Products";
@@ -27,7 +27,7 @@ class _ProductsOfStoresState extends State<Products> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ProductCubit()..getProducts()),
-        BlocProvider(create: (context) => SearchCubit()), // إضافة SearchCubit
+        BlocProvider(create: (context) => SearchCubit()), //
       ],
       child: Scaffold(
         drawer: CustomDrawer(),
@@ -56,7 +56,6 @@ class _ProductsOfStoresState extends State<Products> {
                   builder: (context, state) {
                     if (state is SearchSuccess) {
                       if (state.data.isEmpty) {
-                        // إذا كانت النتائج فارغة
                         return Center(
                           child: Text(
                             "No results found",
@@ -71,37 +70,35 @@ class _ProductsOfStoresState extends State<Products> {
                               itemCount: state.data.length,
                               itemBuilder: (context, index) {
                                 final product = state.data[index];
-                                return ListTile(
-                                  onTap: () {
-                                    // الانتقال إلى واجهة تفاصيل المنتج
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => BlocProvider(
-                                          create: (context) =>
-                                              ProductDetailsCubit()
-                                                ..getOneProduct(product[
-                                                    "id"]), // جلب تفاصيل المنتج
-                                          child: Products2(),
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => BlocProvider(
+                                            create: (context) =>
+                                                ProductDetailsCubit()
+                                                  ..getOneProduct(product[
+                                                      "id"]),
+                                            child: Products2(),
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  leading: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        product["image"]),
-                                    radius: 30, //
-                                  ),
-                                  title: Text(
-                                    product["name"],
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  subtitle: Text(
-                                    product["description"],
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                  trailing: Text(
-                                    "\$${product["price"]}",
-                                    style: TextStyle(color: Colors.white),
+                                      );
+                                    },
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "http://$ipv4/${product["image"]}"),
+                                      radius: 30, //
+                                    ),
+                                    title: Text(
+                                      product["name"],
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    trailing: Text(
+                                      "\$${product["price"]}",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 );
                               },
@@ -172,7 +169,7 @@ class _ProductsOfStoresState extends State<Products> {
                                             topRight: Radius.circular(8),
                                             topLeft: Radius.circular(8)),
                                         child: Image.network(
-                                          "http://$ipv4/storage/app/public/images/products/food/corn.jpg",
+                                          "http://$ipv4/${cubit.data![i]["image"]}",
                                           height: 220,
                                           fit: BoxFit.fill,
                                         ),
