@@ -67,8 +67,8 @@ class LoginPage extends StatelessWidget {
                           validator: (value) {
                             if ((value ?? '').isEmpty) {
                               return 'Please Enter Your Number';
-                            } else if ((value ?? '').length < 10) {
-                              return 'At least 10 number';
+                            } else if ((value ?? '').length != 10) {
+                              return 'Must be 10 number';
                             } else {
                               return null;
                             }

@@ -7,7 +7,9 @@ import '../../Drawer/ِCustomDrawer.dart';
 import 'Bloc/product_details_cubit.dart';
 import 'Bloc/products_cubit.dart';
 import 'Bloc/prooducts_states.dart';
-import 'Products2.dart';
+import 'Bloc/search_cubit.dart';
+import 'Bloc/search_states.dart';
+import 'Products2.dart'; // استيراد SearchCubit
 
 class Products extends StatefulWidget {
   static String id = "Products";
@@ -17,10 +19,15 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsOfStoresState extends State<Products> {
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProductCubit()..getProducts(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ProductCubit()..getProducts()),
+        BlocProvider(create: (context) => SearchCubit()), // إضافة SearchCubit
+      ],
       child: Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
@@ -33,9 +40,61 @@ class _ProductsOfStoresState extends State<Products> {
           child: Container(
             child: ListView(
               children: [
-                ButtonSearch(
-                    hintText: "Search",
-                    prefixImage: Image.asset("images/search.png")),
+                BlocBuilder<SearchCubit, SearchStates>(
+                  builder: (context, state) {
+                    return ButtonSearch(
+                      hintText: "Search for products",
+                      onchanged: (query) {
+                        context.read<SearchCubit>().searchProducts(query);
+                      },
+                      prefixImage: Image.asset("images/search.png"),
+                    );
+                  },
+                ),
+                BlocBuilder<SearchCubit, SearchStates>(
+                  builder: (context, state) {
+                    if (state is SearchSuccess) {
+                      if (state.data.isEmpty) {
+                        // إذا كانت النتائج فارغة
+                        return Center(
+                          child: Text(
+                            "No results found",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      } else
+                        return Column(
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: state.data.length,
+                              itemBuilder: (context, index) {
+                                final product = state.data[index];
+                                return ListTile(
+                                  title: Text(
+                                    product["name"],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: Text(
+                                    product["description"],
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  trailing: Text(
+                                    "\$${product["price"]}",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                    } else if (state is SearchError) {
+                      return Center(child: Text(state.message));
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Text(

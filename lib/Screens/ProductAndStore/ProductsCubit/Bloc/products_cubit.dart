@@ -11,6 +11,7 @@ import '../../../../helper/local_network.dart';
 
 class ProductCubit extends Cubit<ProductsState> {
   List<dynamic>? data;
+  List<ProductModel> products = [];
   ProductModel? product;
   ProductCubit() : super(ProductsInitialState());
   ProductModel? productModel;
@@ -23,10 +24,15 @@ class ProductCubit extends Cubit<ProductsState> {
       emit(GetProductsSuccessState());
       data = json.decode(response.body);
       print(data);
+      for (var item in data!) {
+        products.add(ProductModel.fromJson(item));
+      }
       return json.decode(response.body);
     } else {
       emit(GetProductsFailedState("failed to load products"));
       throw Exception('Failed to load data');
     }
   }
+
+  List<ProductModel> filterdProducts = [];
 }

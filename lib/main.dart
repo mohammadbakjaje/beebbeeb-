@@ -21,6 +21,7 @@ import 'Screens/HomePage/HomePage.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Layout/Profile/Profile.dart';
 import 'Screens/Login/bloc/login_cubit.dart';
+import 'Screens/ProductAndStore/ProductsCubit/Bloc/search_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'Screens/ProductAndStore/Stores.dart';
@@ -48,6 +49,7 @@ class BebBeb extends StatelessWidget {
             create: (BuildContext context) => LayoutCubit()..getUserData()),
         BlocProvider(
             create: (BuildContext context) => ProductCubit()..getProducts()),
+        BlocProvider(create: (context) => SearchCubit()),
       ],
       child: MaterialApp(
           color: MyColors.dark_1,

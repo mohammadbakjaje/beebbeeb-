@@ -68,6 +68,7 @@ class StoresState extends State<Stores> {
           child: ListView(
             children: [
               ButtonSearch(
+                  onchanged: (data) {},
                   hintText: "Search",
                   prefixImage: Image.asset("images/search.png")),
               Padding(

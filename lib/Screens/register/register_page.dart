@@ -91,8 +91,8 @@ class RegisterPage extends StatelessWidget {
                             validator: (value) {
                               if ((value ?? '').isEmpty) {
                                 return 'Please Enter Your PhoneNumber';
-                              } else if ((value ?? '').length < 10) {
-                                return 'At least 10 Numbers';
+                              } else if ((value ?? '').length != 10) {
+                                return 'must be 10 Numbers';
                               } else {
                                 return null;
                               }
