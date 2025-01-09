@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../helper/my_colors.dart';
+import '../../widget/ButtonSearch.dart';
 import '../../widget/coustembutonm.dart';
 import '../Added/Cart.dart';
 import '../Added/Favourit.dart';
 import '../Added/Orders.dart';
+import '../ProductAndStore/ProductsCubit/Bloc/product_details_cubit.dart';
+import '../ProductAndStore/ProductsCubit/Bloc/search_cubit.dart';
+import '../ProductAndStore/ProductsCubit/Bloc/search_states.dart';
 import '../ProductAndStore/ProductsCubit/Products.dart';
 import '../ProductAndStore/ProductsCubit/Products2.dart';
 import '../ProductAndStore/Stores.dart';
@@ -75,22 +80,80 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 15, right: 15),
           child: ListView(
             children: [
-              TextFormField(
-                style: TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  prefixIcon: Image.asset("images/search.png"),
-                  contentPadding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 10.0),
-                  hintText: "Search",
-                  hintStyle: TextStyle(fontSize: 18, color: Colors.white),
-                  fillColor: MyColors.dark_2,
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent, width: 1),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  filled: true,
-                  //border: InputBorder.none,
-                ),
+              BlocBuilder<SearchCubit, SearchStates>(
+                builder: (context, state) {
+                  return ButtonSearch(
+                    hintText: "Search for products",
+                    onchanged: (query) {
+                      context.read<SearchCubit>().searchProducts(query);
+                    },
+                    prefixImage: Image.asset("images/search.png"),
+                  );
+                },
+              ),
+              BlocBuilder<SearchCubit, SearchStates>(
+                builder: (context, state) {
+                  if (state is SearchSuccess) {
+                    if (state.data.isEmpty) {
+                      // إذا كانت النتائج فارغة
+                      return Center(
+                        child: Text(
+                          "No results found",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    } else {
+                      return Column(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: state.data.length,
+                            itemBuilder: (context, index) {
+                              final product = state.data[index];
+                              return ListTile(
+                                onTap: () {
+                                  // الانتقال إلى واجهة تفاصيل المنتج
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                        create: (context) =>
+                                            ProductDetailsCubit()
+                                              ..getOneProduct(product[
+                                                  "id"]), // جلب تفاصيل المنتج
+                                        child: Products2(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                leading: CircleAvatar(
+                                  backgroundImage:
+                                      NetworkImage(product["image"]),
+                                  radius: 30,
+                                ),
+                                title: Text(
+                                  product["name"],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                subtitle: Text(
+                                  product["description"],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                trailing: Text(
+                                  "\$${product["price"]}",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  } else if (state is SearchError) {
+                    return Center(child: Text(state.message));
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),

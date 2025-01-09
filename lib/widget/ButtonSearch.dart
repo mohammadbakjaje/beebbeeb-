@@ -19,19 +19,22 @@ class ButtonSearch extends StatelessWidget {
         onChanged: onchanged,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
-          prefixIcon: prefixImage,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-          hintText: hintText,
-          hintStyle: TextStyle(fontSize: 18, color: Colors.white),
-          fillColor: MyColors.dark_2,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent, width: 1),
-            borderRadius: BorderRadius.circular(20),
-          ),
-          filled: true,
-          //border: InputBorder.none,
-        ),
+            prefixIcon: prefixImage,
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+            hintText: hintText,
+            hintStyle: TextStyle(fontSize: 18, color: Colors.white),
+            fillColor: MyColors.dark_2,
+            filled: true,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent, width: 1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: MyColors.buttun, width: 1),
+              borderRadius: BorderRadius.circular(20),
+            ) //border: InputBorder.none,
+            ),
       ),
     );
   }

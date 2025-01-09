@@ -62,7 +62,7 @@ class _ProductsOfStoresState extends State<Products> {
                             style: TextStyle(color: Colors.white),
                           ),
                         );
-                      } else
+                      } else {
                         return Column(
                           children: [
                             ListView.builder(
@@ -71,6 +71,25 @@ class _ProductsOfStoresState extends State<Products> {
                               itemBuilder: (context, index) {
                                 final product = state.data[index];
                                 return ListTile(
+                                  onTap: () {
+                                    // الانتقال إلى واجهة تفاصيل المنتج
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => BlocProvider(
+                                          create: (context) =>
+                                              ProductDetailsCubit()
+                                                ..getOneProduct(product[
+                                                    "id"]), // جلب تفاصيل المنتج
+                                          child: Products2(),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        product["image"]), // عرض صورة المنتج
+                                    radius: 30, // حجم الصورة
+                                  ),
                                   title: Text(
                                     product["name"],
                                     style: TextStyle(color: Colors.white),
@@ -88,6 +107,7 @@ class _ProductsOfStoresState extends State<Products> {
                             ),
                           ],
                         );
+                      }
                     } else if (state is SearchError) {
                       return Center(child: Text(state.message));
                     } else {
