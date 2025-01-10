@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Drawer/connectUs.dart';
+import 'package:untitled1/Screens/HomePage/Ads/ad_product_cubit.dart';
+import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
 import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
@@ -18,6 +20,7 @@ import 'Screens/Added/Orders.dart';
 import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
+import 'Screens/HomePage/MostStores/most_stores_cubit.dart';
 import 'Screens/Layout/Layout_cubit/change_password_cubit.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Layout/Profile/Profile.dart';
@@ -58,6 +61,15 @@ class BebBeb extends StatelessWidget {
         BlocProvider(create: (context) => ChangePasswordCubit()),
         BlocProvider(create: (context) => UpdateUserCubit()),
         BlocProvider(create: (context) => UploadImageCubit()),
+        BlocProvider(
+          create: (context) => AdProductCubit()..fetchAdProducts(),
+        ),
+        BlocProvider(
+          create: (context) => MostStoresCubit()..fetchStores(),
+        ),
+        BlocProvider(
+          create: (context) => MostSellCubit()..fetchMostSellProducts(),
+        )
       ],
       child: MaterialApp(
           color: MyColors.dark_1,

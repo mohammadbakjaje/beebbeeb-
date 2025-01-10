@@ -1,33 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Slideshow Example')),
-        body: Slideshow(),
-      ),
-    );
-  }
-}
+import 'package:untitled1/helper/constants.dart';
 
 class Slideshow extends StatefulWidget {
+  const Slideshow({super.key, required this.images});
+
+  final List<String> images; // قائمة روابط الصور
+
   @override
   _SlideshowState createState() => _SlideshowState();
 }
 
 class _SlideshowState extends State<Slideshow> {
   final PageController _pageController = PageController();
-  final List<String> _images = [
-    "images/photo_2024-12-26_16-44-28.jpg",
-    "images/photo_2024-12-26_16-44-28.jpg",
-    "images/photo_2024-12-26_16-44-28.jpg",
-  ];
   int _currentPage = 0;
   late Timer _timer;
 
@@ -39,7 +25,7 @@ class _SlideshowState extends State<Slideshow> {
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 4), (timer) {
-      if (_currentPage < _images.length - 1) {
+      if (_currentPage < widget.images.length - 1) {
         _currentPage++;
       } else {
         _currentPage = 0;
@@ -63,7 +49,7 @@ class _SlideshowState extends State<Slideshow> {
   Widget build(BuildContext context) {
     return PageView.builder(
       controller: _pageController,
-      itemCount: _images.length,
+      itemCount: widget.images.length,
       itemBuilder: (context, index) {
         return ClipRRect(
           borderRadius: BorderRadius.only(
@@ -72,9 +58,14 @@ class _SlideshowState extends State<Slideshow> {
             bottomRight: Radius.circular(8),
             bottomLeft: Radius.circular(8),
           ),
-          child: Image.asset(
-            _images[index],
+          child: Image.network(
+            "http://$ipv4/${widget.images[index]}", // استخدام الصورة من القائمة
             fit: BoxFit.fill,
+            errorBuilder: (context, error, stackTrace) {
+              return Center(
+                  child:
+                      Icon(Icons.error)); // عرض أيقونة خطأ إذا فشل تحميل الصورة
+            },
           ),
         );
       },

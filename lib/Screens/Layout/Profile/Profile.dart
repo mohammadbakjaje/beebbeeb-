@@ -376,9 +376,7 @@ class _ProfileState extends State<Profile> {
                             color: MyColors.buttun,
                             ontap: () {
                               _saveUserData();
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
+                              Navigator.pop(context);
                             },
                           ),
                         ),
