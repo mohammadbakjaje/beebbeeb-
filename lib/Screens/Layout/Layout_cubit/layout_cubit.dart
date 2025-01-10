@@ -32,10 +32,10 @@ class LayoutCubit extends Cubit<LayoutStates> {
     print(response.body);
     var responseData = jsonDecode(response.body);
 
-    print(responseData);
     if (responseData["status"] == true) {
       emit(GetUserDataSuccsesState());
       userModel = UserModel.fromJson(data: responseData['user']);
+      print(userModel!.image);
       emit(GetUserDataSuccsesState());
     } else {
       emit(FailedToGetUserDataState(errMsg: "Some thing went wrong"));

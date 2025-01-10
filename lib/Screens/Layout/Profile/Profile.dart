@@ -15,7 +15,7 @@ import '../../../helper/local_network.dart';
 import '../../../helper/my_colors.dart';
 import '../../../widget/coustembutonm.dart';
 import '../Layout_cubit/change_password_cubit.dart';
-import '../Layout_cubit/layout_cubit.dart'; // تأكد من استيراد LayoutCubit
+import '../Layout_cubit/layout_cubit.dart';
 
 class Profile extends StatefulWidget {
   static String id = "Profile";
@@ -41,7 +41,6 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    // استدعاء دالة جلب بيانات المستخدم عند فتح الشاشة
     BlocProvider.of<LayoutCubit>(context).getUserData();
   }
 
@@ -222,7 +221,7 @@ class _ProfileState extends State<Profile> {
               _newPasswordController.clear();
               _confirmNewPasswordController.clear();
 
-              Navigator.of(context).pop(); // إغلاق الـ Dialog بعد النجاح
+              Navigator.of(context).pop();
             }
           },
         );
@@ -231,19 +230,16 @@ class _ProfileState extends State<Profile> {
   }
 
   void _saveUserData() {
-    // تحديث بيانات المستخدم
     context.read<UpdateUserCubit>().updateUser(
           firstName: _firstNameController.text,
           lastName: _lastNameController.text,
           phone: _phoneNumberController.text,
         );
 
-    // رفع الصورة إذا تم اختيارها
     if (_imageFile != null) {
       context.read<UploadImageCubit>().uploadImage(File(_imageFile!.path));
     }
 
-    // إيقاف وضع التعديل
     setState(() {
       _isEditing = false;
     });
@@ -255,7 +251,6 @@ class _ProfileState extends State<Profile> {
     layoutCubit..getUserData();
     final userModel = layoutCubit.userModel;
 
-    // تعبئة الحقول بقيم المستخدم عند فتح الشاشة
     _firstNameController.text = userModel?.firstname ?? "";
     _lastNameController.text = userModel?.lastname ?? "";
     _phoneNumberController.text = userModel?.phone ?? "";
@@ -319,17 +314,15 @@ class _ProfileState extends State<Profile> {
                         ? CircleAvatar(
                             radius: 50,
                             backgroundImage: _imageFile != null
-                                ? FileImage(File(_imageFile!
-                                    .path)) // صورة تم اختيارها حديثًا
+                                ? FileImage(File(_imageFile!.path))
                                 : (userModel?.image != null
                                     ? NetworkImage(
-                                        "http://$ipv4/${userModel!.image!}") // صورة المستخدم من الـ API
-                                    : null), // إذا لم تكن هناك صورة
+                                        "http://$ipv4${userModel!.image!}")
+                                    : null),
                             child: _imageFile == null &&
                                         (userModel?.image == null) ||
                                     (userModel?.image == "")
-                                ? Icon(Icons.person,
-                                    size: 50) // أيقونة افتراضية
+                                ? Icon(Icons.person, size: 50)
                                 : null,
                           )
                         : CircleAvatar(
@@ -338,84 +331,28 @@ class _ProfileState extends State<Profile> {
                           ),
                   ),
                   SizedBox(height: 20),
-                  TextField(
+                  _buildTextField(
                     controller: _firstNameController,
-                    decoration: InputDecoration(
-                      labelText: 'First Name',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: _isEditing ? MyColors.buttun : Colors.grey,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: _isEditing ? Colors.white : Colors.white70,
-                      fontSize: 18,
-                    ),
-                    readOnly: !_isEditing,
+                    labelText: 'First Name',
+                    icon: Icons.person,
                   ),
                   SizedBox(height: 10),
-                  TextField(
+                  _buildTextField(
                     controller: _lastNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Last Name',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: _isEditing ? MyColors.buttun : Colors.grey,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: _isEditing ? Colors.white : Colors.white70,
-                      fontSize: 18,
-                    ),
-                    readOnly: !_isEditing,
+                    labelText: 'Last Name',
+                    icon: Icons.person_outline,
                   ),
                   SizedBox(height: 10),
-                  TextField(
+                  _buildTextField(
                     controller: _phoneNumberController,
-                    decoration: InputDecoration(
-                      labelText: 'Phone Number',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: _isEditing ? MyColors.buttun : Colors.grey,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: _isEditing ? Colors.white : Colors.white70,
-                      fontSize: 18,
-                    ),
-                    readOnly: !_isEditing,
+                    labelText: 'Phone Number',
+                    icon: Icons.phone,
                   ),
                   SizedBox(height: 10),
-                  TextField(
+                  _buildTextField(
                     controller: _locationController,
-                    decoration: InputDecoration(
-                      labelText: 'Location',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                          color: _isEditing ? MyColors.buttun : Colors.grey,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      color: _isEditing ? Colors.white : Colors.white70,
-                      fontSize: 18,
-                    ),
-                    readOnly: !_isEditing,
+                    labelText: 'Location',
+                    icon: Icons.location_on,
                   ),
                   SizedBox(height: 20),
                   if (_isEditing)
@@ -441,8 +378,7 @@ class _ProfileState extends State<Profile> {
                               _saveUserData();
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          HomePage())); // استدعاء الدالة هنا
+                                      builder: (context) => HomePage()));
                             },
                           ),
                         ),
@@ -474,6 +410,32 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    required IconData icon,
+  }) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: TextStyle(color: Colors.white70),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: MyColors.buttun),
+        ),
+        prefixIcon: Icon(icon, color: Colors.white70),
+      ),
+      style: TextStyle(
+        color: _isEditing ? Colors.white : Colors.white70,
+        fontSize: 18,
+      ),
+      readOnly: !_isEditing,
     );
   }
 }

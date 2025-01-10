@@ -12,22 +12,26 @@ class UploadImageCubit extends Cubit<UploadImageState> {
   Future<void> uploadImage(File imageFile) async {
     emit(UploadImageLoading());
     try {
-      // الحصول على الـ token من الذاكرة المؤقتة
       final token = CacheNetwork.getCacheData(key: "token");
       if (token == null) {
         emit(UploadImageFailure("Token is missing"));
         return;
       }
-
+      print(CacheNetwork.getCacheData(key: "token"));
       // إنشاء الطلب
+      String base64 = base64Encode(imageFile.readAsBytesSync());
+      print(base64);
+      String imageName = imageFile.path.split("/").last;
+      print("imageName:$imageName");
+
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://192.168.216.154:80/api/users/upload-image'),
+        Uri.parse('$BaseUrl/users/upload-image'),
       );
 
       // إضافة الـ headers
       request.headers['Authorization'] = 'Bearer $token';
-
+      request.headers["request.headers"] = "application/json";
       // إضافة الملف
       request.files.add(
         await http.MultipartFile.fromPath(
