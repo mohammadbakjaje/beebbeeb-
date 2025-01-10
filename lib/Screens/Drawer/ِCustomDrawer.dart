@@ -7,6 +7,7 @@ import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 
+import '../../helper/constants.dart';
 import '../../helper/local_network.dart';
 import '../../helper/my_colors.dart';
 import '../Layout/Layout_cubit/layout_states.dart';
@@ -46,8 +47,8 @@ class CustomDrawer extends StatelessWidget {
                               children: [
                                 CircleAvatar(
                                   radius: 40,
-                                  backgroundImage:
-                                      AssetImage(cubit.userModel!.image ?? ""),
+                                  backgroundImage: NetworkImage(
+                                      "http://$ipv4/${cubit.userModel!.image!}"),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 5),

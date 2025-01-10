@@ -34,193 +34,267 @@ class _ProductsOfStoresState extends State<Products> {
         appBar: AppBar(
           backgroundColor: MyColors.dark_1,
           foregroundColor: Colors.white,
+          elevation: 0, // إزالة الظل من AppBar
         ),
         backgroundColor: MyColors.dark_1,
-        body: Padding(
-          padding: EdgeInsets.only(right: 14, left: 14),
-          child: Container(
-            child: ListView(
-              children: [
-                BlocBuilder<SearchCubit, SearchStates>(
-                  builder: (context, state) {
-                    return ButtonSearch(
-                      hintText: "Search for products",
-                      onchanged: (query) {
-                        context
-                            .read<SearchCubit>()
-                            .search(query: query, type: storesSearch);
-                      },
-                      prefixImage: Image.asset("images/search.png"),
-                    );
-                  },
-                ),
-                BlocBuilder<SearchCubit, SearchStates>(
-                  builder: (context, state) {
-                    if (state is SearchSuccess) {
-                      if (state.data.isEmpty) {
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [MyColors.dark_1, MyColors.dark_2],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(right: 14, left: 14),
+            child: Container(
+              child: ListView(
+                children: [
+                  BlocBuilder<SearchCubit, SearchStates>(
+                    builder: (context, state) {
+                      return ButtonSearch(
+                        hintText: "Search for products",
+                        onchanged: (query) {
+                          context
+                              .read<SearchCubit>()
+                              .search(query: query, type: productsSearch);
+                        },
+                        prefixImage: Image.asset("images/search.png"),
+                      );
+                    },
+                  ),
+                  BlocBuilder<SearchCubit, SearchStates>(
+                    builder: (context, state) {
+                      if (state is SearchSuccess) {
+                        if (state.data.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "No results found",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        } else {
+                          return Column(
+                            children: [
+                              ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: state.data.length,
+                                itemBuilder: (context, index) {
+                                  final product = state.data[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16, vertical: 8),
+                                    child: Card(
+                                      elevation: 5,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              MyColors.dark_2.withOpacity(0.8),
+                                              MyColors.dark_1.withOpacity(0.8),
+                                            ],
+                                            begin: Alignment.topLeft,
+                                            end: Alignment.bottomRight,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        child: ListTile(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BlocProvider(
+                                                  create: (context) =>
+                                                      ProductDetailsCubit()
+                                                        ..getOneProduct(
+                                                            product["id"]),
+                                                  child: Products2(),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          leading: CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                "http://$ipv4/${product["image"]}"),
+                                            radius: 30,
+                                          ),
+                                          title: Text(
+                                            product["name"],
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          subtitle: Text(
+                                            "\$${product["price"]}",
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                          trailing: Icon(
+                                            Icons.arrow_forward_ios,
+                                            color: Colors.white70,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        }
+                      } else if (state is SearchError) {
                         return Center(
                           child: Text(
-                            "No results found",
+                            state.message,
                             style: TextStyle(color: Colors.white),
                           ),
                         );
                       } else {
-                        return Column(
-                          children: [
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: state.data.length,
-                              itemBuilder: (context, index) {
-                                final product = state.data[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: ListTile(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => BlocProvider(
-                                            create: (context) =>
-                                                ProductDetailsCubit()
-                                                  ..getOneProduct(
-                                                      product["id"]),
-                                            child: Products2(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                    leading: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          "http://$ipv4/${product["image"]}"),
-                                      radius: 30, //
-                                    ),
-                                    title: Text(
-                                      product["name"],
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    trailing: Text(
-                                      "\$${product["price"]}",
-                                      style: TextStyle(color: Colors.white),
+                        return SizedBox.shrink();
+                      }
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Text(
+                      "All Products",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 10,
+                  ),
+                  BlocBuilder<ProductCubit, ProductsState>(
+                    builder: (context, state) {
+                      ProductCubit cubit =
+                          BlocProvider.of<ProductCubit>(context);
+
+                      if (state is GetProductsLoadingState) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        );
+                      } else if (state is GetProductsSuccessState) {
+                        return GridView.builder(
+                          itemCount: cubit.data!.length,
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisExtent: 307,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                          ),
+                          itemBuilder: (context, i) {
+                            return InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => BlocProvider(
+                                      create: (context) => ProductDetailsCubit()
+                                        ..getOneProduct(cubit.data![i]["id"]),
+                                      child: Products2(),
                                     ),
                                   ),
                                 );
                               },
-                            ),
-                          ],
-                        );
-                      }
-                    } else if (state is SearchError) {
-                      return Center(child: Text(state.message));
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(
-                    "All Products",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30),
-                  ),
-                ),
-                Container(
-                  height: 10,
-                ),
-                BlocBuilder<ProductCubit, ProductsState>(
-                  builder: (context, state) {
-                    ProductCubit cubit = BlocProvider.of<ProductCubit>(context);
-
-                    if (state is GetProductsLoadingState) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (state is GetProductsSuccessState) {
-                      return GridView.builder(
-                        itemCount: cubit.data!.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2, mainAxisExtent: 307),
-                        itemBuilder: (context, i) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => BlocProvider(
-                                    create: (context) => ProductDetailsCubit()
-                                      ..getOneProduct(cubit.data![i]["id"]),
-                                    child: Products2(),
-                                  ),
+                              child: Card(
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                              );
-                            },
-                            child: Card(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: MyColors.dark_2,
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      height: 220,
-                                      width: double.infinity,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                            topRight: Radius.circular(8),
-                                            topLeft: Radius.circular(8)),
-                                        child: Image.network(
-                                          "http://$ipv4/${cubit.data![i]["image"]}",
-                                          height: 220,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        MyColors.dark_2.withOpacity(0.8),
+                                        MyColors.dark_1.withOpacity(0.8),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
                                     ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        cubit.data![i]["name"],
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 18),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 0,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 10),
-                                          child: Text(
-                                            cubit.data![i]["price"],
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w900),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 220,
+                                        width: double.infinity,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(15),
+                                            topLeft: Radius.circular(15),
+                                          ),
+                                          child: Image.network(
+                                            "http://$ipv4/${cubit.data![i]["image"]}",
+                                            height: 220,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          cubit.data![i]["name"],
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          "\$${cubit.data![i]["price"]}",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: Text("Failed to get data"));
-                    }
-                  },
-                ),
-              ],
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(
+                          child: Text(
+                            "Failed to get data",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -18,8 +18,11 @@ import 'Screens/Added/Orders.dart';
 import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
+import 'Screens/Layout/Layout_cubit/change_password_cubit.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Layout/Profile/Profile.dart';
+import 'Screens/Layout/Profile/update_image_cubit/update_image_cubit.dart';
+import 'Screens/Layout/Profile/update_user_cubit/update_user_cubit.dart';
 import 'Screens/Login/bloc/login_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Bloc/search_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
@@ -52,6 +55,9 @@ class BebBeb extends StatelessWidget {
             create: (BuildContext context) => ProductCubit()..getProducts()),
         BlocProvider(create: (context) => SearchCubit()),
         BlocProvider(create: (context) => StoresCubit()..getStores()),
+        BlocProvider(create: (context) => ChangePasswordCubit()),
+        BlocProvider(create: (context) => UpdateUserCubit()),
+        BlocProvider(create: (context) => UploadImageCubit()),
       ],
       child: MaterialApp(
           color: MyColors.dark_1,

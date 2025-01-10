@@ -24,22 +24,33 @@ class Stores extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: MyColors.dark_1,
         foregroundColor: Colors.white,
+        elevation: 0, // إزالة الظل من AppBar
       ),
       body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [MyColors.dark_1, MyColors.dark_2],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
         child: ListView(
           children: [
-            BlocBuilder<SearchCubit, SearchStates>(
-              builder: (context, state) {
-                return ButtonSearch(
-                  hintText: "Search for stores",
-                  onchanged: (query) {
-                    context
-                        .read<SearchCubit>()
-                        .search(query: query, type: storesSearch);
-                  },
-                  prefixImage: Image.asset("images/search.png"),
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: BlocBuilder<SearchCubit, SearchStates>(
+                builder: (context, state) {
+                  return ButtonSearch(
+                    hintText: "Search for stores",
+                    onchanged: (query) {
+                      context
+                          .read<SearchCubit>()
+                          .search(query: query, type: storesSearch);
+                    },
+                    prefixImage: Image.asset("images/search.png"),
+                  );
+                },
+              ),
             ),
             BlocBuilder<SearchCubit, SearchStates>(
               builder: (context, state) {
@@ -60,20 +71,60 @@ class Stores extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final store = state.data[index];
                             return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "http://$ipv4/${store["logo"]}"),
-                                  radius: 30, //
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Card(
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                title: Text(
-                                  store["name"],
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                trailing: Text(
-                                  "${store["address"]}",
-                                  style: TextStyle(color: Colors.white),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        MyColors.dark_2.withOpacity(0.8),
+                                        MyColors.dark_1.withOpacity(0.8),
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "http://$ipv4/${store["logo"]}"),
+                                      radius: 30,
+                                    ),
+                                    title: Text(
+                                      store["name"],
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      store["address"],
+                                      style: TextStyle(color: Colors.white70),
+                                    ),
+                                    trailing: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white70,
+                                    ),
+                                    onTap: () {
+                                      // الانتقال إلى صفحة تفاصيل المتجر
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => BlocProvider(
+                                            create: (context) =>
+                                                StoreDetailsCubit()
+                                                  ..getOneStore(store["id"]),
+                                            child: Stores2(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             );
@@ -83,7 +134,12 @@ class Stores extends StatelessWidget {
                     );
                   }
                 } else if (state is SearchError) {
-                  return Center(child: Text(state.message));
+                  return Center(
+                    child: Text(
+                      state.message,
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  );
                 } else {
                   return SizedBox.shrink();
                 }
@@ -112,34 +168,49 @@ class Stores extends StatelessWidget {
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 1,
-                        mainAxisExtent: 100,
+                        mainAxisExtent: 120,
                       ),
                       itemBuilder: (context, i) {
                         return Padding(
-                          padding: const EdgeInsets.only(
-                              left: 13, right: 13, top: 10),
-                          child: ButtonOfStore(
-                            text: cubit.data![i]['name'],
-                            imagePath: cubit.data![i]['logo'],
-                            onPressed: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => BlocProvider(
-                                    create: (context) => StoreDetailsCubit()
-                                      ..getOneStore(cubit.data![i]['id']),
-                                    child: Stores2(),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: ButtonOfStore(
+                              text: cubit.data![i]['name'],
+                              imagePath: cubit.data![i]['logo'],
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => BlocProvider(
+                                      create: (context) => StoreDetailsCubit()
+                                        ..getOneStore(cubit.data![i]['id']),
+                                      child: Stores2(),
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         );
                       },
                     );
                   } else if (state is GetStoresLoadingState) {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    );
                   } else {
-                    return Center(child: Text("Failed to get data"));
+                    return Center(
+                      child: Text(
+                        "Failed to get data",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
                   }
                 },
               ),
