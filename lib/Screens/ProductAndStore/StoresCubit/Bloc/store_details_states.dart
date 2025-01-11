@@ -1,12 +1,19 @@
+import 'package:untitled1/Screens/ProductAndStore/StoresCubit/Bloc/stores_model.dart';
+
 abstract class StoreDetailsState {}
 
 class StoreDetailsInitialState extends StoreDetailsState {}
 
-class GetOneStoreLoadingState extends StoreDetailsState {}
+class GetStoreDetailsLoadingState extends StoreDetailsState {}
 
-class GetOneStoreSuccessState extends StoreDetailsState {}
+class GetStoreDetailsSuccessState extends StoreDetailsState {
+  final StoreModel store;
 
-class GetOneStoreFailedState extends StoreDetailsState {
-  final String errorMsg;
-  GetOneStoreFailedState(this.errorMsg);
+  GetStoreDetailsSuccessState(this.store);
+}
+
+class GetStoreDetailsErrorState extends StoreDetailsState {
+  final String error;
+
+  GetStoreDetailsErrorState(this.error);
 }

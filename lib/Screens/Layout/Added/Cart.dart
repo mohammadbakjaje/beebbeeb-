@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
 import '../../../helper/my_colors.dart';
-import '../../../widget/coustembutonm.dart';
 import '../../Drawer/ِCustomDrawer.dart';
 import '../../ProductAndStore/ProductsCubit/Products2.dart';
+import 'Cart2.dart';
 
 class Cart extends StatefulWidget {
   static String id = "Cart";
@@ -14,7 +13,6 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   int currentValue = 0;
-  double price = 0;
 
   void inCrement() {
     setState(() {
@@ -84,6 +82,96 @@ class _CartState extends State<Cart> {
     },
   ];
 
+  void _showConfirmationDialog(int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: MyColors.dark_2,
+          title: Text(
+            "Confirmation",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          content: Text(
+            "Are you sure you want to delete this product?",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "No",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  bestSelling.removeAt(index);
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "Yes",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showFinishPurchasesDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: MyColors.dark_2,
+          title: Text(
+            "Confirmation",
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          content: Text(
+            "Have you finished all your purchases?",
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                "No",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => Cart2(),
+                ));
+              },
+              child: Text(
+                "Yes",
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,237 +196,151 @@ class _CartState extends State<Cart> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1, mainAxisExtent: 123),
+                      crossAxisCount: 1, mainAxisExtent: 150),
                   itemBuilder: (context, i) {
                     return Card(
                       color: MyColors.dark_2,
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Products2()));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  bestSelling[i]["image"],
-                                  width: 80,
-                                  height: 80,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        bestSelling[i]["subtitle"],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        bestSelling[i]["minTitle"],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                      child: Stack(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Products2()));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Row(
                                 children: [
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                      size: 25,
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.network(
+                                      bestSelling[i]["image"],
+                                      width: 80,
+                                      height: 80,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: MyColors.dark_1,
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 2),
-                                    child: Row(
-                                      children: [
-                                        IconButton(
-                                          onPressed: decrement,
-                                          icon: Icon(
-                                            Icons.remove,
-                                            size: 20,
-                                            color: Colors.white,
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            bestSelling[i]["subtitle"],
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          "$currentValue",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
+                                          SizedBox(height: 5),
+                                          Text(
+                                            bestSelling[i]["minTitle"],
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 14,
+                                            ),
                                           ),
-                                        ),
-                                        IconButton(
-                                          onPressed: inCrement,
-                                          icon: Icon(
-                                            Icons.add,
-                                            size: 20,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            "Total Price:",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Text(
-                            "\$$price",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: CoustemButonM(
-                              color: MyColors.buttun,
-                              text: "Confirm",
-                              ontap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      backgroundColor: MyColors.dark_2,
-                                      title: Text(
-                                        "Confirm",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      content: Text(
-                                        "Are you sure you want to buy all items?",
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text("Cancel"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text("Sure"),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: IconButton(
+                              onPressed: () {
+                                _showConfirmationDialog(i);
                               },
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.white,
+                                size: 25,
+                              ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: CoustemButonM(
-                              color: Colors.red,
-                              text: "Remove All",
-                              ontap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      backgroundColor: MyColors.dark_2,
-                                      title: Text(
-                                        "Confirm Deletion",
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 215, top: 70),
+                            child: Positioned(
+                              bottom: 10,
+                              left: 100,
+                              right: 130,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: MyColors.dark_1,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 2),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      onPressed: decrement,
+                                      icon: Icon(
+                                        Icons.remove,
+                                        size: 20,
+                                        color: Colors.white,
                                       ),
-                                      content: Text(
-                                        "Are you sure you want to delete all items?",
-                                        style: TextStyle(color: Colors.white),
+                                    ),
+                                    Text(
+                                      "$currentValue",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text("Cancel"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                          child: Text("Delete"),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
+                                    ),
+                                    IconButton(
+                                      onPressed: inCrement,
+                                      icon: Icon(
+                                        Icons.add,
+                                        size: 20,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _showFinishPurchasesDialog,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: MyColors.buttun,
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text(
+                  "Finish Purchases",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
           ),
         ],

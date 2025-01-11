@@ -1,26 +1,31 @@
+import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:untitled1/Screens/ProductAndStore/StoresCubit/Bloc/store_details_states.dart';
-import 'package:untitled1/Screens/ProductAndStore/StoresCubit/Bloc/stores_model.dart';
-import 'dart:convert';
-
 import '../../../../helper/constants.dart';
+import 'stores_model.dart';
 
 class StoreDetailsCubit extends Cubit<StoreDetailsState> {
   StoreDetailsCubit() : super(StoreDetailsInitialState());
-  StoreModel? store;
 
-  Future<void> getOneStore(int StoreId) async {
-    emit(GetOneStoreLoadingState());
-    final response = await http.get(Uri.parse('$BaseUrl/one-store/$StoreId'));
+  void fetchStoreDetails(int storeId) async {
+    emit(GetStoreDetailsLoadingState());
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-      store = StoreModel.fromJson(data);
-      emit(GetOneStoreSuccessState());
-    } else {
-      emit(GetOneStoreFailedState("Failed to get the product"));
-      throw Exception('Failed to load product details');
+    try {
+      final response = await http.get(Uri.parse('$BaseUrl/one-store/$storeId'));
+      print(response.body);
+      print("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(response.body);
+        final store = StoreModel.fromJson(jsonData);
+        print(store);
+        emit(GetStoreDetailsSuccessState(store));
+      } else {
+        emit(GetStoreDetailsErrorState(
+            'Failed to load store details: ${response.statusCode}'));
+      }
+    } catch (e) {
+      emit(GetStoreDetailsErrorState('Error: ${e.toString()}'));
     }
   }
 }

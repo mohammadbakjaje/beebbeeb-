@@ -17,6 +17,7 @@ class StoresCubit extends Cubit<StoresState> {
   Future<void> getStores() async {
     emit(GetStoresLoadingState());
     final response = await http.get(Uri.parse("$BaseUrl/stores"));
+    print("$BaseUrl/stores");
 
     if (response.statusCode == 200) {
       emit(GetStoresSuccessState());

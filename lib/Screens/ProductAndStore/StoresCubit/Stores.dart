@@ -118,7 +118,8 @@ class Stores extends StatelessWidget {
                                           builder: (context) => BlocProvider(
                                             create: (context) =>
                                                 StoreDetailsCubit()
-                                                  ..getOneStore(store["id"]),
+                                                  ..fetchStoreDetails(
+                                                      store["id"]),
                                             child: Stores2(),
                                           ),
                                         ),
@@ -187,7 +188,8 @@ class Stores extends StatelessWidget {
                                   MaterialPageRoute(
                                     builder: (context) => BlocProvider(
                                       create: (context) => StoreDetailsCubit()
-                                        ..getOneStore(cubit.data![i]['id']),
+                                        ..fetchStoreDetails(
+                                            cubit.data![i]['id']),
                                       child: Stores2(),
                                     ),
                                   ),

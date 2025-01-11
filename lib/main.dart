@@ -29,6 +29,7 @@ import 'Screens/Login/bloc/login_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Bloc/search_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
+import 'Screens/ProductAndStore/StoresCubit/Bloc/products_by_catigories_cubit.dart';
 import 'Screens/ProductAndStore/StoresCubit/Bloc/stores_cubit.dart';
 import 'Screens/ProductAndStore/StoresCubit/Stores.dart';
 import 'Screens/ProductAndStore/StoresCubit/Stores2.dart';
@@ -68,6 +69,10 @@ class BebBeb extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => MostSellCubit()..fetchMostSellProducts(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ProductsByCatigoriesCubit(), // تأكد من توفير ProductsByCatigoriesCubit هنا
         ),
       ],
       child: MaterialApp(

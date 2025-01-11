@@ -20,7 +20,6 @@ import '../ProductAndStore/StoresCubit/Bloc/store_details_cubit.dart';
 import '../ProductAndStore/StoresCubit/Stores2.dart';
 import 'Ads/ad_product_cubit.dart';
 import 'Ads/ad_product_state.dart';
-import 'HomePage2.dart';
 import 'Slideshow.dart';
 
 class HomePage extends StatefulWidget {
@@ -428,7 +427,7 @@ class _HomePageState extends State<HomePage> {
                                 MaterialPageRoute(
                                   builder: (context) => BlocProvider(
                                     create: (context) => StoreDetailsCubit()
-                                      ..getOneStore(stores[i]["id"]),
+                                      ..fetchStoreDetails(stores[i]["id"]),
                                     child: Stores2(),
                                   ),
                                 ),
