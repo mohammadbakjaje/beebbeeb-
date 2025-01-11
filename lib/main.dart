@@ -13,14 +13,13 @@ import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/Screens/reset_page.dart';
 import 'package:untitled1/Screens/send_email_page.dart';
 import 'package:untitled1/helper/local_network.dart';
-import 'Screens/Added/Cart.dart';
-import 'Screens/Added/CartEmpity.dart';
-import 'Screens/Added/Favourit.dart';
-import 'Screens/Added/Orders.dart';
 import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
 import 'Screens/HomePage/MostStores/most_stores_cubit.dart';
+import 'Screens/Layout/Added/Cart.dart';
+import 'Screens/Layout/Added/Favorite/Favourit.dart';
+import 'Screens/Layout/Added/Orders.dart';
 import 'Screens/Layout/Layout_cubit/change_password_cubit.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Layout/Profile/Profile.dart';
@@ -69,7 +68,7 @@ class BebBeb extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => MostSellCubit()..fetchMostSellProducts(),
-        )
+        ),
       ],
       child: MaterialApp(
           color: MyColors.dark_1,

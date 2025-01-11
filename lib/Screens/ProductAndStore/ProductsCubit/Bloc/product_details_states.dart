@@ -10,3 +10,8 @@ class GetOneProductFailedState extends ProductDetailsState {
   final String errorMsg;
   GetOneProductFailedState(this.errorMsg);
 }
+
+class FavouriteCheckedState extends ProductDetailsState {
+  final bool isFavourite;
+  FavouriteCheckedState(this.isFavourite);
+}

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../helper/my_colors.dart';
-import '../../widget/coustembutonm.dart';
-import '../ProductAndStore/ProductsCubit/Products2.dart';
-import '../Drawer/ِCustomDrawer.dart';
+import '../../../helper/my_colors.dart';
+import '../../../widget/coustembutonm.dart';
+import '../../Drawer/ِCustomDrawer.dart';
+import '../../ProductAndStore/ProductsCubit/Products2.dart';
 
 class Cart extends StatefulWidget {
   static String id = "Cart";
@@ -36,49 +36,49 @@ class _CartState extends State<Cart> {
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.4ppVpAqzHSDBBNldEhSJnAHaIk?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.4ppVpAqzHSDBBNldEhSJnAHaIk?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "400\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.KnEiGWXOl0j2Fa4IkPBy3gHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.KnEiGWXOl0j2Fa4IkPBy3gHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "900\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "1900\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "1900\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "1900\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.3Ydw75bvvzclzILTwAFhvwHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "190\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.5qJYUBpSy9UCgtmGVMIUtAHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.5qJYUBpSy9UCgtmGVMIUtAHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "800\$",
     },
     {
       "image":
-      "https://th.bing.com/th/id/OIP.7Z0T4E9MSIpTlpqA9UyR-AHaHa?rs=1&pid=ImgDetMain",
+          "https://th.bing.com/th/id/OIP.7Z0T4E9MSIpTlpqA9UyR-AHaHa?rs=1&pid=ImgDetMain",
       "subtitle": "Description",
       "minTitle": "150\$",
     },
@@ -136,7 +136,8 @@ class _CartState extends State<Cart> {
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         bestSelling[i]["subtitle"],
@@ -158,14 +159,11 @@ class _CartState extends State<Cart> {
                                   ),
                                 ),
                               ),
-
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   IconButton(
-                                    onPressed: () {
-
-                                    },
+                                    onPressed: () {},
                                     icon: Icon(
                                       Icons.delete,
                                       color: Colors.white,
@@ -177,7 +175,8 @@ class _CartState extends State<Cart> {
                                       color: MyColors.dark_1,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
-                                    padding: EdgeInsets.symmetric(horizontal: 2),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 2),
                                     child: Row(
                                       children: [
                                         IconButton(
@@ -247,7 +246,8 @@ class _CartState extends State<Cart> {
                     ),
                     SizedBox(height: 10),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,right: 10,bottom: 10),
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 10),
                       child: Row(
                         children: [
                           Expanded(
@@ -341,7 +341,6 @@ class _CartState extends State<Cart> {
               ],
             ),
           ),
-
         ],
       ),
     );

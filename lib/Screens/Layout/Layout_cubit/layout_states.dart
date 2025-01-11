@@ -12,3 +12,15 @@ class FailedToGetUserDataState extends LayoutStates {
 class GetUserDataSuccsesState extends LayoutStates {}
 
 class ChangeBottomIndexNavState extends LayoutStates {}
+
+class FavouriteLoadingState extends LayoutStates {}
+
+class FavouriteLoadedState extends LayoutStates {
+  final List<dynamic> favouriteProducts;
+  FavouriteLoadedState(this.favouriteProducts);
+}
+
+class FavouriteErrorState extends LayoutStates {
+  final String message;
+  FavouriteErrorState(this.message);
+}
