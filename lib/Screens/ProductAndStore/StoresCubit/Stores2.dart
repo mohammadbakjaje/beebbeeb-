@@ -47,7 +47,8 @@ class Stores2State extends State<Stores2> {
           ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(
+                    left: 16.0, right: 16.0, bottom: 16.0),
                 child: BlocBuilder<StoreDetailsCubit, StoreDetailsState>(
                   builder: (BuildContext context, StoreDetailsState state) {
                     if (state is GetStoreDetailsLoadingState)
@@ -60,7 +61,7 @@ class Stores2State extends State<Stores2> {
                         ),
                         child: Container(
                           width: double.infinity,
-                          height: 210,
+                          height: 200,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [MyColors.dark_2, MyColors.dark_1],

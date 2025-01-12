@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_states.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_states.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/product_details_cubit.dart';
@@ -135,30 +137,54 @@ class Products2 extends StatelessWidget {
                               Row(
                                 children: [
                                   Spacer(),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content:
-                                              Text("Product added to cart!"),
-                                          duration: Duration(seconds: 2),
-                                        ),
-                                      );
+                                  BlocConsumer<AddCartCubit, AddCartState>(
+                                    builder: (BuildContext context,
+                                        AddCartState state) {
+                                      if (state is AddCartLoading) {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else {
+                                        return ElevatedButton(
+                                          onPressed: () {
+                                            BlocProvider.of<AddCartCubit>(
+                                                    context)
+                                                .addToCart(cubit.product!.id);
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: MyColors.buttun,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            "Add to Cart",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        );
+                                      }
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: MyColors.buttun,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                    child: Text(
-                                      "Add to Cart",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                      ),
-                                    ),
+                                    listener: (BuildContext context,
+                                        AddCartState state) {
+                                      if (state is AddCartSuccess) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(state.message),
+                                            backgroundColor: Colors.green,
+                                          ),
+                                        );
+                                      } else if (state is AddCartError) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(content: Text(state.error)),
+                                        );
+                                      }
+                                    },
                                   ),
                                 ],
                               ),

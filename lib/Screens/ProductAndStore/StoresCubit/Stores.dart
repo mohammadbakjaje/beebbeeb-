@@ -6,9 +6,9 @@ import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonOfStore.dart';
 import '../../../widget/ButtonSearch.dart';
 import '../../Drawer/ِCustomDrawer.dart';
-import '../ProductsCubit/Bloc/search_cubit.dart';
-import '../ProductsCubit/Bloc/search_states.dart';
 import 'Bloc/store_details_cubit.dart';
+import 'Bloc/store_search_cubit.dart';
+import 'Bloc/store_search_states.dart';
 import 'Bloc/stores_State.dart';
 import 'Bloc/stores_cubit.dart';
 import 'Stores2.dart';
@@ -38,23 +38,23 @@ class Stores extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: BlocBuilder<SearchCubit, SearchStates>(
+              child: BlocBuilder<SearchStoreCubit, SearchStoreStates>(
                 builder: (context, state) {
                   return ButtonSearch(
                     hintText: "Search for stores",
                     onchanged: (query) {
                       context
-                          .read<SearchCubit>()
-                          .search(query: query, type: storesSearch);
+                          .read<SearchStoreCubit>()
+                          .searchStore(query: query);
                     },
                     prefixImage: Image.asset("images/search.png"),
                   );
                 },
               ),
             ),
-            BlocBuilder<SearchCubit, SearchStates>(
+            BlocBuilder<SearchStoreCubit, SearchStoreStates>(
               builder: (context, state) {
-                if (state is SearchSuccess) {
+                if (state is SearchStoreSuccess) {
                   if (state.data.isEmpty) {
                     return Center(
                       child: Text(
@@ -134,7 +134,7 @@ class Stores extends StatelessWidget {
                       ],
                     );
                   }
-                } else if (state is SearchError) {
+                } else if (state is SearchStoreError) {
                   return Center(
                     child: Text(
                       state.message,

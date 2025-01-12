@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/HomePage/Ads/ad_product_cubit.dart';
 import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/delete_cart_cubit.dart';
 import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
@@ -18,6 +20,7 @@ import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
 import 'Screens/HomePage/MostStores/most_stores_cubit.dart';
 import 'Screens/Layout/Added/Cart.dart';
+import 'Screens/Layout/Added/Cart/show_cart_cubit.dart';
 import 'Screens/Layout/Added/Favorite/Favourit.dart';
 import 'Screens/Layout/Added/Orders.dart';
 import 'Screens/Layout/Layout_cubit/change_password_cubit.dart';
@@ -30,6 +33,7 @@ import 'Screens/ProductAndStore/ProductsCubit/Bloc/search_cubit.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'Screens/ProductAndStore/StoresCubit/Bloc/products_by_catigories_cubit.dart';
+import 'Screens/ProductAndStore/StoresCubit/Bloc/store_search_cubit.dart';
 import 'Screens/ProductAndStore/StoresCubit/Bloc/stores_cubit.dart';
 import 'Screens/ProductAndStore/StoresCubit/Stores.dart';
 import 'Screens/ProductAndStore/StoresCubit/Stores2.dart';
@@ -57,23 +61,19 @@ class BebBeb extends StatelessWidget {
         BlocProvider(
             create: (BuildContext context) => ProductCubit()..getProducts()),
         BlocProvider(create: (context) => SearchCubit()),
+        BlocProvider(create: (context) => SearchStoreCubit()),
         BlocProvider(create: (context) => StoresCubit()..getStores()),
         BlocProvider(create: (context) => ChangePasswordCubit()),
         BlocProvider(create: (context) => UpdateUserCubit()),
         BlocProvider(create: (context) => UploadImageCubit()),
+        BlocProvider(create: (context) => AdProductCubit()..fetchAdProducts()),
+        BlocProvider(create: (context) => MostStoresCubit()..fetchStores()),
         BlocProvider(
-          create: (context) => AdProductCubit()..fetchAdProducts(),
-        ),
-        BlocProvider(
-          create: (context) => MostStoresCubit()..fetchStores(),
-        ),
-        BlocProvider(
-          create: (context) => MostSellCubit()..fetchMostSellProducts(),
-        ),
-        BlocProvider(
-          create: (context) =>
-              ProductsByCatigoriesCubit(), // تأكد من توفير ProductsByCatigoriesCubit هنا
-        ),
+            create: (context) => MostSellCubit()..fetchMostSellProducts()),
+        BlocProvider(create: (context) => ProductsByCatigoriesCubit()),
+        BlocProvider(create: (context) => AddCartCubit()),
+        BlocProvider(create: (context) => ShowCartCubit()),
+        BlocProvider(create: (context) => DeleteCartCubit()),
       ],
       child: MaterialApp(
           color: MyColors.dark_1,

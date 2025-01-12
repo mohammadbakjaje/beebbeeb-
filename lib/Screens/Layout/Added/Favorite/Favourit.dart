@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
 import 'package:untitled1/helper/constants.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/Screens/Drawer/ِCustomDrawer.dart';
@@ -151,7 +152,11 @@ class _FavouritState extends State<Favourit> {
                                       child: Row(
                                         children: [
                                           IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              BlocProvider.of<AddCartCubit>(
+                                                      context)
+                                                  .addToCart(product["id"]);
+                                            },
                                             icon: Icon(
                                               Icons.shopping_cart,
                                               size: 25,

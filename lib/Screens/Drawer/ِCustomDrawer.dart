@@ -48,8 +48,7 @@ class CustomDrawer extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 40,
                                   backgroundImage: NetworkImage(
-                                      "http://$ipv4${cubit.userModel!.image!}" ??
-                                          ""),
+                                      "http://$ipv4${cubit.userModel!.image!}"),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 5),
