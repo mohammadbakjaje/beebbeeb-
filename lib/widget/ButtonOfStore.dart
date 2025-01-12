@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:untitled1/helper/constants.dart';
 
 import '../helper/my_colors.dart';
 
@@ -29,10 +30,10 @@ class ButtonOfStore extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
+                child: Image.network(
                   width: 80,
                   height: 80,
-                  imagePath,
+                  "http://$ipv4/${imagePath}",
                   fit: BoxFit.cover,
                 ),
               ),

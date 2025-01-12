@@ -62,6 +62,7 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       children: [
                         CoustemTextFormFiled(
+                          textInputType: TextInputType.phone,
                           controller: emailController,
                           hintText: "Phone Number",
                           validator: (value) {

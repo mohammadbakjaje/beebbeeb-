@@ -9,17 +9,20 @@ class CoustemTextFormFiled extends StatelessWidget {
   final String? Function(String?)? validator;
   bool obsecure, password;
   TextEditingController? controller;
+  TextInputType? textInputType = TextInputType.text;
   CoustemTextFormFiled(
       {this.onchanged,
       this.validator,
       required this.hintText,
       this.obsecure = false,
       this.password = false,
-      this.controller});
+      this.controller,
+      this.textInputType});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: textInputType,
       controller: controller,
       style: TextStyle(color: Colors.white),
       obscureText: obsecure,

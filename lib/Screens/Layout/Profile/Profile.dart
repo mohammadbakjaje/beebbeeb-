@@ -317,7 +317,7 @@ class _ProfileState extends State<Profile> {
                                 ? FileImage(File(_imageFile!.path))
                                 : (userModel?.image != null
                                     ? NetworkImage(
-                                        "http://$ipv4${userModel!.image!}")
+                                        "http://$ipv4/${userModel!.image!}")
                                     : null),
                             child: _imageFile == null &&
                                         (userModel?.image == null) ||

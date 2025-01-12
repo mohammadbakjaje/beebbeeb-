@@ -86,6 +86,7 @@ class RegisterPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0, top: 16),
                         child: CoustemTextFormFiled(
+                            textInputType: TextInputType.phone,
                             hintText: "Phone Number",
                             controller: phoneNumberController,
                             validator: (value) {

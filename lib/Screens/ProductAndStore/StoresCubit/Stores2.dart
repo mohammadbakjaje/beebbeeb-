@@ -61,7 +61,6 @@ class Stores2State extends State<Stores2> {
                         ),
                         child: Container(
                           width: double.infinity,
-                          height: 200,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [MyColors.dark_2, MyColors.dark_1],
@@ -70,55 +69,66 @@ class Stores2State extends State<Stores2> {
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      state.store.name,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      state.store.address,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      state.store.phone,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.white70,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // صورة المتجر
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
                                   child: Image.network(
                                     "http://$ipv4/${state.store.logo}",
-                                    width: 120,
-                                    height: 120,
+                                    width: 100,
+                                    height: 100,
                                     fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Icon(
+                                        Icons.store,
+                                        size: 100,
+                                        color: Colors.white,
+                                      );
+                                    },
                                   ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 16),
+                                // معلومات المتجر
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        state.store.name,
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        state.store.address,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white70,
+                                        ),
+                                        maxLines: 2, // تحديد عدد الأسطر
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      SizedBox(height: 8),
+                                      Text(
+                                        "Phone: ${state.store.phone}",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white70,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
