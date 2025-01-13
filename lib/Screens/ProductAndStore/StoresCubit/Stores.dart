@@ -19,22 +19,22 @@ class Stores extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       drawer: CustomDrawer(),
       appBar: AppBar(
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون AppBar بناءً على الوضع
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
-        elevation: 0, // إزالة الظل من AppBar
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: themeProvider.isDarkMode
-                ? [MyColors.dark_1, MyColors.dark_2] // الألوان في الوضع الليلي
-                : [Colors.white, Colors.grey[300]!], // الألوان في الوضع النهاري
+                ? [MyColors.dark_1, MyColors.dark_2]
+                : [Colors.white, Colors.grey[300]!],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -104,22 +104,21 @@ class Stores extends StatelessWidget {
                                     title: Text(
                                       store["name"],
                                       style: TextStyle(
-                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     subtitle: Text(
                                       store["address"],
                                       style: TextStyle(
-                                        color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
+                                        color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                       ),
                                     ),
                                     trailing: Icon(
                                       Icons.arrow_forward_ios,
-                                      color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون الأيقونة بناءً على الوضع
+                                      color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                     ),
                                     onTap: () {
-                                      // الانتقال إلى صفحة تفاصيل المتجر
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) => BlocProvider(
@@ -156,11 +155,11 @@ class Stores extends StatelessWidget {
               },
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20, top: 10),
+              padding: const EdgeInsets.only(left: 20),
               child: Text(
                 "All Stores",
                 style: TextStyle(
-                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 ),

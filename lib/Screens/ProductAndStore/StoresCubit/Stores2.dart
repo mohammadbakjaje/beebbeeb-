@@ -29,7 +29,7 @@ class Stores2State extends State<Stores2> {
       containerHeight = MediaQuery.of(context).size.height * 0.55;
     });
 
-    // جلب منتجات الفئة باستخدام الـ Cubit الجديد
+
     context
         .read<ProductsByCatigoriesCubit>()
         .fetchProductsByCategory(categoryId);
@@ -37,13 +37,13 @@ class Stores2State extends State<Stores2> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون AppBar بناءً على الوضع
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
         elevation: 0,
       ),
       body: Stack(
@@ -68,8 +68,8 @@ class Stores2State extends State<Stores2> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: themeProvider.isDarkMode
-                                  ? [MyColors.dark_2, MyColors.dark_1] // الألوان في الوضع الليلي
-                                  : [Colors.grey[200]!, Colors.grey[300]!], // الألوان في الوضع النهاري
+                                  ? [MyColors.dark_2, MyColors.dark_1]
+                                  : [Colors.grey[200]!, Colors.grey[300]!],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
@@ -92,7 +92,7 @@ class Stores2State extends State<Stores2> {
                                       return Icon(
                                         Icons.store,
                                         size: 100,
-                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
+                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                       );
                                     },
                                   ),
@@ -108,7 +108,7 @@ class Stores2State extends State<Stores2> {
                                         state.store.name,
                                         style: TextStyle(
                                           fontSize: 24,
-                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -117,7 +117,7 @@ class Stores2State extends State<Stores2> {
                                         state.store.address,
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
+                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                         ),
                                         maxLines: 2, // تحديد عدد الأسطر
                                         overflow: TextOverflow.ellipsis,
@@ -127,7 +127,7 @@ class Stores2State extends State<Stores2> {
                                         "Phone: ${state.store.phone}",
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
+                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                         ),
                                       ),
                                     ],
@@ -142,7 +142,7 @@ class Stores2State extends State<Stores2> {
                       return Center(
                         child: Text(
                           "Failed to get Store",
-                          style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
+                          style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                         ),
                       );
                     }
@@ -173,7 +173,7 @@ class Stores2State extends State<Stores2> {
                                   _onButtonPressed(
                                       index, state.store.categories[index].id);
                                 },
-                                textColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                textColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
                               ),
                             ),
                           ),
@@ -196,7 +196,7 @@ class Stores2State extends State<Stores2> {
               curve: Curves.easeInOut,
               height: containerHeight,
               decoration: BoxDecoration(
-                color: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
+                color: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -255,8 +255,8 @@ class Stores2State extends State<Stores2> {
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: themeProvider.isDarkMode
-                                          ? [MyColors.dark_2, MyColors.dark_1] // الألوان في الوضع الليلي
-                                          : [Colors.grey[200]!, Colors.grey[300]!], // الألوان في الوضع النهاري
+                                          ? [MyColors.dark_2, MyColors.dark_1]
+                                          : [Colors.grey[200]!, Colors.grey[300]!],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -283,7 +283,7 @@ class Stores2State extends State<Stores2> {
                                         child: Text(
                                           product.name,
                                           style: TextStyle(
-                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                             fontSize: 16,
                                           ),
                                         ),
@@ -298,7 +298,7 @@ class Stores2State extends State<Stores2> {
                                             Text(
                                               "\$${product.price}",
                                               style: TextStyle(
-                                                color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                               ),

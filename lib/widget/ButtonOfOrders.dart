@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
+import '../Screens/Drawer/ theme_provider.dart';
 import '../helper/my_colors.dart';
+
 
 class ButtonOfOrders extends StatefulWidget {
   final String date;
@@ -36,12 +38,17 @@ class _ButtonOfOrdersState extends State<ButtonOfOrders> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return GestureDetector(
       onTap: widget.onPressed,
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: MyColors.dark_2, width: 1),
-          color: MyColors.dark_2,
+          border: Border.all(
+            color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[300]!,
+            width: 1,
+          ),
+          color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[300],
           borderRadius: BorderRadius.circular(10),
         ),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -54,7 +61,7 @@ class _ButtonOfOrdersState extends State<ButtonOfOrders> {
                   widget.date,
                   style: TextStyle(
                     fontSize: 19,
-                    color: Colors.white,
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
                 Padding(
@@ -63,7 +70,7 @@ class _ButtonOfOrdersState extends State<ButtonOfOrders> {
                     widget.clock,
                     style: TextStyle(
                       fontSize: 18,
-                      color: Colors.white,
+                      color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
                 ),

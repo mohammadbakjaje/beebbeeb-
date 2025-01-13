@@ -190,8 +190,8 @@ class _HomePageState extends State<HomePage> {
                               MyColors.buttun.withOpacity(0.6),
                             ]
                                 : [
-                              Colors.grey.withOpacity(0.8),
-                              Colors.grey.withOpacity(0.6),
+                              Colors.grey.shade600.withOpacity(0.8),
+                              Colors.grey.shade600.withOpacity(0.6),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -235,8 +235,8 @@ class _HomePageState extends State<HomePage> {
                               MyColors.buttun.withOpacity(0.6),
                             ]
                                 : [
-                              Colors.grey.withOpacity(0.8),
-                              Colors.grey.withOpacity(0.6),
+                              Colors.grey.shade600.withOpacity(0.8),
+                              Colors.grey.shade600.withOpacity(0.6),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,

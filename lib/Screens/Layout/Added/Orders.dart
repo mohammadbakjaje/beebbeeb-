@@ -77,7 +77,7 @@ class _OrdersState extends State<Orders> {
                               Text(
                                 'Order is being prepared',
                                 style: TextStyle(
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                   fontSize: 15,
                                 ),
                               ),
@@ -100,7 +100,7 @@ class _OrdersState extends State<Orders> {
                               Text(
                                 'Order is out for delivery',
                                 style: TextStyle(
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                   fontSize: 15,
                                 ),
                               ),
@@ -123,7 +123,7 @@ class _OrdersState extends State<Orders> {
                               Text(
                                 'Order has arrived',
                                 style: TextStyle(
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                   fontSize: 15,
                                 ),
                               ),
@@ -144,7 +144,7 @@ class _OrdersState extends State<Orders> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       drawer: CustomDrawer(),
@@ -153,21 +153,21 @@ class _OrdersState extends State<Orders> {
         title: Text(
           "My Orders",
           style: TextStyle(
-            color: themeProvider.isDarkMode ? Colors.white : Colors.white, // لون النص بناءً على الوضع
+            color: themeProvider.isDarkMode ? Colors.white : Colors.white,
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white, // لون العناصر الأمامية بناءً على الوضع
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
         actions: [
           IconButton(
             icon: Icon(
               Icons.info,
-              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
+              color: themeProvider.isDarkMode ? Colors.white : Colors.white,
             ),
             onPressed: () {
-              _showRightPanel(context); // استدعاء الدالة لعرض المحتوى
+              _showRightPanel(context);
             },
           ),
         ],
