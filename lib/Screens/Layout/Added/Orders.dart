@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonOfOrders.dart';
+import '../../Drawer/ theme_provider.dart';
 import '../../Drawer/ِCustomDrawer.dart';
 import 'Cart.dart';
 import 'Favorite/Favourit.dart';
@@ -16,6 +17,8 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   // App Bar
   void _showRightPanel(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false); // استخدم ThemeProvider
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -28,7 +31,7 @@ class _OrdersState extends State<Orders> {
               width: MediaQuery.of(context).size.width * 0.6,
               height: 150,
               decoration: BoxDecoration(
-                color: MyColors.dark_2,
+                color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // لون الخلفية بناءً على الوضع
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
@@ -46,7 +49,7 @@ class _OrdersState extends State<Orders> {
                     child: Text(
                       'Status Colors:',
                       style: TextStyle(
-                        color: Colors.white,
+                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -67,14 +70,14 @@ class _OrdersState extends State<Orders> {
                                   color: Colors.red,
                                   shape: BoxShape.circle,
                                   border:
-                                      Border.all(color: Colors.red, width: 2),
+                                  Border.all(color: Colors.red, width: 2),
                                 ),
                               ),
                               SizedBox(width: 10),
                               Text(
                                 'Order is being prepared',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 15,
                                 ),
                               ),
@@ -97,7 +100,7 @@ class _OrdersState extends State<Orders> {
                               Text(
                                 'Order is out for delivery',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 15,
                                 ),
                               ),
@@ -113,14 +116,14 @@ class _OrdersState extends State<Orders> {
                                   color: Colors.green,
                                   shape: BoxShape.circle,
                                   border:
-                                      Border.all(color: Colors.green, width: 2),
+                                  Border.all(color: Colors.green, width: 2),
                                 ),
                               ),
                               SizedBox(width: 10),
                               Text(
                                 'Order has arrived',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 15,
                                 ),
                               ),
@@ -141,25 +144,30 @@ class _OrdersState extends State<Orders> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
       drawer: CustomDrawer(),
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
       appBar: AppBar(
         title: Text(
           "My Orders",
           style: TextStyle(
-            color: Colors.white,
+            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
-        foregroundColor: Colors.white,
-        backgroundColor: MyColors.dark_1,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
         actions: [
           IconButton(
-            icon: Icon(Icons.info),
+            icon: Icon(
+              Icons.info,
+              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
+            ),
             onPressed: () {
-              _showRightPanel(context);
+              _showRightPanel(context); // استدعاء الدالة لعرض المحتوى
             },
           ),
         ],
@@ -177,7 +185,7 @@ class _OrdersState extends State<Orders> {
                   itemBuilder: (context, i) {
                     return Padding(
                       padding:
-                          const EdgeInsets.only(left: 13, right: 13, top: 10),
+                      const EdgeInsets.only(left: 13, right: 13, top: 10),
                       child: ButtonOfOrders(
                         date: '8/12/2024',
                         clock: '6:25',

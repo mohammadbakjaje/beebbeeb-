@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import '../../../helper/constants.dart';
 import '../../../helper/my_colors.dart';
+import '../../Drawer/ theme_provider.dart';
 import '../../Drawer/ِCustomDrawer.dart';
 import '../../ProductAndStore/ProductsCubit/Bloc/product_details_cubit.dart';
 import '../../ProductAndStore/ProductsCubit/Products2.dart';
@@ -28,17 +30,21 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
       drawer: CustomDrawer(),
       appBar: AppBar(
         title: Text(
           "My Cart",
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+              fontWeight: FontWeight.bold,
+              fontSize: 25),
         ),
-        foregroundColor: Colors.white,
-        backgroundColor: MyColors.dark_1,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
       ),
       body: MultiBlocListener(
         listeners: [
@@ -77,7 +83,7 @@ class _CartState extends State<Cart> {
               return Column(
                 children: [
                   Expanded(
-                    child: _buildCartItems(state.cartItems), // عرض المنتجات
+                    child: _buildCartItems(state.cartItems, themeProvider), // عرض المنتجات
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -85,7 +91,7 @@ class _CartState extends State<Cart> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          _showFinishPurchasesDialog();
+                          _showFinishPurchasesDialog(themeProvider);
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
@@ -118,7 +124,7 @@ class _CartState extends State<Cart> {
     );
   }
 
-  Widget _buildCartItems(List<dynamic> cartItems) {
+  Widget _buildCartItems(List<dynamic> cartItems, ThemeProvider themeProvider) {
     return ListView.builder(
       itemCount: cartItems.length,
       itemBuilder: (context, index) {
@@ -136,7 +142,7 @@ class _CartState extends State<Cart> {
             );
           },
           child: Card(
-            color: MyColors.dark_2,
+            color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // لون الكارت بناءً على الوضع
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
             child: Stack(
               children: [
@@ -174,7 +180,7 @@ class _CartState extends State<Cart> {
                               Text(
                                 item['product']['name'],
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -183,7 +189,7 @@ class _CartState extends State<Cart> {
                               Text(
                                 "\$${item['price']}",
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 14,
                                 ),
                               ),
@@ -199,11 +205,11 @@ class _CartState extends State<Cart> {
                   right: 0,
                   child: IconButton(
                     onPressed: () {
-                      _showConfirmationDialog(index, item['id']);
+                      _showConfirmationDialog(index, item['id'], themeProvider);
                     },
                     icon: Icon(
                       Icons.close,
-                      color: Colors.white,
+                      color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
                       size: 25,
                     ),
                   ),
@@ -213,7 +219,7 @@ class _CartState extends State<Cart> {
                   right: 10,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: MyColors.dark_1,
+                      color: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.grey[300], // لون الخلفية بناءً على الوضع
                       borderRadius: BorderRadius.circular(20),
                     ),
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -229,14 +235,14 @@ class _CartState extends State<Cart> {
                           icon: Icon(
                             Icons.remove,
                             size: 16,
-                            color: Colors.white,
+                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
                           ),
                         ),
                         Text(
                           "${item['quantity']}",
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.white,
+                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -249,7 +255,7 @@ class _CartState extends State<Cart> {
                           icon: Icon(
                             Icons.add,
                             size: 16,
-                            color: Colors.white,
+                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
                           ),
                         ),
                       ],
@@ -264,22 +270,22 @@ class _CartState extends State<Cart> {
     );
   }
 
-  void _showConfirmationDialog(int index, int itemId) {
+  void _showConfirmationDialog(int index, int itemId, ThemeProvider themeProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: MyColors.dark_2,
+          backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.white, // لون الخلفية بناءً على الوضع
           title: Text(
             "Confirmation",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
             ),
           ),
           content: Text(
             "Are you sure you want to delete this product?",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
           ),
           actions: [
             TextButton(
@@ -288,7 +294,7 @@ class _CartState extends State<Cart> {
               },
               child: Text(
                 "No",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
               ),
             ),
             TextButton(
@@ -298,7 +304,7 @@ class _CartState extends State<Cart> {
               },
               child: Text(
                 "Yes",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
               ),
             ),
           ],
@@ -307,22 +313,22 @@ class _CartState extends State<Cart> {
     );
   }
 
-  void _showFinishPurchasesDialog() {
+  void _showFinishPurchasesDialog(ThemeProvider themeProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: MyColors.dark_2,
+          backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.white, // لون الخلفية بناءً على الوضع
           title: Text(
             "Confirmation",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
             ),
           ),
           content: Text(
             "Have you finished all your purchases?",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
           ),
           actions: [
             TextButton(
@@ -331,7 +337,7 @@ class _CartState extends State<Cart> {
               },
               child: Text(
                 "No",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
               ),
             ),
             TextButton(
@@ -343,7 +349,7 @@ class _CartState extends State<Cart> {
               },
               child: Text(
                 "Yes",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
               ),
             ),
           ],

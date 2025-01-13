@@ -1,12 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:untitled1/helper/constants.dart';
 
 class Slideshow extends StatefulWidget {
   const Slideshow({super.key, required this.images});
 
-  final List<String> images; // قائمة روابط الصور
+  final List<String> images; // قائمة مسارات الصور داخل المشروع
 
   @override
   _SlideshowState createState() => _SlideshowState();
@@ -52,20 +50,10 @@ class _SlideshowState extends State<Slideshow> {
       itemCount: widget.images.length,
       itemBuilder: (context, index) {
         return ClipRRect(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(8),
-            topLeft: Radius.circular(8),
-            bottomRight: Radius.circular(8),
-            bottomLeft: Radius.circular(8),
-          ),
-          child: Image.network(
-            "http://$ipv4/${widget.images[index]}", // استخدام الصورة من القائمة
-            fit: BoxFit.fill,
-            errorBuilder: (context, error, stackTrace) {
-              return Center(
-                  child:
-                      Icon(Icons.error)); // عرض أيقونة خطأ إذا فشل تحميل الصورة
-            },
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            widget.images[index],
+            fit: BoxFit.cover,
           ),
         );
       },

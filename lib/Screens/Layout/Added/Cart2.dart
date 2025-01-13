@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import '../../../helper/my_colors.dart';
 import '../../../widget/coustembutonm.dart';
+import '../../Drawer/ theme_provider.dart';
 
 class Cart2 extends StatelessWidget {
   static String id = "Carting";
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
       appBar: AppBar(
         title: Text(
           "Carting",
           style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),
+              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+              fontWeight: FontWeight.bold,
+              fontSize: 25),
         ),
-        foregroundColor: Colors.white,
-        backgroundColor: MyColors.dark_1,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
         elevation: 0,
       ),
       body: Column(
@@ -26,7 +32,7 @@ class Cart2 extends StatelessWidget {
               padding: EdgeInsets.all(16),
               children: [
                 Card(
-                  color: MyColors.dark_2,
+                  color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // لون الكارت بناءً على الوضع
                   elevation: 5,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
@@ -41,7 +47,7 @@ class Cart2 extends StatelessWidget {
                             Text(
                               "Total Price:",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -49,7 +55,7 @@ class Cart2 extends StatelessWidget {
                             Text(
                               "\$0.00",
                               style: TextStyle(
-                                color: Colors.white,
+                                color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                 fontSize: 22,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -68,21 +74,21 @@ class Cart2 extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        backgroundColor: MyColors.dark_2,
+                                        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.white, // لون الخلفية بناءً على الوضع
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(15),
+                                          BorderRadius.circular(15),
                                         ),
                                         title: Text(
                                           "Confirm",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                           ),
                                         ),
                                         content: Text(
                                           "Are you sure you want to buy all items?",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                                         ),
                                         actions: [
                                           TextButton(
@@ -92,7 +98,7 @@ class Cart2 extends StatelessWidget {
                                             child: Text(
                                               "Cancel",
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                                             ),
                                           ),
                                           TextButton(
@@ -102,7 +108,7 @@ class Cart2 extends StatelessWidget {
                                             child: Text(
                                               "Sure",
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                                             ),
                                           ),
                                         ],
@@ -122,21 +128,21 @@ class Cart2 extends StatelessWidget {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        backgroundColor: MyColors.dark_2,
+                                        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.white, // لون الخلفية بناءً على الوضع
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
-                                              BorderRadius.circular(15),
+                                          BorderRadius.circular(15),
                                         ),
                                         title: Text(
                                           "Confirm Deletion",
                                           style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white,
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                           ),
                                         ),
                                         content: Text(
                                           "Are you sure you want to delete all items?",
-                                          style: TextStyle(color: Colors.white),
+                                          style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                                         ),
                                         actions: [
                                           TextButton(
@@ -146,7 +152,7 @@ class Cart2 extends StatelessWidget {
                                             child: Text(
                                               "Cancel",
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                                             ),
                                           ),
                                           TextButton(
@@ -156,7 +162,7 @@ class Cart2 extends StatelessWidget {
                                             child: Text(
                                               "Delete",
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                                             ),
                                           ),
                                         ],
@@ -179,7 +185,7 @@ class Cart2 extends StatelessWidget {
                   itemCount: 5,
                   itemBuilder: (context, index) {
                     return Card(
-                      color: MyColors.dark_2,
+                      color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // لون الكارت بناءً على الوضع
                       elevation: 5,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -188,12 +194,12 @@ class Cart2 extends StatelessWidget {
                       child: ListTile(
                         leading: Icon(
                           Icons.shopping_cart,
-                          color: Colors.white,
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
                         ),
                         title: Text(
                           "Product ${index + 1}",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
@@ -201,21 +207,21 @@ class Cart2 extends StatelessWidget {
                         subtitle: Text(
                           "\$${100 * (index + 1)}",
                           style: TextStyle(
-                            color: Colors.white70,
+                            color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
                             fontSize: 16,
                           ),
                         ),
                         trailing: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           decoration: BoxDecoration(
-                            color: MyColors.dark_1,
+                            color: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.grey[300], // لون الخلفية بناءً على الوضع
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
                             "${index + 1}",
                             style: TextStyle(
-                              color: Colors.white,
+                              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import '../../../helper/constants.dart';
 import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonOfStore.dart';
 import '../../../widget/ButtonSearch.dart';
+import '../../Drawer/ theme_provider.dart';
 import '../../Drawer/ِCustomDrawer.dart';
 import 'Bloc/store_details_cubit.dart';
 import 'Bloc/store_search_cubit.dart';
@@ -18,18 +19,22 @@ class Stores extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
       drawer: CustomDrawer(),
       appBar: AppBar(
-        backgroundColor: MyColors.dark_1,
-        foregroundColor: Colors.white,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون AppBar بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
         elevation: 0, // إزالة الظل من AppBar
       ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [MyColors.dark_1, MyColors.dark_2],
+            colors: themeProvider.isDarkMode
+                ? [MyColors.dark_1, MyColors.dark_2] // الألوان في الوضع الليلي
+                : [Colors.white, Colors.grey[300]!], // الألوان في الوضع النهاري
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -59,7 +64,9 @@ class Stores extends StatelessWidget {
                     return Center(
                       child: Text(
                         "No results found",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                        ),
                       ),
                     );
                   } else {
@@ -74,20 +81,18 @@ class Stores extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                               child: Card(
+                                color: themeProvider.isDarkMode
+                                    ? MyColors.dark_2
+                                    :  Colors.grey[700],
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        MyColors.dark_2.withOpacity(0.8),
-                                        MyColors.dark_1.withOpacity(0.8),
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
+                                    color: themeProvider.isDarkMode
+                                        ? MyColors.dark_2
+                                        :  Colors.grey[700],
                                     borderRadius: BorderRadius.circular(15),
                                   ),
                                   child: ListTile(
@@ -99,17 +104,19 @@ class Stores extends StatelessWidget {
                                     title: Text(
                                       store["name"],
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     subtitle: Text(
                                       store["address"],
-                                      style: TextStyle(color: Colors.white70),
+                                      style: TextStyle(
+                                        color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
+                                      ),
                                     ),
                                     trailing: Icon(
                                       Icons.arrow_forward_ios,
-                                      color: Colors.white70,
+                                      color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون الأيقونة بناءً على الوضع
                                     ),
                                     onTap: () {
                                       // الانتقال إلى صفحة تفاصيل المتجر
@@ -117,9 +124,9 @@ class Stores extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (context) => BlocProvider(
                                             create: (context) =>
-                                                StoreDetailsCubit()
-                                                  ..fetchStoreDetails(
-                                                      store["id"]),
+                                            StoreDetailsCubit()
+                                              ..fetchStoreDetails(
+                                                  store["id"]),
                                             child: Stores2(),
                                           ),
                                         ),
@@ -138,7 +145,9 @@ class Stores extends StatelessWidget {
                   return Center(
                     child: Text(
                       state.message,
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                      ),
                     ),
                   );
                 } else {
@@ -151,7 +160,7 @@ class Stores extends StatelessWidget {
               child: Text(
                 "All Stores",
                 style: TextStyle(
-                  color: Colors.white,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
                 ),
@@ -203,14 +212,16 @@ class Stores extends StatelessWidget {
                   } else if (state is GetStoresLoadingState) {
                     return Center(
                       child: CircularProgressIndicator(
-                        color: Colors.white,
+                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الـ CircularProgressIndicator بناءً على الوضع
                       ),
                     );
                   } else {
                     return Center(
                       child: Text(
                         "Failed to get data",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                        ),
                       ),
                     );
                   }

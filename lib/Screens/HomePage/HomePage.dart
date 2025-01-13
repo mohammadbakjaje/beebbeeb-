@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
 import 'package:untitled1/Screens/HomePage/MostSells/most_sell_state.dart';
 import 'package:untitled1/Screens/HomePage/MostStores/most_stores_cubit.dart';
@@ -15,7 +16,7 @@ import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Products.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Products2.dart';
 import 'package:untitled1/Screens/ProductAndStore/StoresCubit/Stores.dart';
 import 'package:untitled1/Screens/Drawer/ِCustomDrawer.dart';
-
+import '../Drawer/ theme_provider.dart';
 import '../ProductAndStore/StoresCubit/Bloc/store_details_cubit.dart';
 import '../ProductAndStore/StoresCubit/Stores2.dart';
 import 'Ads/ad_product_cubit.dart';
@@ -32,20 +33,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: MyColors.dark_1,
-          foregroundColor: Colors.white,
-          elevation: 0, // إزالة الظل من AppBar
+          backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white70,
+          foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+          elevation: 0,
         ),
         drawer: CustomDrawer(),
-        backgroundColor: MyColors.dark_1,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white70,
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [MyColors.dark_1, MyColors.dark_2],
+              colors: themeProvider.isDarkMode
+                  ? [MyColors.dark_1, MyColors.dark_2]
+                  : [Colors.white, Colors.grey[200]!],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -53,9 +58,8 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.only(left: 15, right: 15),
           child: ListView(
             children: [
-              // حقل البحث
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(left: 16,right: 16,bottom: 16),
                 child: BlocBuilder<SearchCubit, SearchStates>(
                   builder: (context, state) {
                     return ButtonSearch(
@@ -78,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                       return Center(
                         child: Text(
                           "No results found",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                         ),
                       );
                     } else {
@@ -100,9 +104,14 @@ class _HomePageState extends State<HomePage> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
-                                        colors: [
+                                        colors: themeProvider.isDarkMode
+                                            ? [
                                           MyColors.dark_2.withOpacity(0.8),
                                           MyColors.dark_1.withOpacity(0.8),
+                                        ]
+                                            : [
+                                          Colors.grey[200]!,
+                                          Colors.grey[300]!,
                                         ],
                                         begin: Alignment.topLeft,
                                         end: Alignment.bottomRight,
@@ -115,9 +124,9 @@ class _HomePageState extends State<HomePage> {
                                           MaterialPageRoute(
                                             builder: (context) => BlocProvider(
                                               create: (context) =>
-                                                  ProductDetailsCubit()
-                                                    ..getOneProduct(
-                                                        product["id"]),
+                                              ProductDetailsCubit()
+                                                ..getOneProduct(
+                                                    product["id"]),
                                               child: Products2(),
                                             ),
                                           ),
@@ -131,19 +140,19 @@ class _HomePageState extends State<HomePage> {
                                       title: Text(
                                         product["name"],
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       subtitle: Text(
                                         "\$${product["price"]}",
                                         style: TextStyle(
-                                          color: Colors.white70,
+                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                         ),
                                       ),
                                       trailing: Icon(
                                         Icons.arrow_forward_ios,
-                                        color: Colors.white70,
+                                        color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                       ),
                                     ),
                                   ),
@@ -158,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                     return Center(
                       child: Text(
                         state.message,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                       ),
                     );
                   } else {
@@ -175,9 +184,14 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [
+                            colors: themeProvider.isDarkMode
+                                ? [
                               MyColors.buttun.withOpacity(0.8),
                               MyColors.buttun.withOpacity(0.6),
+                            ]
+                                : [
+                              Colors.grey.withOpacity(0.8),
+                              Colors.grey.withOpacity(0.6),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -215,9 +229,14 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [
+                            colors: themeProvider.isDarkMode
+                                ? [
                               MyColors.buttun.withOpacity(0.8),
                               MyColors.buttun.withOpacity(0.6),
+                            ]
+                                : [
+                              Colors.grey.withOpacity(0.8),
+                              Colors.grey.withOpacity(0.6),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -253,46 +272,38 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 20),
               // العنوان: Categories
-              Text(
-                "Categories",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Colors.white,
+              Expanded(child: Padding(
+                padding: const EdgeInsets.only(left: 230),
+                child: Text("Sale 50%",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23,color: Colors.orange),),
+              )),
+              SizedBox(height: 10),
+              // Slideshow
+              Container(
+                height: 340,
+                width: 324,
+                child:  Slideshow(
+                  images: [
+                    "images/Picsart_25-01-11_21-09-43-611.jpg",
+                    "images/Picsart_25-01-11_21-12-20-017.jpg",
+                    "images/Picsart_25-01-11_21-14-53-173.jpg",
+                    "images/Picsart_25-01-11_21-22-38-802.jpg",
+                    "images/Picsart_25-01-11_21-11-21-699.jpg",
+                    "images/Picsart_25-01-11_21-15-24-192.jpg",
+                    "images/Picsart_25-01-11_21-16-07-052.jpg",
+                    "images/Picsart_25-01-11_21-17-36-397.jpg",
+                    "images/Picsart_25-01-11_21-21-39-517.jpg",
+                    "images/Picsart_25-01-11_21-24-48-411.jpg",
+                  ],
                 ),
               ),
               SizedBox(height: 20),
-              // Slideshow
-              Container(
-                height: 223,
-                width: 324,
-                child: BlocProvider(
-                  create: (context) => AdProductCubit()..fetchAdProducts(),
-                  child: BlocBuilder<AdProductCubit, AdProductState>(
-                    builder: (BuildContext context, AdProductState state) {
-                      if (state is AdProductLoading) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (state is AdProductLoaded) {
-                        final images = state.images; // الحصول على قائمة الصور
-                        return Slideshow(
-                            images: images); // تمرير الصور إلى العرض الشرائح
-                      } else if (state is AdProductError) {
-                        return Center(child: Text(state.message));
-                      } else {
-                        return Center(child: Text('No data available'));
-                      }
-                    },
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
               // العنوان: Most Requested Products
               Text(
                 "Most Requested Products",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 19,
-                  color: Colors.white,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(height: 20),
@@ -330,9 +341,14 @@ class _HomePageState extends State<HomePage> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [
+                                    colors: themeProvider.isDarkMode
+                                        ? [
                                       MyColors.dark_2.withOpacity(0.8),
                                       MyColors.dark_1.withOpacity(0.8),
+                                    ]
+                                        : [
+                                      Colors.grey[200]!,
+                                      Colors.grey[300]!,
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
@@ -361,7 +377,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Text(
                                         products[i]["name"],
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                           fontSize: 18,
                                         ),
                                       ),
@@ -373,7 +389,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Text(
                                         products[i]["price"],
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w900,
                                         ),
@@ -401,7 +417,7 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 19,
-                  color: Colors.white,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
               SizedBox(height: 20),
@@ -441,9 +457,14 @@ class _HomePageState extends State<HomePage> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
-                                    colors: [
+                                    colors: themeProvider.isDarkMode
+                                        ? [
                                       MyColors.dark_2.withOpacity(0.8),
                                       MyColors.dark_1.withOpacity(0.8),
+                                    ]
+                                        : [
+                                      Colors.grey[200]!,
+                                      Colors.grey[300]!,
                                     ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
@@ -469,7 +490,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Text(
                                         stores[i]['name'],
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                           fontSize: 18,
                                         ),
                                       ),
@@ -481,7 +502,7 @@ class _HomePageState extends State<HomePage> {
                                       child: Text(
                                         stores[i]["address"],
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w900,
                                         ),

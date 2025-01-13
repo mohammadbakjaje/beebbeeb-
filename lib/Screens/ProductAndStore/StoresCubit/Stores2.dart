@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import '../../../helper/constants.dart';
 import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonStores.dart';
+import '../../Drawer/ theme_provider.dart';
 import '../ProductsCubit/Bloc/product_details_cubit.dart';
 import '../ProductsCubit/Products2.dart';
 import 'Bloc/products_by_catigories_cubit.dart';
@@ -35,11 +37,13 @@ class Stores2State extends State<Stores2> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
       appBar: AppBar(
-        backgroundColor: MyColors.dark_1,
-        foregroundColor: Colors.white,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون AppBar بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
         elevation: 0,
       ),
       body: Stack(
@@ -63,7 +67,9 @@ class Stores2State extends State<Stores2> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [MyColors.dark_2, MyColors.dark_1],
+                              colors: themeProvider.isDarkMode
+                                  ? [MyColors.dark_2, MyColors.dark_1] // الألوان في الوضع الليلي
+                                  : [Colors.grey[200]!, Colors.grey[300]!], // الألوان في الوضع النهاري
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
@@ -86,7 +92,7 @@ class Stores2State extends State<Stores2> {
                                       return Icon(
                                         Icons.store,
                                         size: 100,
-                                        color: Colors.white,
+                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
                                       );
                                     },
                                   ),
@@ -96,13 +102,13 @@ class Stores2State extends State<Stores2> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         state.store.name,
                                         style: TextStyle(
                                           fontSize: 24,
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -111,7 +117,7 @@ class Stores2State extends State<Stores2> {
                                         state.store.address,
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white70,
+                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
                                         ),
                                         maxLines: 2, // تحديد عدد الأسطر
                                         overflow: TextOverflow.ellipsis,
@@ -121,7 +127,7 @@ class Stores2State extends State<Stores2> {
                                         "Phone: ${state.store.phone}",
                                         style: TextStyle(
                                           fontSize: 16,
-                                          color: Colors.white70,
+                                          color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, // لون النص بناءً على الوضع
                                         ),
                                       ),
                                     ],
@@ -136,7 +142,7 @@ class Stores2State extends State<Stores2> {
                       return Center(
                         child: Text(
                           "Failed to get Store",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                         ),
                       );
                     }
@@ -153,7 +159,7 @@ class Stores2State extends State<Stores2> {
                         return Row(
                           children: List.generate(
                             state.store.categories.length,
-                            (index) => Padding(
+                                (index) => Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: ButtonStores(
                                 index: index,
@@ -167,6 +173,7 @@ class Stores2State extends State<Stores2> {
                                   _onButtonPressed(
                                       index, state.store.categories[index].id);
                                 },
+                                textColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                               ),
                             ),
                           ),
@@ -189,7 +196,7 @@ class Stores2State extends State<Stores2> {
               curve: Curves.easeInOut,
               height: containerHeight,
               decoration: BoxDecoration(
-                color: MyColors.dark_1,
+                color: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -216,7 +223,7 @@ class Stores2State extends State<Stores2> {
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisExtent: 250,
                             crossAxisSpacing: 16,
@@ -236,8 +243,8 @@ class Stores2State extends State<Stores2> {
                                     MaterialPageRoute(
                                       builder: (context) => BlocProvider(
                                         create: (context) =>
-                                            ProductDetailsCubit()
-                                              ..getOneProduct(product.id),
+                                        ProductDetailsCubit()
+                                          ..getOneProduct(product.id),
                                         child: Products2(),
                                       ),
                                     ),
@@ -247,10 +254,9 @@ class Stores2State extends State<Stores2> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [
-                                        MyColors.dark_2,
-                                        MyColors.dark_1
-                                      ],
+                                      colors: themeProvider.isDarkMode
+                                          ? [MyColors.dark_2, MyColors.dark_1] // الألوان في الوضع الليلي
+                                          : [Colors.grey[200]!, Colors.grey[300]!], // الألوان في الوضع النهاري
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
                                     ),
@@ -258,7 +264,7 @@ class Stores2State extends State<Stores2> {
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.only(
@@ -277,7 +283,7 @@ class Stores2State extends State<Stores2> {
                                         child: Text(
                                           product.name,
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                             fontSize: 16,
                                           ),
                                         ),
@@ -287,12 +293,12 @@ class Stores2State extends State<Stores2> {
                                             horizontal: 8.0),
                                         child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
                                               "\$${product.price}",
                                               style: TextStyle(
-                                                color: Colors.white,
+                                                color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -320,7 +326,7 @@ class Stores2State extends State<Stores2> {
                     return Center(
                       child: Text(
                         state.error,
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // لون النص بناءً على الوضع
                       ),
                     );
                   } else {

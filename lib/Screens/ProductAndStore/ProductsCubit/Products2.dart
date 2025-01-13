@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_states.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/product_det
 import 'package:untitled1/helper/constants.dart';
 import 'package:untitled1/helper/my_colors.dart';
 
+import '../../Drawer/ theme_provider.dart';
 import 'Bloc/product_details_states.dart';
 
 class Products2 extends StatelessWidget {
@@ -15,15 +17,19 @@ class Products2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
       body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
           ProductDetailsCubit cubit =
-              BlocProvider.of<ProductDetailsCubit>(context);
+          BlocProvider.of<ProductDetailsCubit>(context);
 
           if (state is GetOneProductLoadingState) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (state is GetOneProductSuccessState) {
             return BlocBuilder<LayoutCubit, LayoutStates>(
               builder: (context, layoutState) {
@@ -52,6 +58,7 @@ class Products2 extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
+                      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // لون AppBar بناءً على الوضع
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate([
@@ -63,7 +70,7 @@ class Products2 extends StatelessWidget {
                               Text(
                                 cubit.product!.name,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -72,7 +79,7 @@ class Products2 extends StatelessWidget {
                               Text(
                                 cubit.product!.description,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -80,16 +87,16 @@ class Products2 extends StatelessWidget {
                               SizedBox(height: 20),
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "\$${cubit.product!.price}",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -98,7 +105,7 @@ class Products2 extends StatelessWidget {
                                       Text(
                                         "Quantity: ${cubit.product!.quantity}",
                                         style: TextStyle(
-                                          color: Colors.white,
+                                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
                                           fontSize: 16,
                                         ),
                                       ),
@@ -110,7 +117,7 @@ class Products2 extends StatelessWidget {
                                         if (isFavourite) {
                                           await favouriteCubit
                                               .removeFromFavourites(
-                                                  cubit.product!.id);
+                                              cubit.product!.id);
                                         } else {
                                           await favouriteCubit.addToFavourites(
                                               cubit.product!.id);
@@ -127,7 +134,7 @@ class Products2 extends StatelessWidget {
                                           : Icons.favorite_outline_rounded,
                                       color: isFavourite
                                           ? Colors.red
-                                          : Colors.white,
+                                          : (themeProvider.isDarkMode ? Colors.white : Colors.black), // لون الأيقونة بناءً على الوضع
                                       size: 30,
                                     ),
                                   ),
@@ -148,20 +155,20 @@ class Products2 extends StatelessWidget {
                                         return ElevatedButton(
                                           onPressed: () {
                                             BlocProvider.of<AddCartCubit>(
-                                                    context)
+                                                context)
                                                 .addToCart(cubit.product!.id);
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: MyColors.buttun,
+                                            backgroundColor: MyColors.buttun, // لون الزر ثابت
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(10),
+                                              BorderRadius.circular(10),
                                             ),
                                           ),
                                           child: Text(
                                             "Add to Cart",
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: Colors.white, // لون النص داخل الزر
                                               fontSize: 16,
                                             ),
                                           ),
@@ -198,7 +205,14 @@ class Products2 extends StatelessWidget {
               },
             );
           } else {
-            return Center(child: Text("Failed to load product details"));
+            return Center(
+              child: Text(
+                "Failed to load product details",
+                style: TextStyle(
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                ),
+              ),
+            );
           }
         },
       ),

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_states.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/show_cart_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_states.dart';
+import 'package:untitled1/helper/my_colors.dart';
 
-import '../../helper/my_colors.dart';
+import '../Drawer/ theme_provider.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // الحصول على الثيم
+
     return BlocConsumer<LayoutCubit, LayoutStates>(
       builder: (BuildContext context, state) {
         final cubit = BlocProvider.of<LayoutCubit>(context);
@@ -33,17 +35,17 @@ class LayoutScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
+            backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.bottomNavIndex,
               type: BottomNavigationBarType.fixed,
-              backgroundColor: MyColors.dark_1,
+              backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
               iconSize: 25,
-              selectedItemColor: MyColors.buttun,
-              unselectedItemColor: Colors.white,
+              selectedItemColor: themeProvider.isDarkMode ? MyColors.buttun : MyColors.buttun,
+              unselectedItemColor: themeProvider.isDarkMode ? Colors.white70 : Colors.grey, 
               onTap: (index) {
                 if (index == 3) {
-                  // إذا تم الضغط على أيقونة المفضلة (index = 3)
-                  cubit.fetchFavourites(); // جلب المنتجات المفضلة
+                  cubit.fetchFavourites();
                 }
                 if (index == 2) {
                   BlocProvider.of<ShowCartCubit>(context).fetchCart();
@@ -64,7 +66,7 @@ class LayoutScreen extends StatelessWidget {
                   label: "*",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite), // أيقونة المفضلة
+                  icon: Icon(Icons.favorite),
                   label: "*",
                 ),
               ],

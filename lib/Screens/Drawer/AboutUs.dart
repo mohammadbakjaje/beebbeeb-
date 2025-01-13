@@ -1,32 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
+import ' theme_provider.dart';
 import '../../helper/my_colors.dart';
+
 
 class AboutUs extends StatelessWidget {
   static String id = "AboutUs";
+
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'About Us',
-          style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 25),
+          style: TextStyle(
+              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 25),
         ),
-        foregroundColor: Colors.white,
-        backgroundColor: MyColors.dark_2,
-        iconTheme: IconThemeData(color: Colors.white),
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : MyColors.buttun,
+        iconTheme: IconThemeData(
+            color: themeProvider.isDarkMode ? Colors.white70 : Colors.black),
       ),
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Text(
               'My App',
               style: TextStyle(
-                color: Colors.white,
+                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
               ),
@@ -50,16 +57,13 @@ class AboutUs extends StatelessWidget {
                   'Join thousands of satisfied customers who have made our app their go-to shopping platform. '
                   'Download now and experience the future of shopping! 🚀',
               style: TextStyle(
-                color: Colors.white70,
+                color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                 fontSize: 16,
               ),
             ),
-
-
           ],
         ),
       ),
     );
   }
-
 }

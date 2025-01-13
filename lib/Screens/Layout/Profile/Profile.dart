@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:untitled1/Screens/HomePage/HomePage.dart';
+import 'package:provider/provider.dart';
+
 import 'package:untitled1/Screens/Layout/Layout_cubit/change_password_state.dart';
 import 'package:untitled1/Screens/Layout/Profile/update_image_cubit/update_Image_states.dart';
 import 'package:untitled1/Screens/Layout/Profile/update_image_cubit/update_image_cubit.dart';
@@ -14,8 +15,10 @@ import '../../../helper/constants.dart';
 import '../../../helper/local_network.dart';
 import '../../../helper/my_colors.dart';
 import '../../../widget/coustembutonm.dart';
+import '../../Drawer/ theme_provider.dart';
 import '../Layout_cubit/change_password_cubit.dart';
 import '../Layout_cubit/layout_cubit.dart';
+
 
 class Profile extends StatefulWidget {
   static String id = "Profile";
@@ -33,10 +36,10 @@ class _ProfileState extends State<Profile> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _currentPasswordController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmNewPasswordController =
-      TextEditingController();
+  TextEditingController();
 
   @override
   void initState() {
@@ -56,15 +59,19 @@ class _ProfileState extends State<Profile> {
   }
 
   void _showImageSourceOptions() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: MyColors.dark_2,
+          backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.white,
           title: Text(
             'Choose Image Source',
             style: TextStyle(
-                color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                fontSize: 22,
+                fontWeight: FontWeight.bold),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -72,11 +79,11 @@ class _ProfileState extends State<Profile> {
               ListTile(
                 leading: Icon(
                   Icons.photo_library,
-                  color: Colors.white,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                 ),
                 title: Text(
                   'Gallery',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
@@ -86,11 +93,11 @@ class _ProfileState extends State<Profile> {
               ListTile(
                 leading: Icon(
                   Icons.camera_alt,
-                  color: Colors.white,
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                 ),
                 title: Text(
                   'Camera',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
@@ -105,17 +112,19 @@ class _ProfileState extends State<Profile> {
   }
 
   void _showChangePasswordDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return BlocConsumer<ChangePasswordCubit, ChangePasswordState>(
           builder: (BuildContext context, ChangePasswordState state) {
             return AlertDialog(
-              backgroundColor: MyColors.dark_2,
+              backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.white,
               title: Text(
                 'Change Password',
                 style: TextStyle(
-                    color: Colors.white,
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                     fontSize: 22,
                     fontWeight: FontWeight.bold),
               ),
@@ -127,15 +136,15 @@ class _ProfileState extends State<Profile> {
                     decoration: InputDecoration(
                       labelText: 'Current Password',
                       labelStyle:
-                          TextStyle(color: Colors.white70, fontSize: 13),
+                      TextStyle(color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, fontSize: 13),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: themeProvider.isDarkMode ? Colors.grey : Colors.black54),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: MyColors.buttun),
                       ),
                     ),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                     obscureText: true,
                   ),
                   TextField(
@@ -143,15 +152,15 @@ class _ProfileState extends State<Profile> {
                     decoration: InputDecoration(
                       labelText: 'New Password',
                       labelStyle:
-                          TextStyle(color: Colors.white70, fontSize: 13),
+                      TextStyle(color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, fontSize: 13),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: themeProvider.isDarkMode ? Colors.grey : Colors.black54),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: MyColors.buttun),
                       ),
                     ),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                     obscureText: true,
                   ),
                   TextField(
@@ -159,15 +168,15 @@ class _ProfileState extends State<Profile> {
                     decoration: InputDecoration(
                       labelText: 'Confirm New Password',
                       labelStyle:
-                          TextStyle(color: Colors.white70, fontSize: 13),
+                      TextStyle(color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54, fontSize: 13),
                       enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
+                        borderSide: BorderSide(color: themeProvider.isDarkMode ? Colors.grey : Colors.black54),
                       ),
                       focusedBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: MyColors.buttun),
                       ),
                     ),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                     obscureText: true,
                   ),
                 ],
@@ -186,7 +195,7 @@ class _ProfileState extends State<Profile> {
                               currentPassword: _currentPasswordController.text,
                               newPassword: _newPasswordController.text,
                               confirmPassword:
-                                  _confirmNewPasswordController.text,
+                              _confirmNewPasswordController.text,
                               token: CacheNetwork.getCacheData(key: "token"));
                         },
                       ),
@@ -231,10 +240,10 @@ class _ProfileState extends State<Profile> {
 
   void _saveUserData() {
     context.read<UpdateUserCubit>().updateUser(
-          firstName: _firstNameController.text,
-          lastName: _lastNameController.text,
-          phone: _phoneNumberController.text,
-        );
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+      phone: _phoneNumberController.text,
+    );
 
     if (_imageFile != null) {
       context.read<UploadImageCubit>().uploadImage(File(_imageFile!.path));
@@ -247,6 +256,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final layoutCubit = BlocProvider.of<LayoutCubit>(context);
     layoutCubit..getUserData();
     final userModel = layoutCubit.userModel;
@@ -262,17 +272,17 @@ class _ProfileState extends State<Profile> {
         BlocProvider(create: (context) => UploadImageCubit()),
       ],
       child: Scaffold(
-        backgroundColor: MyColors.dark_1,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
         appBar: AppBar(
-          foregroundColor: Colors.white,
+          foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
           title: Text(
             'My Profile',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
           ),
-          backgroundColor: MyColors.dark_1,
+          backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
           actions: <Widget>[
             IconButton(
-              icon: Icon(_isEditing ? Icons.edit : Icons.edit),
+              icon: Icon(_isEditing ? Icons.edit : Icons.edit, color: themeProvider.isDarkMode ? Colors.white : Colors.black),
               onPressed: () {
                 setState(() {
                   _isEditing = !_isEditing;
@@ -307,52 +317,57 @@ class _ProfileState extends State<Profile> {
                   GestureDetector(
                     onTap: _isEditing
                         ? () {
-                            _showImageSourceOptions();
-                          }
+                      _showImageSourceOptions();
+                    }
                         : null,
                     child: _imageFile != null
                         ? CircleAvatar(
-                            radius: 50,
-                            backgroundImage: _imageFile != null
-                                ? FileImage(File(_imageFile!.path))
-                                : (userModel?.image != null
-                                    ? NetworkImage(
-                                        "http://$ipv4/${userModel!.image!}")
-                                    : null),
-                            child: _imageFile == null &&
-                                        (userModel?.image == null) ||
-                                    (userModel?.image == "")
-                                ? Icon(Icons.person, size: 50)
-                                : null,
-                          )
+                      radius: 50,
+                      backgroundImage: _imageFile != null
+                          ? FileImage(File(_imageFile!.path))
+                          : (userModel?.image != null
+                          ? NetworkImage(
+                          "http://$ipv4/${userModel!.image!}")
+                          : null),
+                      child: _imageFile == null &&
+                          (userModel?.image == null) ||
+                          (userModel?.image == "")
+                          ? Icon(Icons.person, size: 50)
+                          : null,
+                    )
                         : CircleAvatar(
-                            radius: 50,
-                            child: Icon(Icons.person, size: 50),
-                          ),
+                      radius: 50,
+                      child: Icon(Icons.person, size: 50),
+                    ),
                   ),
                   SizedBox(height: 20),
                   _buildTextField(
                     controller: _firstNameController,
                     labelText: 'First Name',
+
                     icon: Icons.person,
+                    themeProvider: themeProvider,
                   ),
                   SizedBox(height: 10),
                   _buildTextField(
                     controller: _lastNameController,
                     labelText: 'Last Name',
                     icon: Icons.person_outline,
+                    themeProvider: themeProvider,
                   ),
                   SizedBox(height: 10),
                   _buildTextField(
                     controller: _phoneNumberController,
                     labelText: 'Phone Number',
                     icon: Icons.phone,
+                    themeProvider: themeProvider,
                   ),
                   SizedBox(height: 10),
                   _buildTextField(
                     controller: _locationController,
                     labelText: 'Location',
                     icon: Icons.location_on,
+                    themeProvider: themeProvider,
                   ),
                   SizedBox(height: 20),
                   if (_isEditing)
@@ -415,25 +430,27 @@ class _ProfileState extends State<Profile> {
     required TextEditingController controller,
     required String labelText,
     required IconData icon,
+    required ThemeProvider themeProvider,
   }) {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        labelStyle: TextStyle(color: Colors.white70),
+        labelStyle: TextStyle(color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54),
         enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.grey),
+          borderSide: BorderSide(color: themeProvider.isDarkMode ? Colors.grey : Colors.black54),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(color: MyColors.buttun),
         ),
-        prefixIcon: Icon(icon, color: Colors.white70),
+        prefixIcon: Icon(icon, color: themeProvider.isDarkMode ? Colors.white70 : MyColors.buttun),
       ),
       style: TextStyle(
-        color: _isEditing ? Colors.white : Colors.white70,
+        color: themeProvider.isDarkMode ? Colors.white : MyColors.dark_2,
         fontSize: 18,
       ),
       readOnly: !_isEditing,
     );
+
   }
 }

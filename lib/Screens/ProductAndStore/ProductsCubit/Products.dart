@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import '../../../helper/constants.dart';
 import '../../../helper/my_colors.dart';
 import '../../../widget/ButtonSearch.dart';
+import '../../Drawer/ theme_provider.dart';
 import '../../Drawer/ِCustomDrawer.dart';
 import 'Bloc/product_details_cubit.dart';
 import 'Bloc/products_cubit.dart';
@@ -11,6 +12,7 @@ import 'Bloc/prooducts_states.dart';
 import 'Bloc/search_cubit.dart';
 import 'Bloc/search_states.dart';
 import 'Products2.dart';
+
 
 class Products extends StatefulWidget {
   static String id = "Products";
@@ -24,23 +26,27 @@ class _ProductsOfStoresState extends State<Products> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // الوصول إلى ThemeProvider
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ProductCubit()..getProducts()),
-        BlocProvider(create: (context) => SearchCubit()), //
+        BlocProvider(create: (context) => SearchCubit()),
       ],
       child: Scaffold(
         drawer: CustomDrawer(),
         appBar: AppBar(
-          backgroundColor: MyColors.dark_1,
-          foregroundColor: Colors.white,
+          backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+          foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
           elevation: 0, // إزالة الظل من AppBar
         ),
-        backgroundColor: MyColors.dark_1,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [MyColors.dark_1, MyColors.dark_2],
+              colors: themeProvider.isDarkMode
+                  ? [MyColors.dark_1, MyColors.dark_2]
+                  : [Colors.white, Colors.grey[200]!],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -70,7 +76,7 @@ class _ProductsOfStoresState extends State<Products> {
                           return Center(
                             child: Text(
                               "No results found",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                             ),
                           );
                         } else {
@@ -92,26 +98,29 @@ class _ProductsOfStoresState extends State<Products> {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           gradient: LinearGradient(
-                                            colors: [
+                                            colors: themeProvider.isDarkMode
+                                                ? [
                                               MyColors.dark_2.withOpacity(0.8),
                                               MyColors.dark_1.withOpacity(0.8),
+                                            ]
+                                                : [
+                                              Colors.grey[200]!,
+                                              Colors.grey[300]!,
                                             ],
                                             begin: Alignment.topLeft,
                                             end: Alignment.bottomRight,
                                           ),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
+                                          borderRadius: BorderRadius.circular(15),
                                         ),
                                         child: ListTile(
                                           onTap: () {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BlocProvider(
+                                                builder: (context) => BlocProvider(
                                                   create: (context) =>
-                                                      ProductDetailsCubit()
-                                                        ..getOneProduct(
-                                                            product["id"]),
+                                                  ProductDetailsCubit()
+                                                    ..getOneProduct(
+                                                        product["id"]),
                                                   child: Products2(),
                                                 ),
                                               ),
@@ -125,19 +134,19 @@ class _ProductsOfStoresState extends State<Products> {
                                           title: Text(
                                             product["name"],
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                           subtitle: Text(
                                             "\$${product["price"]}",
                                             style: TextStyle(
-                                              color: Colors.white70,
+                                              color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                             ),
                                           ),
                                           trailing: Icon(
                                             Icons.arrow_forward_ios,
-                                            color: Colors.white70,
+                                            color: themeProvider.isDarkMode ? Colors.white70 : Colors.black54,
                                           ),
                                         ),
                                       ),
@@ -152,7 +161,7 @@ class _ProductsOfStoresState extends State<Products> {
                         return Center(
                           child: Text(
                             state.message,
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                           ),
                         );
                       } else {
@@ -165,7 +174,7 @@ class _ProductsOfStoresState extends State<Products> {
                     child: Text(
                       "All Products",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
                       ),
@@ -177,12 +186,12 @@ class _ProductsOfStoresState extends State<Products> {
                   BlocBuilder<ProductCubit, ProductsState>(
                     builder: (context, state) {
                       ProductCubit cubit =
-                          BlocProvider.of<ProductCubit>(context);
+                      BlocProvider.of<ProductCubit>(context);
 
                       if (state is GetProductsLoadingState) {
                         return Center(
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                           ),
                         );
                       } else if (state is GetProductsSuccessState) {
@@ -191,7 +200,7 @@ class _ProductsOfStoresState extends State<Products> {
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisExtent: 307,
                             crossAxisSpacing: 16,
@@ -218,9 +227,14 @@ class _ProductsOfStoresState extends State<Products> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
-                                      colors: [
+                                      colors: themeProvider.isDarkMode
+                                          ? [
                                         MyColors.dark_2.withOpacity(0.8),
                                         MyColors.dark_1.withOpacity(0.8),
+                                      ]
+                                          : [
+                                        Colors.grey[200]!,
+                                        Colors.grey[300]!,
                                       ],
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
@@ -229,7 +243,7 @@ class _ProductsOfStoresState extends State<Products> {
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                         height: 220,
@@ -251,11 +265,11 @@ class _ProductsOfStoresState extends State<Products> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10),
+                                        const EdgeInsets.only(left: 10),
                                         child: Text(
                                           cubit.data![i]["name"],
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -266,11 +280,11 @@ class _ProductsOfStoresState extends State<Products> {
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10),
+                                        const EdgeInsets.only(left: 10),
                                         child: Text(
                                           "\$${cubit.data![i]["price"]}",
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                             fontSize: 18,
                                             fontWeight: FontWeight.w900,
                                           ),
@@ -287,7 +301,7 @@ class _ProductsOfStoresState extends State<Products> {
                         return Center(
                           child: Text(
                             "Failed to get data",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                           ),
                         );
                       }

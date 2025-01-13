@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/HomePage/Ads/ad_product_cubit.dart';
 import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/delete_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/FavouriteEmpity.dart';
 import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
@@ -15,6 +17,7 @@ import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/Screens/reset_page.dart';
 import 'package:untitled1/Screens/send_email_page.dart';
 import 'package:untitled1/helper/local_network.dart';
+import 'Screens/Drawer/ theme_provider.dart';
 import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
 import 'Screens/HomePage/HomePage.dart';
@@ -42,7 +45,7 @@ import 'helper/my_colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await CacheNetwork.cacheInitialization();
   runApp(BebBeb());
 }
 
@@ -74,25 +77,26 @@ class BebBeb extends StatelessWidget {
         BlocProvider(create: (context) => AddCartCubit()),
         BlocProvider(create: (context) => ShowCartCubit()),
         BlocProvider(create: (context) => DeleteCartCubit()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()), // إضافة ThemeProvider
       ],
       child: MaterialApp(
-          color: MyColors.dark_1,
-          routes: {
-            Orders.id: (context) => Orders(),
-            Favourit.id: (context) => Favourit(),
-            Cart.id: (context) => Cart(),
-            Products.id: (context) => Products(),
-            Stores.id: (context) => Stores(),
-            HomePage.id: (context) => HomePage(),
-            Profile.id: (context) => Profile(),
-            LoginPage.id: (context) => LoginPage(),
-            RegisterPage.id: (context) => RegisterPage(),
-            ConnectUs.id: (context) => ConnectUs(),
-            AboutUs.id: (context) => AboutUs(),
-          },
-          debugShowCheckedModeBanner: false,
-          // home: token != null && token != "" ? HomePage() : LoginPage(),
-          home: Splashscreen()),
+        color: MyColors.dark_1,
+        routes: {
+          Orders.id: (context) => Orders(),
+          Favourit.id: (context) => Favourit(),
+          Cart.id: (context) => Cart(),
+          Products.id: (context) => Products(),
+          Stores.id: (context) => Stores(),
+          HomePage.id: (context) => HomePage(),
+          Profile.id: (context) => Profile(),
+          LoginPage.id: (context) => LoginPage(),
+          RegisterPage.id: (context) => RegisterPage(),
+          ConnectUs.id: (context) => ConnectUs(),
+          AboutUs.id: (context) => AboutUs(),
+        },
+        debugShowCheckedModeBanner: false,
+        home: Splashscreen(),
+      ),
     );
   }
 }

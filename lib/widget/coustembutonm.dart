@@ -15,19 +15,19 @@ class CoustemButonM extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                width: 1,
+                width: 0,
                 color: Colors.black,
               ),
               top: BorderSide(
-                width: 1,
+                width: 0,
                 color: Colors.black,
               ),
               bottom: BorderSide(
-                width: 1,
+                width: 0,
                 color: Colors.black,
               ),
               right: BorderSide(
-                width: 1,
+                width: 0,
                 color: Colors.black,
               ),
             ),
