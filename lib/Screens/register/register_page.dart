@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/bloc/register_states.dart';
@@ -7,6 +8,7 @@ import 'package:untitled1/Screens/register/bloc/register_states.dart';
 import '../../helper/my_colors.dart';
 import '../../widget/coustem_buton.dart';
 import '../../widget/coustem_text_filed.dart';
+import '../Drawer/ theme_provider.dart';
 import '../HomePage/HomePage.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -18,18 +20,22 @@ class RegisterPage extends StatelessWidget {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmationController =
-      TextEditingController();
+  TextEditingController();
 
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+  @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
-        backgroundColor: MyColors.dark_1,
-        appBar: AppBar(
-          foregroundColor: Colors.white,
-          backgroundColor: MyColors.dark_1,
-        ),
-        body: SingleChildScrollView(
-            child: Padding(
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // تغيير لون الخلفية
+      appBar: AppBar(
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون النص
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // تغيير لون AppBar
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(23),
           child: Container(
             child: Column(
@@ -38,9 +44,10 @@ class RegisterPage extends StatelessWidget {
                 Text(
                   "Create Account",
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold),
+                    color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون النص
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(
                   height: 25,
@@ -53,51 +60,56 @@ class RegisterPage extends StatelessWidget {
                       Row(
                         children: [
                           Expanded(
-                              child: CoustemTextFormFiled(
-                                  hintText: "FirstName",
-                                  controller: firstNameController,
-                                  validator: (value) {
-                                    if ((value ?? '').isEmpty) {
-                                      return 'Enter Your FirstName';
-                                    } else if ((value ?? '').length < 2) {
-                                      return 'At least 2 character';
-                                    } else {
-                                      return null;
-                                    }
-                                  })),
+                            child: CoustemTextFormFiled(
+                              hintText: "FirstName",
+                              controller: firstNameController,
+                              validator: (value) {
+                                if ((value ?? '').isEmpty) {
+                                  return 'Enter Your FirstName';
+                                } else if ((value ?? '').length < 2) {
+                                  return 'At least 2 character';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                          ),
                           SizedBox(
                             width: 16,
                           ),
                           Expanded(
-                              child: CoustemTextFormFiled(
-                                  controller: lastNameController,
-                                  hintText: "LastName",
-                                  validator: (value) {
-                                    if ((value ?? '').isEmpty) {
-                                      return 'Enter Your LastName';
-                                    } else if ((value ?? '').length < 2) {
-                                      return 'At least 2 character';
-                                    } else {
-                                      return null;
-                                    }
-                                  }))
+                            child: CoustemTextFormFiled(
+                              controller: lastNameController,
+                              hintText: "LastName",
+                              validator: (value) {
+                                if ((value ?? '').isEmpty) {
+                                  return 'Enter Your LastName';
+                                } else if ((value ?? '').length < 2) {
+                                  return 'At least 2 character';
+                                } else {
+                                  return null;
+                                }
+                              },
+                            ),
+                          ),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0, top: 16),
                         child: CoustemTextFormFiled(
-                            textInputType: TextInputType.phone,
-                            hintText: "Phone Number",
-                            controller: phoneNumberController,
-                            validator: (value) {
-                              if ((value ?? '').isEmpty) {
-                                return 'Please Enter Your PhoneNumber';
-                              } else if ((value ?? '').length != 10) {
-                                return 'must be 10 Numbers';
-                              } else {
-                                return null;
-                              }
-                            }),
+                          textInputType: TextInputType.phone,
+                          hintText: "Phone Number",
+                          controller: phoneNumberController,
+                          validator: (value) {
+                            if ((value ?? '').isEmpty) {
+                              return 'Please Enter Your PhoneNumber';
+                            } else if ((value ?? '').length != 10) {
+                              return 'must be 10 Numbers';
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
@@ -110,30 +122,28 @@ class RegisterPage extends StatelessWidget {
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       hintText: "Password",
-                                      fillColor: MyColors.dark_2,
+                                      fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // تغيير لون الخلفية
                                       filled: true,
                                       hintStyle: TextStyle(
-                                          color: Colors.white.withOpacity(0.5),
-                                          fontSize: 16),
+                                        color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5), // تغيير لون النص
+                                        fontSize: 16,
+                                      ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(4),
                                         borderSide: BorderSide(
-                                          color: MyColors.dark_2,
+                                          color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!, // تغيير لون الحدود
                                         ),
                                       ),
                                       border: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: MyColors.dark_2),
+                                        borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!), // تغيير لون الحدود
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: MyColors.buttun),
+                                        borderSide: BorderSide(color: MyColors.buttun),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: MyColors.buttun),
+                                        borderSide: BorderSide(color: MyColors.buttun),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       errorStyle: TextStyle(
@@ -141,32 +151,26 @@ class RegisterPage extends StatelessWidget {
                                         letterSpacing: 1,
                                       ),
                                       suffixIcon: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
                                             icon: Icon(
-                                              context
-                                                      .read<RegisterCubit>()
-                                                      .obscure
+                                              context.read<RegisterCubit>().obscure
                                                   ? Icons.visibility_off
                                                   : Icons.visibility,
-                                              color: Colors.white,
+                                              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون الأيقونة
                                             ),
                                             onPressed: () {
-                                              BlocProvider.of<RegisterCubit>(
-                                                      context)
+                                              BlocProvider.of<RegisterCubit>(context)
                                                   .changePasswordState();
-                                              // context.read<LoginCubit>().changePasswordState();
                                             },
                                           ),
                                         ],
                                       ),
                                     ),
-                                    style: TextStyle(color: Colors.white),
-                                    obscureText:
-                                        context.read<RegisterCubit>().obscure,
+                                    style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
+                                    obscureText: context.read<RegisterCubit>().obscure,
                                     obscuringCharacter: '*',
                                     validator: (value) {
                                       if ((value ?? '').isEmpty) {
@@ -183,30 +187,28 @@ class RegisterPage extends StatelessWidget {
                                 TextFormField(
                                   decoration: InputDecoration(
                                     hintText: "ConfirmPassword",
-                                    fillColor: MyColors.dark_2,
+                                    fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // تغيير لون الخلفية
                                     filled: true,
                                     hintStyle: TextStyle(
-                                        color: Colors.white.withOpacity(0.5),
-                                        fontSize: 16),
+                                      color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5), // تغيير لون النص
+                                      fontSize: 16,
+                                    ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(4),
                                       borderSide: BorderSide(
-                                        color: MyColors.dark_2,
+                                        color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!, // تغيير لون الحدود
                                       ),
                                     ),
                                     border: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: MyColors.dark_2),
+                                      borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!), // تغيير لون الحدود
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: MyColors.buttun),
+                                      borderSide: BorderSide(color: MyColors.buttun),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: MyColors.buttun),
+                                      borderSide: BorderSide(color: MyColors.buttun),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     errorStyle: TextStyle(
@@ -219,27 +221,21 @@ class RegisterPage extends StatelessWidget {
                                       children: [
                                         IconButton(
                                           icon: Icon(
-                                            context
-                                                    .read<RegisterCubit>()
-                                                    .obscureConfirm
+                                            context.read<RegisterCubit>().obscureConfirm
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
-                                            color: Colors.white,
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون الأيقونة
                                           ),
                                           onPressed: () {
-                                            BlocProvider.of<RegisterCubit>(
-                                                    context)
+                                            BlocProvider.of<RegisterCubit>(context)
                                                 .changeConfirmPasswordState();
-                                            // context.read<LoginCubit>().changePasswordState();
                                           },
                                         ),
                                       ],
                                     ),
                                   ),
-                                  style: TextStyle(color: Colors.white),
-                                  obscureText: context
-                                      .read<RegisterCubit>()
-                                      .obscureConfirm,
+                                  style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
+                                  obscureText: context.read<RegisterCubit>().obscureConfirm,
                                   obscuringCharacter: '*',
                                   validator: (value) {
                                     if ((value ?? '').isEmpty) {
@@ -253,51 +249,36 @@ class RegisterPage extends StatelessWidget {
                                   controller: passwordConfirmationController,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 40.0),
+                                  padding: const EdgeInsets.symmetric(vertical: 40.0),
                                   child: (state is RegisterLoadingState)
                                       ? CircularProgressIndicator(
-                                          color: Colors.white,
-                                        )
-                                      : (state is RegisterLoadingState)
-                                          ? CircularProgressIndicator(
-                                              color: Colors.white,
-                                            )
-                                          : CoustemButon(
-                                              text: "Continue",
-                                              ontap: () {
-                                                if (formkey.currentState!
-                                                    .validate()) {
-                                                  context
-                                                      .read<RegisterCubit>()
-                                                      .registerBloc(
-                                                          firstNameController
-                                                              .text,
-                                                          lastNameController
-                                                              .text,
-                                                          phoneNumberController
-                                                              .text,
-                                                          passwordController
-                                                              .text,
-                                                          passwordConfirmationController
-                                                              .text);
-                                                }
-                                              },
-                                            ),
+                                    color: Colors.white,
+                                  )
+                                      : CoustemButon(
+                                    text: "Continue",
+                                    ontap: () {
+                                      if (formkey.currentState!.validate()) {
+                                        context.read<RegisterCubit>().registerBloc(
+                                          firstNameController.text,
+                                          lastNameController.text,
+                                          phoneNumberController.text,
+                                          passwordController.text,
+                                          passwordConfirmationController.text,
+                                        );
+                                      }
+                                    },
+                                  ),
                                 ),
                               ],
                             );
                           },
-                          listener:
-                              (BuildContext context, RegisterState state) {
+                          listener: (BuildContext context, RegisterState state) {
                             if (state is RegisterErrorState) {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(state.errorMsg),
                               ));
                             }
                             if (state is RegisterSuccessState) {
-                              // box.write('token', state.model.accessToken);
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (context) => LayoutScreen(),
@@ -314,7 +295,7 @@ class RegisterPage extends StatelessWidget {
                   children: [
                     Text(
                       "You have an account ? ",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
                     ),
                     GestureDetector(
                       onTap: () {
@@ -323,14 +304,18 @@ class RegisterPage extends StatelessWidget {
                       child: Text(
                         "Login",
                         style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.white),
+                          fontWeight: FontWeight.w600,
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون النص
+                        ),
                       ),
-                    )
+                    ),
                   ],
-                )
+                ),
               ],
             ),
           ),
-        )));
+        ),
+      ),
+    );
   }
 }

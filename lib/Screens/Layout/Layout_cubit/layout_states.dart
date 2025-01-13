@@ -13,6 +13,8 @@ class GetUserDataSuccsesState extends LayoutStates {}
 
 class ChangeBottomIndexNavState extends LayoutStates {}
 
+class HideBottomNavBarState extends LayoutStates {} // حالة جديدة لإخفاء BottomNavigationBar
+
 class FavouriteLoadingState extends LayoutStates {}
 
 class FavouriteLoadedState extends LayoutStates {

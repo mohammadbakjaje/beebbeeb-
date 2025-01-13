@@ -148,17 +148,17 @@ class _OrdersState extends State<Orders> {
 
     return Scaffold(
       drawer: CustomDrawer(),
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
         title: Text(
           "My Orders",
           style: TextStyle(
-            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+            color: themeProvider.isDarkMode ? Colors.white : Colors.white, // لون النص بناءً على الوضع
             fontSize: 25,
             fontWeight: FontWeight.bold,
           ),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white, // لون العناصر الأمامية بناءً على الوضع
         backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
         actions: [
           IconButton(

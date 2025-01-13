@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
 import 'package:untitled1/Screens/Layout/layout_screen.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
@@ -9,6 +10,7 @@ import 'package:untitled1/widget/coustem_buton.dart';
 import 'package:untitled1/widget/coustem_text_filed.dart';
 
 import '../../helper/constants.dart';
+import '../Drawer/ theme_provider.dart';
 import 'bloc/login_cubit.dart';
 import 'bloc/login_state.dart';
 
@@ -23,10 +25,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return Scaffold(
-      backgroundColor: MyColors.dark_1,
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // تغيير اللون بناءً على الوضع
       appBar: AppBar(
-        backgroundColor: MyColors.dark_1,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // تغيير لون AppBar
       ),
       body: Stack(
         children: [
@@ -49,7 +53,7 @@ class LoginPage extends StatelessWidget {
                   Text(
                     "Sign in",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون النص
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -83,30 +87,27 @@ class LoginPage extends StatelessWidget {
                             return TextFormField(
                               decoration: InputDecoration(
                                 hintText: "Password",
-                                fillColor: MyColors.dark_2,
+                                fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // تغيير لون الخلفية
                                 filled: true,
                                 hintStyle: TextStyle(
-                                    color: Colors.white.withOpacity(0.5),
+                                    color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5), // تغيير لون النص
                                     fontSize: 16),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4),
                                   borderSide: BorderSide(
-                                    color: MyColors.dark_2,
+                                    color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!, // تغيير لون الحدود
                                   ),
                                 ),
                                 border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.dark_2),
+                                  borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!), // تغيير لون الحدود
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.buttun),
+                                  borderSide: BorderSide(color: MyColors.buttun),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: MyColors.buttun),
+                                  borderSide: BorderSide(color: MyColors.buttun),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 errorStyle: TextStyle(
@@ -122,18 +123,17 @@ class LoginPage extends StatelessWidget {
                                         context.read<LoginCubit>().obscure
                                             ? Icons.visibility_off
                                             : Icons.visibility,
-                                        color: Colors.white,
+                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون الأيقونة
                                       ),
                                       onPressed: () {
                                         BlocProvider.of<LoginCubit>(context)
                                             .changePasswordState();
-                                        // context.read<LoginCubit>().changePasswordState();
                                       },
                                     ),
                                   ],
                                 ),
                               ),
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
                               obscureText: context.read<LoginCubit>().obscure,
                               obscuringCharacter: '*',
                               validator: (value) {
@@ -157,7 +157,7 @@ class LoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Forget Password ? ",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
                             ),
                             GestureDetector(
                               onTap: () {
@@ -171,7 +171,7 @@ class LoginPage extends StatelessWidget {
                                 "Reset",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون النص
                                 ),
                               ),
                             ),
@@ -224,7 +224,7 @@ class LoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Don't have an account ? ",
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
                             ),
                             GestureDetector(
                               onTap: () {
@@ -235,7 +235,7 @@ class LoginPage extends StatelessWidget {
                                 "Create One",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.white,
+                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black, // تغيير لون النص
                                 ),
                               ),
                             ),
@@ -253,5 +253,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
-bool obsecure = true;

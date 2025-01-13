@@ -17,14 +17,14 @@ class ConnectUs extends StatelessWidget {
         title: Text(
           'Connect Us',
           style: TextStyle(
-              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+              color: themeProvider.isDarkMode ? Colors.white : Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
         backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : MyColors.buttun,
         iconTheme: IconThemeData(
-            color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+            color: themeProvider.isDarkMode ? Colors.white : Colors.white),
       ),
       backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       body: SingleChildScrollView(

@@ -39,11 +39,11 @@ class _CartState extends State<Cart> {
         title: Text(
           "My Cart",
           style: TextStyle(
-              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+              color: themeProvider.isDarkMode ? Colors.white : Colors.white, // لون النص بناءً على الوضع
               fontWeight: FontWeight.bold,
               fontSize: 25),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white, // لون العناصر الأمامية بناءً على الوضع
         backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
       ),
       body: MultiBlocListener(

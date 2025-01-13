@@ -15,14 +15,14 @@ class AboutUs extends StatelessWidget {
         title: Text(
           'About Us',
           style: TextStyle(
-              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+              color: themeProvider.isDarkMode ? Colors.white : Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
         backgroundColor: themeProvider.isDarkMode ? MyColors.dark_2 : MyColors.buttun,
         iconTheme: IconThemeData(
-            color: themeProvider.isDarkMode ? Colors.white70 : Colors.black),
+            color: themeProvider.isDarkMode ? Colors.white70 : Colors.white),
       ),
       backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       body: SingleChildScrollView(

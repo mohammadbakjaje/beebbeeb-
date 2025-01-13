@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart'; // أضف هذا الاستيراد
+import 'package:provider/provider.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
 import 'package:untitled1/helper/constants.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/Screens/Drawer/ِCustomDrawer.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Products2.dart';
-
 import '../../../Drawer/ theme_provider.dart';
 import '../../../ProductAndStore/ProductsCubit/Bloc/product_details_cubit.dart';
 import '../../Layout_cubit/layout_cubit.dart';
@@ -28,21 +27,21 @@ class _FavouritState extends State<Favourit> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       drawer: CustomDrawer(),
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
         title: Text(
           "My Favourite things",
           style: TextStyle(
-              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+              color: themeProvider.isDarkMode ? Colors.white : Colors.white,
               fontSize: 25,
               fontWeight: FontWeight.bold),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
       ),
       body: BlocBuilder<LayoutCubit, LayoutStates>(
         builder: (BuildContext context, LayoutStates state) {
@@ -60,7 +59,7 @@ class _FavouritState extends State<Favourit> {
                       crossAxisCount: 1, mainAxisExtent: 100),
                   itemBuilder: (context, i) {
                     final product =
-                    favourites[i]["product"]; // الوصول إلى بيانات المنتج
+                    favourites[i]["product"];
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -77,9 +76,9 @@ class _FavouritState extends State<Favourit> {
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[300]!, // لون الحدود بناءً على الوضع
+                              color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[300]!,
                             ),
-                            color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // لون الخلفية بناءً على الوضع
+                            color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200],
                             borderRadius: BorderRadius.circular(10),
                           ),
                           height: 100,
@@ -103,7 +102,7 @@ class _FavouritState extends State<Favourit> {
                                           bottomRight: Radius.circular(8),
                                         ),
                                         child: Image.network(
-                                          "http://$ipv4/${product["image"]}", // صورة المنتج
+                                          "http://$ipv4/${product["image"]}",
                                           height: 220,
                                           fit: BoxFit.fill,
                                         ),
@@ -121,9 +120,9 @@ class _FavouritState extends State<Favourit> {
                                       CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          product["name"], // اسم المنتج
+                                          product["name"],
                                           style: TextStyle(
-                                              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                               fontSize: 17,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -131,9 +130,9 @@ class _FavouritState extends State<Favourit> {
                                           height: 10,
                                         ),
                                         Text(
-                                          "${product["price"]}\$", // سعر المنتج
+                                          "${product["price"]}\$",
                                           style: TextStyle(
-                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                             fontSize: 13,
                                           ),
                                         ),

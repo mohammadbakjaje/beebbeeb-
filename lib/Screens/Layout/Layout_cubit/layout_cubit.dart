@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
@@ -17,10 +16,18 @@ class LayoutCubit extends Cubit<LayoutStates> {
   LayoutCubit() : super(LayoutInitialState());
   UserModel? userModel;
   int bottomNavIndex = 0;
+  bool showBottomNavBar = true; // متغير للتحكم في ظهور BottomNavigationBar
   List<Widget> layoutScreens = [HomePage(), Cart(), Orders(), Favourit()];
+
   void changeBottomNavIndex({required int index}) {
     bottomNavIndex = index;
+    showBottomNavBar = true; // إظهار BottomNavigationBar عند تغيير الواجهة
     emit(ChangeBottomIndexNavState());
+  }
+
+  void hideBottomNavBar() {
+    showBottomNavBar = false; // إخفاء BottomNavigationBar
+    emit(HideBottomNavBarState());
   }
 
   String? token = CacheNetwork.getCacheData(key: "token");
@@ -81,7 +88,7 @@ class LayoutCubit extends Cubit<LayoutStates> {
         Uri.parse('$BaseUrl/favourites/show'),
         headers: {
           'Authorization':
-              'Bearer ${CacheNetwork.getCacheData(key: "token")}', // إضافة التوكين في الـ header
+          'Bearer ${CacheNetwork.getCacheData(key: "token")}', // إضافة التوكين في الـ header
         },
       );
 

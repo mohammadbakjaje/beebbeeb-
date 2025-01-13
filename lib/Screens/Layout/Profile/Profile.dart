@@ -274,10 +274,10 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
         appBar: AppBar(
-          foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
+          foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
           title: Text(
             'My Profile',
-            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+            style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.white),
           ),
           backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
           actions: <Widget>[

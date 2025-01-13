@@ -1,47 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/helper/my_colors.dart';
 
-import '../helper/my_colors.dart';
+
+import '../Screens/Drawer/ theme_provider.dart'; // تأكد من استيراد ThemeProvider
 
 class CoustemTextFormFiled extends StatelessWidget {
-  String? hintText;
-  Function(String)? onchanged;
+  final String? hintText;
+  final Function(String)? onchanged;
   final String? Function(String?)? validator;
-  bool obsecure, password;
-  TextEditingController? controller;
-  TextInputType? textInputType = TextInputType.text;
-  CoustemTextFormFiled(
-      {this.onchanged,
-      this.validator,
-      required this.hintText,
-      this.obsecure = false,
-      this.password = false,
-      this.controller,
-      this.textInputType});
+  final bool obsecure;
+  final bool password;
+  final TextEditingController? controller;
+  final TextInputType? textInputType;
+
+  CoustemTextFormFiled({
+    this.onchanged,
+    this.validator,
+    required this.hintText,
+    this.obsecure = false,
+    this.password = false,
+    this.controller,
+    this.textInputType = TextInputType.text,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+
     return TextFormField(
       keyboardType: textInputType,
       controller: controller,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black), // تغيير لون النص
       obscureText: obsecure,
       validator: validator,
       onChanged: onchanged,
       decoration: InputDecoration(
-        fillColor: MyColors.dark_2,
+        fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200], // تغيير لون الخلفية
         filled: true,
         hintText: hintText,
-        hintStyle:
-            TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 16),
+        hintStyle: TextStyle(
+          color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5), // تغيير لون النص
+          fontSize: 16,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
           borderSide: BorderSide(
-            color: MyColors.dark_2,
+            color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!, // تغيير لون الحدود
           ),
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: MyColors.dark_2),
+          borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!), // تغيير لون الحدود
           borderRadius: BorderRadius.circular(4),
         ),
         focusedBorder: OutlineInputBorder(

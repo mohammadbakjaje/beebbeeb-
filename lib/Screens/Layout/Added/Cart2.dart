@@ -9,20 +9,20 @@ class Cart2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context); // استخدم ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white, // لون الخلفية بناءً على الوضع
+      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
         title: Text(
           "Carting",
           style: TextStyle(
-              color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون النص بناءً على الوضع
+              color: themeProvider.isDarkMode ? Colors.white : Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 25),
         ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون العناصر الأمامية بناءً على الوضع
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun, // لون AppBar بناءً على الوضع
+        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
+        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
         elevation: 0,
       ),
       body: Column(
