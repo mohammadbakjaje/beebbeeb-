@@ -151,6 +151,7 @@ class CustomDrawer extends StatelessWidget {
                               title: Text('Logout',
                                   style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black)),
                               onTap: () {
+
                                 context.read<LogoutCubit>().logoutBloc(
                                     CacheNetwork.getCacheData(key: "token"));
                               },

@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled1/Screens/HomePage/HomePage.dart';
-import 'package:untitled1/Screens/Layout/layout_screen.dart';
-import 'package:untitled1/Screens/register/register_page.dart';
-import 'package:untitled1/Screens/reset_page.dart';
+import 'package:untitled1/Screens/Driver/register_page_driver.dart';
+import 'package:untitled1/Screens/Driver/login_driver/bloc_login/login_cubit_driver.dart';
+import 'package:untitled1/Screens/Driver/login_driver/bloc_login/login_state_driver.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/widget/coustem_buton.dart';
 import 'package:untitled1/widget/coustem_text_filed.dart';
 
-import '../../helper/constants.dart';
 import '../Drawer/ theme_provider.dart';
-import '../Driver/login_page_driver.dart';
-import 'bloc/login_cubit.dart';
-import 'bloc/login_state.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class DriverLoginPage extends StatelessWidget {
+  DriverLoginPage({super.key});
 
-  static String id = "LoginPage";
+  static String id = "DriverLoginPage";
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController licenseController = TextEditingController(); // رخصة القيادة
+  TextEditingController carTypeController = TextEditingController(); // نوع السيارة
 
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
@@ -52,7 +49,7 @@ class LoginPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Sign in",
+                    "Driver Sign in",
                     style: TextStyle(
                       color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                       fontSize: 32,
@@ -83,7 +80,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-                        BlocConsumer<LoginCubit, LoginState>(
+                        BlocConsumer<DriverLoginCubit, DriverLoginState>(
                           builder: (context, state) {
                             return TextFormField(
                               decoration: InputDecoration(
@@ -121,13 +118,13 @@ class LoginPage extends StatelessWidget {
                                   children: [
                                     IconButton(
                                       icon: Icon(
-                                        context.read<LoginCubit>().obscure
+                                        context.read<DriverLoginCubit>().obscure
                                             ? Icons.visibility_off
                                             : Icons.visibility,
                                         color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                                       ),
                                       onPressed: () {
-                                        BlocProvider.of<LoginCubit>(context)
+                                        BlocProvider.of<DriverLoginCubit>(context)
                                             .changePasswordState();
                                       },
                                     ),
@@ -135,7 +132,7 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ),
                               style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                              obscureText: context.read<LoginCubit>().obscure,
+                              obscureText: context.read<DriverLoginCubit>().obscure,
                               obscuringCharacter: '*',
                               validator: (value) {
                                 if ((value ?? '').isEmpty) {
@@ -152,111 +149,63 @@ class LoginPage extends StatelessWidget {
                           listener: (context, state) {},
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 15,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "Forget Password ? ",
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => ResetPage(),
-                                  ),
-                                );
-                              },
-                              child: Text(
-                                "Reset",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+
+                        BlocConsumer<DriverLoginCubit, DriverLoginState>(
+                          listener: (context, state) {
+                            if (state is DriverLoginErrorState) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(state.errorMsg),
+                                ),
+                              );
+                            }
+                            if (state is DriverLoginSuccessState) {
+                              // Navigate to the next screen after successful login
+                              Navigator.of(context).pushReplacementNamed('/home');
+                            }
+                          },
+                          builder: (context, state) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 11),
+                              child: GestureDetector(
+                                child: CoustemButon(
+                                  text: "Sign In",
+                                  ontap: () {
+                                    if (formkey.currentState!.validate()) {
+                                      final email = emailController.text;
+                                      final password = passwordController.text;
+                                      final license = licenseController.text;
+                                      final carType = carTypeController.text;
+
+                                      // Call the login method from the cubit
+                                      context.read<DriverLoginCubit>().LoginDriver(
+                                        email,
+                                        password,
+                                        license,
+                                        carType,
+                                      );
+                                    }
+                                  },
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 11),
-                          child: GestureDetector(
-                            child: BlocConsumer<LoginCubit, LoginState>(
-                              builder:
-                                  (BuildContext context, LoginState state) {
-                                if (state is LoginLoadingState) {
-                                  return CircularProgressIndicator(
-                                    color: Colors.white,
-                                  );
-                                } else {
-                                  return CoustemButon(
-                                    text: "Continue",
-                                    ontap: () {
-                                      if (formkey.currentState!.validate()) {
-                                        context.read<LoginCubit>().loginBloc(
-                                            emailController.text,
-                                            passwordController.text);
-                                      }
-                                    },
-                                  );
-                                }
-                              },
-                              listener:
-                                  (BuildContext context, LoginState state) {
-                                if (state is LoginErrorState) {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(state.errorMsg),
-                                  ));
-                                }
-                                if (state is LoginSuccessState) {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => LayoutScreen(),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
+                            );
+                          },
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don't have an account ? ",
+                              "Don't have an account? ",
                               style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(RegisterPage.id);
+                                Navigator.of(context).pushNamed(DriverRegisterPage.id);
                               },
                               child: Text(
                                 "Create One",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Are you a driver? ",
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(DriverLoginPage.id);
-                              },
-                              child: Text(
-                                "Driver Account ?",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: themeProvider.isDarkMode ? Colors.white : Colors.black,
