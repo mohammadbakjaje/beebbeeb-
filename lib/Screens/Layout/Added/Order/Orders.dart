@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // أضف هذا الاستيراد
-import '../../../helper/my_colors.dart';
-import '../../../widget/ButtonOfOrders.dart';
-import '../../Drawer/ theme_provider.dart';
-import '../../Drawer/ِCustomDrawer.dart';
-import 'Cart/Cart.dart';
-import 'Favorite/Favourit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/order_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/order_states.dart';
+
+import '../../../../helper/my_colors.dart';
+import '../../../../widget/ButtonOfOrders.dart';
+import '../../../Drawer/ theme_provider.dart';
+import '../../../Drawer/ِCustomDrawer.dart';
+import 'OrderEmpity.dart'; // أضف هذا الاستيراد
 
 class Orders extends StatefulWidget {
   static String id = "Orders";
@@ -185,33 +188,46 @@ class _OrdersState extends State<Orders> {
           ),
         ],
       ),
-      body: Container(
-        child: ListView(
-          children: [
-            Container(
-              height: 1000,
-              child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1, mainAxisExtent: 100),
-                  itemBuilder: (context, i) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.only(left: 13, right: 13, top: 10),
-                      child: ButtonOfOrders(
-                        date: '8/12/2024',
-                        clock: '6:25',
-                        onPressed: () {},
-                      ),
-                    );
-                  }),
-            ),
-            SizedBox(
-              height: 20,
-            )
-          ],
-        ),
+      body: BlocBuilder<OrdersCubit, OrdersState>(
+        builder: (BuildContext context, OrdersState state) {
+          if (state is OrdersLoaded) {
+            return Container(
+              child: ListView(
+                children: [
+                  Container(
+                    height: 1000,
+                    child: GridView.builder(
+                        itemCount: state.orders.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1, mainAxisExtent: 100),
+                        itemBuilder: (context, i) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                left: 13, right: 13, top: 10),
+                            child: ButtonOfOrders(
+                              date: state.orders[i]["created_at"],
+                              clock: '6:25',
+                              onPressed: () {},
+                            ),
+                          );
+                        }),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
+            );
+          } else if (state is OrdersLoading) {
+            return CircularProgressIndicator();
+          } else if (state is OrdersEmpty) {
+            return OrderEmpity();
+          } else {
+            return Text("Failed");
+          }
+        },
       ),
     );
   }

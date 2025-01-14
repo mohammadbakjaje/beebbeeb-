@@ -9,26 +9,6 @@ import '../../../../../helper/constants.dart';
 class ShowCartCubit extends Cubit<ShowCartState> {
   ShowCartCubit() : super(ShowCartInitial());
 
-  void incrementQuantity(int index) {
-    if (state is ShowCartLoaded) {
-      final currentState = state as ShowCartLoaded;
-      final updatedCartItems = List<dynamic>.from(currentState.cartItems);
-      updatedCartItems[index]['quantity'] += 1; // زيادة الكمية
-      emit(ShowCartLoaded(updatedCartItems));
-    }
-  }
-
-  void decrementQuantity(int index) {
-    if (state is ShowCartLoaded) {
-      final currentState = state as ShowCartLoaded;
-      final updatedCartItems = List<dynamic>.from(currentState.cartItems);
-      if (updatedCartItems[index]['quantity'] > 1) {
-        updatedCartItems[index]['quantity'] -= 1; // تقليل الكمية
-        emit(ShowCartLoaded(updatedCartItems));
-      }
-    }
-  }
-
   Future<void> fetchCart() async {
     try {
       final response = await http.get(

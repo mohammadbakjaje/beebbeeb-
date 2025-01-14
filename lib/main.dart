@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; // أضف هذا الاستيراد
 import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/HomePage/Ads/ad_product_cubit.dart';
 import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/order_cubit.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
 import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
@@ -15,11 +16,6 @@ import 'package:untitled1/helper/local_network.dart';
 import 'Screens/Drawer/ theme_provider.dart';
 import 'Screens/Drawer/AboutUs.dart';
 import 'Screens/Drawer/bloc/logout_cubit.dart';
-import 'Screens/Driver/driver.dart';
-import 'Screens/Driver/login_driver/bloc_login/login_cubit_driver.dart';
-import 'Screens/Driver/login_page_driver.dart';
-import 'Screens/Driver/register_driver/bloc_register/register_cubit_driver.dart';
-import 'Screens/Driver/register_page_driver.dart';
 import 'Screens/HomePage/HomePage.dart';
 import 'Screens/HomePage/MostStores/most_stores_cubit.dart';
 import 'Screens/Layout/Added/Cart/Cart.dart';
@@ -29,7 +25,7 @@ import 'Screens/Layout/Added/Cart/CartCubit/quantity_cubit.dart';
 import 'Screens/Layout/Added/Cart/CartCubit/show_cart_cubit.dart';
 import 'Screens/Layout/Added/Cart/CartCubit/total_price_cubit.dart';
 import 'Screens/Layout/Added/Favorite/Favourit.dart';
-import 'Screens/Layout/Added/Orders.dart';
+import 'Screens/Layout/Added/Order/Orders.dart';
 import 'Screens/Layout/Layout_cubit/change_password_cubit.dart';
 import 'Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'Screens/Layout/Profile/Profile.dart';
@@ -58,8 +54,7 @@ class BebBeb extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => LogoutCubit()),
-        BlocProvider(create: (BuildContext context) => DriverLoginCubit()),
-        BlocProvider(create: (BuildContext context) => DriverRegisterCubit()),
+        BlocProvider(create: (BuildContext context) => OrdersCubit()),
         BlocProvider(create: (BuildContext context) => LoginCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
         BlocProvider(
@@ -89,9 +84,6 @@ class BebBeb extends StatelessWidget {
       child: MaterialApp(
         color: MyColors.dark_1,
         routes: {
-          LoginPage.id: (context) => LoginPage(),
-          DriverLoginPage.id: (context) => DriverLoginPage(),
-          DriverRegisterPage.id: (context) => DriverRegisterPage(),
           Orders.id: (context) => Orders(),
           Favourit.id: (context) => Favourit(),
           Cart.id: (context) => Cart(),

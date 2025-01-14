@@ -21,7 +21,6 @@ import 'CartCubit/total_price_cubit.dart';
 import 'CartCubit/total_price_states.dart';
 import 'Cart2.dart';
 import 'CartEmpity.dart';
-import '../Orders.dart';
 
 class Cart extends StatefulWidget {
   static String id = "Cart";

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/order_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_states.dart';
 import 'package:untitled1/helper/my_colors.dart';
@@ -54,9 +55,12 @@ class LayoutScreen extends StatelessWidget {
                   if (index == 3) {
                     cubit.fetchFavourites();
                   }
-                  if (index == 2) {
+                  if (index == 1) {
                     context.read<ShowCartCubit>().fetchCart();
                     context.read<TotalPriceCubit>().fetchTotalPrice();
+                  }
+                  if (index == 2) {
+                    context.read<OrdersCubit>().fetchOrders();
                   }
                   cubit.changeBottomNavIndex(index: index);
                 },
