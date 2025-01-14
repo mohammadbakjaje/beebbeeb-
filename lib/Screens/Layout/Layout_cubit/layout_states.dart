@@ -13,7 +13,8 @@ class GetUserDataSuccsesState extends LayoutStates {}
 
 class ChangeBottomIndexNavState extends LayoutStates {}
 
-class HideBottomNavBarState extends LayoutStates {} // حالة جديدة لإخفاء BottomNavigationBar
+class HideBottomNavBarState
+    extends LayoutStates {} // حالة جديدة لإخفاء BottomNavigationBar
 
 class FavouriteLoadingState extends LayoutStates {}
 
@@ -21,6 +22,8 @@ class FavouriteLoadedState extends LayoutStates {
   final List<dynamic> favouriteProducts;
   FavouriteLoadedState(this.favouriteProducts);
 }
+
+class FavouriteEmpity extends LayoutStates {}
 
 class FavouriteErrorState extends LayoutStates {
   final String message;

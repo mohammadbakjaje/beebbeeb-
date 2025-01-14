@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled1/Screens/Layout/Added/Cart/show_cart_states.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/show_cart_states.dart';
 import 'package:untitled1/helper/local_network.dart';
 
-import '../../../../helper/constants.dart';
+import '../../../../../helper/constants.dart';
 
 class ShowCartCubit extends Cubit<ShowCartState> {
   ShowCartCubit() : super(ShowCartInitial());
@@ -30,8 +30,6 @@ class ShowCartCubit extends Cubit<ShowCartState> {
   }
 
   Future<void> fetchCart() async {
-    emit(ShowCartLoading());
-
     try {
       final response = await http.get(
         Uri.parse('$BaseUrl/cart'),

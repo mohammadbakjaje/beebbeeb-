@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
-import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_states.dart';
-import 'package:untitled1/Screens/Layout/Added/Cart/show_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_states.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import '../Drawer/ theme_provider.dart';
+import 'Added/Cart/CartCubit/add_cart_states.dart';
+import 'Added/Cart/CartCubit/show_cart_cubit.dart';
+import 'Added/Cart/CartCubit/total_price_cubit.dart';
 
 class LayoutScreen extends StatelessWidget {
   @override
@@ -33,22 +34,29 @@ class LayoutScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
-            backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+            backgroundColor:
+                themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
             bottomNavigationBar: Visibility(
-              visible: cubit.showBottomNavBar, // التحكم في ظهور BottomNavigationBar
+              visible:
+                  cubit.showBottomNavBar, // التحكم في ظهور BottomNavigationBar
               child: BottomNavigationBar(
                 currentIndex: cubit.bottomNavIndex,
                 type: BottomNavigationBarType.fixed,
-                backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+                backgroundColor:
+                    themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
                 iconSize: 25,
-                selectedItemColor: themeProvider.isDarkMode ? MyColors.buttun : MyColors.buttun,
-                unselectedItemColor: themeProvider.isDarkMode ? Colors.white70 : Colors.grey,
+                selectedItemColor: themeProvider.isDarkMode
+                    ? MyColors.buttun
+                    : MyColors.buttun,
+                unselectedItemColor:
+                    themeProvider.isDarkMode ? Colors.white70 : Colors.grey,
                 onTap: (index) {
                   if (index == 3) {
                     cubit.fetchFavourites();
                   }
                   if (index == 2) {
-                    BlocProvider.of<ShowCartCubit>(context).fetchCart();
+                    context.read<ShowCartCubit>().fetchCart();
+                    context.read<TotalPriceCubit>().fetchTotalPrice();
                   }
                   cubit.changeBottomNavIndex(index: index);
                 },

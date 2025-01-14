@@ -7,7 +7,7 @@ import 'package:untitled1/Screens/Drawer/model/user_model.dart';
 import 'package:untitled1/Screens/HomePage/HomePage.dart';
 import '../../../helper/constants.dart';
 import '../../../helper/local_network.dart';
-import '../Added/Cart.dart';
+import '../Added/Cart/Cart.dart';
 import '../Added/Favorite/Favourit.dart';
 import '../Added/Orders.dart';
 import 'layout_states.dart';
@@ -88,14 +88,18 @@ class LayoutCubit extends Cubit<LayoutStates> {
         Uri.parse('$BaseUrl/favourites/show'),
         headers: {
           'Authorization':
-          'Bearer ${CacheNetwork.getCacheData(key: "token")}', // إضافة التوكين في الـ header
+              'Bearer ${CacheNetwork.getCacheData(key: "token")}', // إضافة التوكين في الـ header
         },
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(response.body);
         favouriteProducts = data['data']; // استخراج البيانات
-        emit(FavouriteLoadedState(favouriteProducts));
+        if (favouriteProducts.length == 0) {
+          emit(FavouriteEmpity());
+        } else {
+          emit(FavouriteLoadedState(favouriteProducts));
+        }
       } else {
         emit(FavouriteErrorState('Failed to load favourites'));
       }

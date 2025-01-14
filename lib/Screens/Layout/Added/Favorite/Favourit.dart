@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:untitled1/Screens/Layout/Added/Cart/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
 import 'package:untitled1/helper/constants.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/Screens/Drawer/ِCustomDrawer.dart';
@@ -10,6 +10,7 @@ import '../../../Drawer/ theme_provider.dart';
 import '../../../ProductAndStore/ProductsCubit/Bloc/product_details_cubit.dart';
 import '../../Layout_cubit/layout_cubit.dart';
 import '../../Layout_cubit/layout_states.dart';
+import 'FavouriteEmpity.dart';
 
 class Favourit extends StatefulWidget {
   static String id = "Favourit";
@@ -31,7 +32,8 @@ class _FavouritState extends State<Favourit> {
 
     return Scaffold(
       drawer: CustomDrawer(),
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
         title: Text(
           "My Favourite things",
@@ -41,12 +43,15 @@ class _FavouritState extends State<Favourit> {
               fontWeight: FontWeight.bold),
         ),
         foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
+        backgroundColor:
+            themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
       ),
       body: BlocBuilder<LayoutCubit, LayoutStates>(
         builder: (BuildContext context, LayoutStates state) {
           if (state is FavouriteLoadingState) {
             return Center(child: CircularProgressIndicator());
+          } else if (state is FavouriteEmpity) {
+            return FavouriteEmpityScreen();
           } else if (state is FavouriteLoadedState) {
             final favourites = state.favouriteProducts;
             return ListView(
@@ -58,8 +63,7 @@ class _FavouritState extends State<Favourit> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1, mainAxisExtent: 100),
                   itemBuilder: (context, i) {
-                    final product =
-                    favourites[i]["product"];
+                    final product = favourites[i]["product"];
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -76,9 +80,13 @@ class _FavouritState extends State<Favourit> {
                         child: Container(
                           decoration: BoxDecoration(
                             border: Border.all(
-                              color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[300]!,
+                              color: themeProvider.isDarkMode
+                                  ? MyColors.dark_2
+                                  : Colors.grey[300]!,
                             ),
-                            color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200],
+                            color: themeProvider.isDarkMode
+                                ? MyColors.dark_2
+                                : Colors.grey[200],
                             borderRadius: BorderRadius.circular(10),
                           ),
                           height: 100,
@@ -117,12 +125,14 @@ class _FavouritState extends State<Favourit> {
                                         left: 10, top: 15),
                                     child: Column(
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           product["name"],
                                           style: TextStyle(
-                                              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                              color: themeProvider.isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
                                               fontSize: 17,
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -132,7 +142,9 @@ class _FavouritState extends State<Favourit> {
                                         Text(
                                           "${product["price"]}\$",
                                           style: TextStyle(
-                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.white
+                                                : Colors.black,
                                             fontSize: 13,
                                           ),
                                         ),
@@ -153,31 +165,35 @@ class _FavouritState extends State<Favourit> {
                                           IconButton(
                                             onPressed: () {
                                               BlocProvider.of<AddCartCubit>(
-                                                  context)
+                                                      context)
                                                   .addToCart(product["id"]);
                                             },
                                             icon: Icon(
                                               Icons.shopping_cart,
                                               size: 25,
                                             ),
-                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black, // لون الأيقونة بناءً على الوضع
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.white
+                                                : Colors
+                                                    .black, // لون الأيقونة بناءً على الوضع
                                           ),
                                           IconButton(
                                               onPressed: () {
                                                 {
                                                   // إزالة المنتج من المفضلة
                                                   final productId =
-                                                  product["id"];
+                                                      product["id"];
                                                   context
                                                       .read<LayoutCubit>()
                                                       .removeFromFavourites(
-                                                      productId);
+                                                          productId);
                                                 }
                                               },
                                               icon: Icon(
                                                 size: 25,
                                                 Icons.favorite,
-                                                color: Colors.red, // لون الأيقونة بناءً على الوضع
+                                                color: Colors
+                                                    .red, // لون الأيقونة بناءً على الوضع
                                               )),
                                         ],
                                       ),
