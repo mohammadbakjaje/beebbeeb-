@@ -8,6 +8,7 @@ import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
+import 'package:untitled1/Screens/SplashScreen/SplashScreen.dart';
 import 'package:untitled1/Screens/register/bloc/register_cubit.dart';
 import 'package:untitled1/Screens/register/register_page.dart';
 import 'package:untitled1/helper/local_network.dart';
@@ -104,7 +105,7 @@ class BebBeb extends StatelessWidget {
           AboutUs.id: (context) => AboutUs(),
         },
         debugShowCheckedModeBanner: false,
-        home: Driver(),
+        home: Splashscreen(),
       ),
     );
   }
