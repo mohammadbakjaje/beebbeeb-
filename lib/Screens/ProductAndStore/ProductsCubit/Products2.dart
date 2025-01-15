@@ -39,236 +39,248 @@ class _Products2State extends State<Products2> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Scaffold(
-      backgroundColor:
-          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
-      body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
-        builder: (context, state) {
-          ProductDetailsCubit cubit =
-              BlocProvider.of<ProductDetailsCubit>(context);
+    return BlocListener<ProductDetailsCubit, ProductDetailsState>(
+      listener: (BuildContext context, ProductDetailsState state) {
+        if (state is GetOneProductSuccessState) {
+          context.read<CheckIfFavouriteCubit>().checkIfFavourite(
+              BlocProvider.of<ProductDetailsCubit>(context).product!.id);
+        }
+      },
+      child: Scaffold(
+        backgroundColor:
+            themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
+          builder: (context, state) {
+            ProductDetailsCubit cubit =
+                BlocProvider.of<ProductDetailsCubit>(context);
 
-          if (state is GetOneProductLoadingState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is GetOneProductSuccessState) {
-            if (cubit.product == null) {
+            if (state is GetOneProductLoadingState) {
               return Center(
-                child: Text("Product not found"),
+                child: CircularProgressIndicator(),
               );
-            }
+            } else if (state is GetOneProductSuccessState) {
+              if (cubit.product == null) {
+                return Center(
+                  child: Text("Product not found"),
+                );
+              }
 
-            return BlocBuilder<LayoutCubit, LayoutStates>(
-              builder: (context, layoutState) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      expandedHeight: 400,
-                      flexibleSpace: FlexibleSpaceBar(
-                        background: Image.network(
-                          "http://$ipv4/${cubit.product!.image}",
-                          fit: BoxFit.cover,
+              return BlocBuilder<LayoutCubit, LayoutStates>(
+                builder: (context, layoutState) {
+                  return CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        expandedHeight: 400,
+                        flexibleSpace: FlexibleSpaceBar(
+                          background: Image.network(
+                            "http://$ipv4/${cubit.product!.image}",
+                            fit: BoxFit.cover,
+                          ),
                         ),
+                        backgroundColor: themeProvider.isDarkMode
+                            ? MyColors.dark_2
+                            : Colors.grey[200],
                       ),
-                      backgroundColor: themeProvider.isDarkMode
-                          ? MyColors.dark_2
-                          : Colors.grey[200],
-                    ),
-                    SliverList(
-                      delegate: SliverChildListDelegate([
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                cubit.product!.name,
-                                style: TextStyle(
-                                  color: themeProvider.isDarkMode
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                cubit.product!.description,
-                                style: TextStyle(
-                                  color: themeProvider.isDarkMode
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "\$${cubit.product!.price}",
-                                        style: TextStyle(
-                                          color: themeProvider.isDarkMode
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        "Quantity: ${cubit.product!.quantity}",
-                                        style: TextStyle(
-                                          color: themeProvider.isDarkMode
-                                              ? Colors.white
-                                              : Colors.black,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ],
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  cubit.product!.name,
+                                  style: TextStyle(
+                                    color: themeProvider.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  BlocBuilder<CheckIfFavouriteCubit,
-                                      CheckIfFavouriteState>(
-                                    builder: (BuildContext context, state) {
-                                      if (state is FavouriteChecked) {
-                                        if (state.isFavourite == true) {
-                                          return IconButton(
-                                            onPressed: () async {
-                                              await context
-                                                  .read<
-                                                      AddRemoveFavouriteCubit>()
-                                                  .removeFromFavourites(
-                                                      cubit.product!.id);
-                                              context
-                                                  .read<CheckIfFavouriteCubit>()
-                                                  .checkIfFavourite(
-                                                      cubit.product!.id);
-                                            },
-                                            icon: Icon(
-                                              Icons.favorite,
-                                              color: Colors.red,
-                                              size: 30,
-                                            ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  cubit.product!.description,
+                                  style: TextStyle(
+                                    color: themeProvider.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "\$${cubit.product!.price}",
+                                          style: TextStyle(
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          "Quantity: ${cubit.product!.quantity}",
+                                          style: TextStyle(
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 16,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    BlocBuilder<CheckIfFavouriteCubit,
+                                        CheckIfFavouriteState>(
+                                      builder: (BuildContext context, state) {
+                                        if (state is FavouriteChecked) {
+                                          if (state.isFavourite == true) {
+                                            return IconButton(
+                                              onPressed: () async {
+                                                await context
+                                                    .read<
+                                                        AddRemoveFavouriteCubit>()
+                                                    .removeFromFavourites(
+                                                        cubit.product!.id);
+                                                context
+                                                    .read<
+                                                        CheckIfFavouriteCubit>()
+                                                    .checkIfFavourite(
+                                                        cubit.product!.id);
+                                              },
+                                              icon: Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                                size: 30,
+                                              ),
+                                            );
+                                          } else {
+                                            return IconButton(
+                                              onPressed: () async {
+                                                await context
+                                                    .read<
+                                                        AddRemoveFavouriteCubit>()
+                                                    .addToFavourites(
+                                                        cubit.product!.id);
+                                                context
+                                                    .read<
+                                                        CheckIfFavouriteCubit>()
+                                                    .checkIfFavourite(
+                                                        cubit.product!.id);
+                                              },
+                                              icon: Icon(
+                                                Icons.favorite_outline_rounded,
+                                                color:
+                                                    (themeProvider.isDarkMode)
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                size: 30,
+                                              ),
+                                            );
+                                          }
+                                        } else if (state
+                                            is CheckIfFavouriteLoading) {
+                                          return CircularProgressIndicator();
+                                        } else {
+                                          return Text(".");
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  children: [
+                                    Spacer(),
+                                    BlocConsumer<AddCartCubit, AddCartState>(
+                                      builder: (BuildContext context,
+                                          AddCartState state) {
+                                        if (state is AddCartLoading) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
                                           );
                                         } else {
-                                          return IconButton(
-                                            onPressed: () async {
-                                              await context
-                                                  .read<
-                                                      AddRemoveFavouriteCubit>()
-                                                  .addToFavourites(
-                                                      cubit.product!.id);
-                                              context
-                                                  .read<CheckIfFavouriteCubit>()
-                                                  .checkIfFavourite(
-                                                      cubit.product!.id);
+                                          return ElevatedButton(
+                                            onPressed: () {
+                                              BlocProvider.of<AddCartCubit>(
+                                                      context)
+                                                  .addToCart(cubit.product!.id);
                                             },
-                                            icon: Icon(
-                                              Icons.favorite_outline_rounded,
-                                              color: (themeProvider.isDarkMode)
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                              size: 30,
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: MyColors.buttun,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "Add to Cart",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                              ),
                                             ),
                                           );
                                         }
-                                      } else if (state
-                                          is CheckIfFavouriteLoading) {
-                                        return CircularProgressIndicator();
-                                      } else {
-                                        return Text(".");
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 20),
-                              Row(
-                                children: [
-                                  Spacer(),
-                                  BlocConsumer<AddCartCubit, AddCartState>(
-                                    builder: (BuildContext context,
-                                        AddCartState state) {
-                                      if (state is AddCartLoading) {
-                                        return Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      } else {
-                                        return ElevatedButton(
-                                          onPressed: () {
-                                            BlocProvider.of<AddCartCubit>(
-                                                    context)
-                                                .addToCart(cubit.product!.id);
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: MyColors.buttun,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
+                                      },
+                                      listener: (BuildContext context,
+                                          AddCartState state) {
+                                        if (state is AddCartSuccess) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              duration:
+                                                  const Duration(seconds: 3),
+                                              content: Text(state.message),
+                                              backgroundColor: Colors.green,
                                             ),
-                                          ),
-                                          child: Text(
-                                            "Add to Cart",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
+                                          );
+                                        } else if (state is AddCartError) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              duration:
+                                                  const Duration(seconds: 3),
+                                              content: Text(state.error),
                                             ),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    listener: (BuildContext context,
-                                        AddCartState state) {
-                                      if (state is AddCartSuccess) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            duration:
-                                                const Duration(seconds: 3),
-                                            content: Text(state.message),
-                                            backgroundColor: Colors.green,
-                                          ),
-                                        );
-                                      } else if (state is AddCartError) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            duration:
-                                                const Duration(seconds: 3),
-                                            content: Text(state.error),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ]),
-                    ),
-                  ],
-                );
-              },
-            );
-          } else {
-            return Center(
-              child: Text(
-                "Failed to load product details",
-                style: TextStyle(
-                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                        ]),
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              return Center(
+                child: Text(
+                  "Failed to load product details",
+                  style: TextStyle(
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-              ),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ),
     );
   }
