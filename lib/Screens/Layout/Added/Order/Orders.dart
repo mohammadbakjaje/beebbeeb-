@@ -8,6 +8,8 @@ import '../../../../helper/my_colors.dart';
 import '../../../../widget/ButtonOfOrders.dart';
 import '../../../Drawer/ theme_provider.dart';
 import '../../../Drawer/ِCustomDrawer.dart';
+import 'OrderCubit/cancel_order_cubit.dart';
+import 'OrderCubit/cancle_order_state.dart';
 import 'OrderEmpity.dart'; // أضف هذا الاستيراد
 
 class Orders extends StatefulWidget {
@@ -20,8 +22,7 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   // App Bar
   void _showRightPanel(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context,
-        listen: false); // استخدم ThemeProvider
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
 
     showDialog(
       context: context,
@@ -37,7 +38,7 @@ class _OrdersState extends State<Orders> {
               decoration: BoxDecoration(
                 color: themeProvider.isDarkMode
                     ? MyColors.dark_2
-                    : Colors.grey[200], // لون الخلفية بناءً على الوضع
+                    : Colors.grey[200],
                 borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
@@ -57,7 +58,7 @@ class _OrdersState extends State<Orders> {
                       style: TextStyle(
                         color: themeProvider.isDarkMode
                             ? Colors.white
-                            : Colors.black, // لون النص بناءً على الوضع
+                            : Colors.black,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                       ),
@@ -160,49 +161,81 @@ class _OrdersState extends State<Orders> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return Scaffold(
-      drawer: CustomDrawer(),
-      backgroundColor:
-          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
-      appBar: AppBar(
-        title: Text(
-          "My Orders",
-          style: TextStyle(
-            color: themeProvider.isDarkMode ? Colors.white : Colors.white,
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.white,
+    return BlocListener<CancelOrderCubit, CancelOrderState>(
+      listener: (context, state) {
+        if (state is CancelOrderSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+          // يمكنك أيضًا تحديث قائمة الطلبات بعد الإلغاء
+          context.read<OrdersCubit>().fetchOrders();
+        } else if (state is CancelOrderFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage)),
+          );
+        }
+      },
+      child: Scaffold(
+        drawer: CustomDrawer(),
         backgroundColor:
-            themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.info,
+            themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        appBar: AppBar(
+          title: Text(
+            "My Orders",
+            style: TextStyle(
               color: themeProvider.isDarkMode ? Colors.white : Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
-            onPressed: () {
-              _showRightPanel(context);
-            },
           ),
-        ],
-      ),
-      body: BlocBuilder<OrdersCubit, OrdersState>(
-        builder: (BuildContext context, OrdersState state) {
-          if (state is OrdersLoaded) {
-            return Container(
-              child: ListView(
-                children: [
-                  Container(
-                    height: 1000,
-                    child: GridView.builder(
+          foregroundColor:
+              themeProvider.isDarkMode ? Colors.white : Colors.white,
+          backgroundColor:
+              themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.info,
+                color: themeProvider.isDarkMode ? Colors.white : Colors.white,
+              ),
+              onPressed: () {
+                _showRightPanel(context);
+              },
+            ),
+          ],
+        ),
+        body: BlocBuilder<OrdersCubit, OrdersState>(
+          builder: (BuildContext context, OrdersState state) {
+            if (state is OrdersLoaded) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: Column(
+                    children: [
+                      GridView.builder(
                         itemCount: state.orders.length,
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 1, mainAxisExtent: 100),
+                          crossAxisCount: 1,
+                          mainAxisExtent:
+                              140, // زيادة الارتفاع لتوفير مساحة أكبر
+                          mainAxisSpacing: 10, // تباعد بين العناصر
+                        ),
                         itemBuilder: (context, i) {
+                          // تحديد قيمة الـ index بناءً على حالة الطلب
+                          int index;
+                          if (state.orders[i]["status"] == "pending") {
+                            index = 1; // إذا كانت الحالة "pending"
+                          } else if (state.orders[i]["status"] ==
+                              "in_progress") {
+                            index = 2; // إذا كانت الحالة "out_for_delivery"
+                          } else if (state.orders[i]["status"] == "delivered") {
+                            index = 3; // إذا كانت الحالة "delivered"
+                          } else {
+                            index = 0; // حالة افتراضية
+                          }
+
                           return Padding(
                             padding: const EdgeInsets.only(
                                 left: 13, right: 13, top: 10),
@@ -210,25 +243,71 @@ class _OrdersState extends State<Orders> {
                               date: state.orders[i]["created_at"],
                               clock: '6:25',
                               onPressed: () {},
+                              index: index, // تمرير قيمة الـ index
+                              onEditPressed: () {
+                                // تفاعل زر التعديل
+                                _editOrder(state.orders[i]);
+                              },
+                              onDeletePressed: () {
+                                // تفاعل زر الحذف
+                                _deleteOrder(state.orders[i]);
+                              },
                             ),
                           );
-                        }),
+                        },
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  )
-                ],
-              ),
-            );
-          } else if (state is OrdersLoading) {
-            return CircularProgressIndicator();
-          } else if (state is OrdersEmpty) {
-            return OrderEmpity();
-          } else {
-            return Text("Failed");
-          }
-        },
+                ),
+              );
+            } else if (state is OrdersLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is OrdersEmpty) {
+              return OrderEmpity();
+            } else {
+              return Center(
+                child: Text("Failed to load orders"),
+              );
+            }
+          },
+        ),
       ),
+    );
+  }
+
+  // دالة لتعديل الطلب
+  void _editOrder(Map<String, dynamic> order) {
+    print("Edit Order: ${order["id"]}");
+  }
+
+  // دالة لحذف الطلب
+  void _deleteOrder(Map<String, dynamic> order) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete Order"),
+          content: Text("Are you sure you want to delete this order?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                // استدعاء Cubit لإلغاء الطلب
+                context.read<CancelOrderCubit>().cancelOrder(order["id"]);
+                Navigator.pop(context);
+              },
+              child: Text("Delete", style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

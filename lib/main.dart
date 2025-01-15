@@ -6,6 +6,7 @@ import 'package:untitled1/Screens/Drawer/connectUs.dart';
 import 'package:untitled1/Screens/HomePage/Ads/ad_product_cubit.dart';
 import 'package:untitled1/Screens/HomePage/MostSells/most_sell_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/cancel_order_cubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/order_cubit.dart';
 import 'package:untitled1/Screens/Login/login_page.dart';
 import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/products_cubit.dart';
@@ -54,6 +55,7 @@ class BebBeb extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => LogoutCubit()),
+        BlocProvider(create: (BuildContext context) => CancelOrderCubit()),
         BlocProvider(create: (BuildContext context) => OrdersCubit()),
         BlocProvider(create: (BuildContext context) => LoginCubit()),
         BlocProvider(create: (BuildContext context) => RegisterCubit()),
