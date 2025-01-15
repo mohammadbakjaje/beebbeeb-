@@ -1,24 +1,28 @@
 import 'package:bloc/bloc.dart';
+import 'package:untitled1/Screens/Driver/driver.dart';
 import 'package:untitled1/Screens/Driver/register_driver/bloc_register/register_state_driver.dart';
 
-import '../model_register/register_model_driver.dart';
+import '../../../register/bloc/register_states.dart';
+import '../../../register/model/register_model.dart';
+import '../../../register/repos/register_server_manager.dart';
 import '../repos_register/register_server_manager_driver.dart';
 
 class DriverRegisterCubit extends Cubit<DriverRegisterState> {
   DriverRegisterCubit() : super(DriverInitialState());
 
-  DriverRegisterServerManager driverRegisterServerManager = DriverRegisterServerManager();
+  DriverRegisterServerManager registerServerManager =
+      DriverRegisterServerManager();
 
   bool obscure = true;
   bool obscureConfirm = true;
 
-  void registerDriver(String firstName, String lastName, String phone,
+  void registerBloc(String firstName, String lastName, String phone,
       String password, String confirmPassword) async {
     emit(DriverRegisterLoadingState());
     try {
-      DriverRegisterModel x = await driverRegisterServerManager.registerDriver(
+      RegisterModel x = await registerServerManager.registerDriver(
           firstName, lastName, phone, password, confirmPassword);
-      emit(DriverRegisterSuccessState(model: x));
+      emit(DriverRegisterSuccessState());
     } catch (e) {
       emit(DriverRegisterErrorState(e.toString()));
     }

@@ -1,4 +1,3 @@
-
 import '../model_register/register_model_driver.dart';
 
 abstract class DriverRegisterState {}
@@ -9,10 +8,7 @@ class DriverChangePasswordState extends DriverRegisterState {}
 
 class DriverRegisterLoadingState extends DriverRegisterState {}
 
-class DriverRegisterSuccessState extends DriverRegisterState {
-  DriverRegisterModel model;
-  DriverRegisterSuccessState({required this.model});
-}
+class DriverRegisterSuccessState extends DriverRegisterState {}
 
 class DriverRegisterErrorState extends DriverRegisterState {
   String errorMsg;

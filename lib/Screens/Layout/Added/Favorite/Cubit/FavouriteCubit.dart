@@ -21,7 +21,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
               'Bearer ${CacheNetwork.getCacheData(key: "token")}', // إضافة التوكين في الـ header
         },
       );
-
+      print(response.body);
       if (response.statusCode == 200) {
         print("yess");
         final Map<String, dynamic> data = json.decode(response.body);

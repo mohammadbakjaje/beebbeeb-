@@ -246,8 +246,7 @@ class _OrdersState extends State<Orders> {
                               onPressed: () {},
                               index: index, // تمرير قيمة الـ index
                               onEditPressed: () {
-                                // تفاعل زر التعديل
-                                _editOrder(state.orders[i]);
+                                // تفاعل زر التعدي
                               },
                               onDeletePressed: () {
                                 // تفاعل زر الحذف

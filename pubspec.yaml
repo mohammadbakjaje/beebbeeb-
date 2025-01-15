@@ -80,7 +80,7 @@ flutter:
   assets:
     - images/
     - assets/bebbeb.mp3
-    - assets/bebbebnew.wav
+    - assets/bebbeb.wav
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

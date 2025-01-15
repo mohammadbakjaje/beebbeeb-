@@ -29,9 +29,11 @@ class LoginPage extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        backgroundColor:
+            themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       ),
       body: Stack(
         children: [
@@ -54,7 +56,9 @@ class LoginPage extends StatelessWidget {
                   Text(
                     "Sign in",
                     style: TextStyle(
-                      color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -88,27 +92,38 @@ class LoginPage extends StatelessWidget {
                             return TextFormField(
                               decoration: InputDecoration(
                                 hintText: "Password",
-                                fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200],
+                                fillColor: themeProvider.isDarkMode
+                                    ? MyColors.dark_2
+                                    : Colors.grey[200],
                                 filled: true,
                                 hintStyle: TextStyle(
-                                    color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5),
+                                    color: themeProvider.isDarkMode
+                                        ? Colors.white.withOpacity(0.5)
+                                        : Colors.black.withOpacity(0.5),
                                     fontSize: 16),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4),
                                   borderSide: BorderSide(
-                                    color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!,
+                                    color: themeProvider.isDarkMode
+                                        ? MyColors.dark_2
+                                        : Colors.grey[200]!,
                                   ),
                                 ),
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!),
+                                  borderSide: BorderSide(
+                                      color: themeProvider.isDarkMode
+                                          ? MyColors.dark_2
+                                          : Colors.grey[200]!),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: MyColors.buttun),
+                                  borderSide:
+                                      BorderSide(color: MyColors.buttun),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: MyColors.buttun),
+                                  borderSide:
+                                      BorderSide(color: MyColors.buttun),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 errorStyle: TextStyle(
@@ -124,7 +139,9 @@ class LoginPage extends StatelessWidget {
                                         context.read<LoginCubit>().obscure
                                             ? Icons.visibility_off
                                             : Icons.visibility,
-                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                        color: themeProvider.isDarkMode
+                                            ? Colors.white
+                                            : Colors.black,
                                       ),
                                       onPressed: () {
                                         BlocProvider.of<LoginCubit>(context)
@@ -134,7 +151,10 @@ class LoginPage extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                              style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black),
                               obscureText: context.read<LoginCubit>().obscure,
                               obscuringCharacter: '*',
                               validator: (value) {
@@ -158,7 +178,10 @@ class LoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Forget Password ? ",
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                              style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -172,7 +195,9 @@ class LoginPage extends StatelessWidget {
                                 "Reset",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ),
@@ -225,7 +250,10 @@ class LoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Don't have an account ? ",
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                              style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -236,7 +264,9 @@ class LoginPage extends StatelessWidget {
                                 "Create One",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ),
@@ -248,7 +278,10 @@ class LoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Are you a driver? ",
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                              style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -259,7 +292,9 @@ class LoginPage extends StatelessWidget {
                                 "Driver Account ?",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ),

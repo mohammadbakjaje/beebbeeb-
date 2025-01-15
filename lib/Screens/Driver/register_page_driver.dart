@@ -10,7 +10,6 @@ import '../../widget/coustem_text_filed.dart';
 import '../Drawer/ theme_provider.dart';
 import 'driver.dart';
 
-
 class DriverRegisterPage extends StatelessWidget {
   @override
   static String id = "DriverRegisterPage";
@@ -19,7 +18,8 @@ class DriverRegisterPage extends StatelessWidget {
   TextEditingController lastNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController passwordConfirmationController = TextEditingController();
+  TextEditingController passwordConfirmationController =
+      TextEditingController();
 
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
@@ -28,10 +28,12 @@ class DriverRegisterPage extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
         foregroundColor: themeProvider.isDarkMode ? Colors.white : Colors.black,
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        backgroundColor:
+            themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,7 +45,8 @@ class DriverRegisterPage extends StatelessWidget {
                 Text(
                   "Create Driver Account",
                   style: TextStyle(
-                    color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
                   ),
@@ -112,7 +115,8 @@ class DriverRegisterPage extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 16.0),
-                        child: BlocConsumer<DriverRegisterCubit, DriverRegisterState>(
+                        child: BlocConsumer<DriverRegisterCubit,
+                            DriverRegisterState>(
                           builder: (context, state) {
                             return Column(
                               children: [
@@ -121,28 +125,39 @@ class DriverRegisterPage extends StatelessWidget {
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       hintText: "Password",
-                                      fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200],
+                                      fillColor: themeProvider.isDarkMode
+                                          ? MyColors.dark_2
+                                          : Colors.grey[200],
                                       filled: true,
                                       hintStyle: TextStyle(
-                                        color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5),
+                                        color: themeProvider.isDarkMode
+                                            ? Colors.white.withOpacity(0.5)
+                                            : Colors.black.withOpacity(0.5),
                                         fontSize: 16,
                                       ),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(4),
                                         borderSide: BorderSide(
-                                          color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!,
+                                          color: themeProvider.isDarkMode
+                                              ? MyColors.dark_2
+                                              : Colors.grey[200]!,
                                         ),
                                       ),
                                       border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!),
+                                        borderSide: BorderSide(
+                                            color: themeProvider.isDarkMode
+                                                ? MyColors.dark_2
+                                                : Colors.grey[200]!),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: MyColors.buttun),
+                                        borderSide:
+                                            BorderSide(color: MyColors.buttun),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: MyColors.buttun),
+                                        borderSide:
+                                            BorderSide(color: MyColors.buttun),
                                         borderRadius: BorderRadius.circular(4),
                                       ),
                                       errorStyle: TextStyle(
@@ -150,26 +165,39 @@ class DriverRegisterPage extends StatelessWidget {
                                         letterSpacing: 1,
                                       ),
                                       suffixIcon: Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           IconButton(
                                             icon: Icon(
-                                              context.read<DriverRegisterCubit>().obscure
+                                              context
+                                                      .read<
+                                                          DriverRegisterCubit>()
+                                                      .obscure
                                                   ? Icons.visibility_off
                                                   : Icons.visibility,
-                                              color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                              color: themeProvider.isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
                                             ),
                                             onPressed: () {
-                                              BlocProvider.of<DriverRegisterCubit>(context)
+                                              BlocProvider.of<
+                                                          DriverRegisterCubit>(
+                                                      context)
                                                   .changePasswordState();
                                             },
                                           ),
                                         ],
                                       ),
                                     ),
-                                    style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                                    obscureText: context.read<DriverRegisterCubit>().obscure,
+                                    style: TextStyle(
+                                        color: themeProvider.isDarkMode
+                                            ? Colors.white
+                                            : Colors.black),
+                                    obscureText: context
+                                        .read<DriverRegisterCubit>()
+                                        .obscure,
                                     obscuringCharacter: '*',
                                     validator: (value) {
                                       if ((value ?? '').isEmpty) {
@@ -186,28 +214,39 @@ class DriverRegisterPage extends StatelessWidget {
                                 TextFormField(
                                   decoration: InputDecoration(
                                     hintText: "ConfirmPassword",
-                                    fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200],
+                                    fillColor: themeProvider.isDarkMode
+                                        ? MyColors.dark_2
+                                        : Colors.grey[200],
                                     filled: true,
                                     hintStyle: TextStyle(
-                                      color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5),
+                                      color: themeProvider.isDarkMode
+                                          ? Colors.white.withOpacity(0.5)
+                                          : Colors.black.withOpacity(0.5),
                                       fontSize: 16,
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(4),
                                       borderSide: BorderSide(
-                                        color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!,
+                                        color: themeProvider.isDarkMode
+                                            ? MyColors.dark_2
+                                            : Colors.grey[200]!,
                                       ),
                                     ),
                                     border: OutlineInputBorder(
-                                      borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!),
+                                      borderSide: BorderSide(
+                                          color: themeProvider.isDarkMode
+                                              ? MyColors.dark_2
+                                              : Colors.grey[200]!),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: MyColors.buttun),
+                                      borderSide:
+                                          BorderSide(color: MyColors.buttun),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(color: MyColors.buttun),
+                                      borderSide:
+                                          BorderSide(color: MyColors.buttun),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     errorStyle: TextStyle(
@@ -220,21 +259,32 @@ class DriverRegisterPage extends StatelessWidget {
                                       children: [
                                         IconButton(
                                           icon: Icon(
-                                            context.read<DriverRegisterCubit>().obscureConfirm
+                                            context
+                                                    .read<DriverRegisterCubit>()
+                                                    .obscureConfirm
                                                 ? Icons.visibility_off
                                                 : Icons.visibility,
-                                            color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.white
+                                                : Colors.black,
                                           ),
                                           onPressed: () {
-                                            BlocProvider.of<DriverRegisterCubit>(context)
+                                            BlocProvider.of<
+                                                        DriverRegisterCubit>(
+                                                    context)
                                                 .changeConfirmPasswordState();
                                           },
                                         ),
                                       ],
                                     ),
                                   ),
-                                  style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                                  obscureText: context.read<DriverRegisterCubit>().obscureConfirm,
+                                  style: TextStyle(
+                                      color: themeProvider.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black),
+                                  obscureText: context
+                                      .read<DriverRegisterCubit>()
+                                      .obscureConfirm,
                                   obscuringCharacter: '*',
                                   validator: (value) {
                                     if ((value ?? '').isEmpty) {
@@ -248,45 +298,50 @@ class DriverRegisterPage extends StatelessWidget {
                                   controller: passwordConfirmationController,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 40.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 40.0),
                                   child: (state is DriverRegisterLoadingState)
                                       ? CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
+                                          color: Colors.white,
+                                        )
                                       : CoustemButon(
-                                    text: "Continue",
-                                    ontap: () {
-                                      if (formkey.currentState!.validate()) {
-                                        context.read<DriverRegisterCubit>().registerDriver(
-                                          firstNameController.text,
-                                          lastNameController.text,
-                                          phoneNumberController.text,
-                                          passwordController.text,
-                                          passwordConfirmationController.text,
-                                        );
-                                      }
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (context) => LayoutScreen(),
-                                        ),
-                                      );
-                                    },
+                                          text: "Continue",
+                                          ontap: () {
+                                            if (!formkey.currentState!
+                                                .validate()) {
+                                              // إذا فشل التحقق، توقف عن التنفيذ
+                                              return;
+                                            }
 
-                                  ),
+                                            // إذا نجح التحقق، قم بتنفيذ الإجراءات
+                                            context
+                                                .read<DriverRegisterCubit>()
+                                                .registerBloc(
+                                                  firstNameController.text,
+                                                  lastNameController.text,
+                                                  phoneNumberController.text,
+                                                  passwordController.text,
+                                                  passwordConfirmationController
+                                                      .text,
+                                                );
+                                          },
+                                        ),
                                 ),
                               ],
                             );
                           },
-                          listener: (BuildContext context, DriverRegisterState state) {
+                          listener: (BuildContext context,
+                              DriverRegisterState state) {
                             if (state is DriverRegisterErrorState) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
                                 content: Text(state.errorMsg),
                               ));
                             }
                             if (state is DriverRegisterSuccessState) {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                  builder: (context) => LayoutScreen(),
+                                  builder: (context) => Driver(),
                                 ),
                               );
                             }
@@ -300,7 +355,10 @@ class DriverRegisterPage extends StatelessWidget {
                   children: [
                     Text(
                       "You have an account ? ",
-                      style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                      style: TextStyle(
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -310,7 +368,9 @@ class DriverRegisterPage extends StatelessWidget {
                         "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
                     ),

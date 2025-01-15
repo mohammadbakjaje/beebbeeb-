@@ -150,8 +150,9 @@ class _ButtonOfOrdersState extends State<ButtonOfOrders> {
                 IconButton(
                   icon: Icon(
                     Icons.edit,
-                    color:
-                        themeProvider.isDarkMode ? Colors.white : Colors.blue,
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : MyColors.buttun,
                   ),
                   onPressed: widget.onEditPressed, // تفاعل زر التعديل
                 ),

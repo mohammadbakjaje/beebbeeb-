@@ -49,180 +49,185 @@ class _FavouritState extends State<Favourit> {
         backgroundColor:
             themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
       ),
-      body: BlocBuilder<FavouriteCubit, FavouriteState>(
-        builder: (context, state) {
-          if (state is FavouriteLoadingState) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is FavouriteEmpity) {
-            return FavouriteEmpityScreen();
-          } else if (state is FavouriteLoadedState) {
-            final favourites = state.favouriteProducts;
-            return ListView(
-              children: [
-                GridView.builder(
-                  itemCount: favourites.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1, mainAxisExtent: 100),
-                  itemBuilder: (context, i) {
-                    final product = favourites[i]["product"];
-                    return InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                              create: (context) => ProductDetailsCubit()
-                                ..getOneProduct(product["id"]),
-                              child: Products2(),
+      body: BlocProvider(
+        create: (context) => FavouriteCubit()..fetchFavourites(),
+        child: BlocBuilder<FavouriteCubit, FavouriteState>(
+          builder: (context, state) {
+            if (state is FavouriteLoadingState) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is FavouriteEmpity) {
+              return FavouriteEmpityScreen();
+            } else if (state is FavouriteLoadedState) {
+              final favourites = state.favouriteProducts;
+              return ListView(
+                children: [
+                  GridView.builder(
+                    itemCount: favourites.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 1, mainAxisExtent: 100),
+                    itemBuilder: (context, i) {
+                      final product = favourites[i]["product"];
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                create: (context) => ProductDetailsCubit()
+                                  ..getOneProduct(product["id"]),
+                                child: Products2(),
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      child: Card(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
+                          );
+                        },
+                        child: Card(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: themeProvider.isDarkMode
+                                    ? MyColors.dark_2
+                                    : Colors.grey[300]!,
+                              ),
                               color: themeProvider.isDarkMode
                                   ? MyColors.dark_2
-                                  : Colors.grey[300]!,
+                                  : Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            color: themeProvider.isDarkMode
-                                ? MyColors.dark_2
-                                : Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          height: 100,
-                          width: 100,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: Container(
-                                      height: 65,
-                                      width: 65,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(8),
-                                          topLeft: Radius.circular(8),
-                                          bottomLeft: Radius.circular(8),
-                                          bottomRight: Radius.circular(8),
-                                        ),
-                                        child: Image.network(
-                                          "http://$ipv4/${product["image"]}",
-                                          height: 220,
-                                          fit: BoxFit.fill,
+                            height: 100,
+                            width: 100,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8),
+                                      child: Container(
+                                        height: 65,
+                                        width: 65,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(8),
+                                            topLeft: Radius.circular(8),
+                                            bottomLeft: Radius.circular(8),
+                                            bottomRight: Radius.circular(8),
+                                          ),
+                                          child: Image.network(
+                                            "http://$ipv4/${product["image"]}",
+                                            height: 220,
+                                            fit: BoxFit.fill,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, top: 15),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          product["name"],
-                                          style: TextStyle(
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, top: 15),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            product["name"],
+                                            style: TextStyle(
+                                                color: themeProvider.isDarkMode
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "${product["price"]}\$",
+                                            style: TextStyle(
                                               color: themeProvider.isDarkMode
                                                   ? Colors.white
                                                   : Colors.black,
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "${product["price"]}\$",
-                                          style: TextStyle(
-                                            color: themeProvider.isDarkMode
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 13,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                height: double.infinity,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 40),
-                                      child: Row(
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              BlocProvider.of<AddCartCubit>(
-                                                      context)
-                                                  .addToCart(product["id"]);
-                                            },
-                                            icon: Icon(
-                                              Icons.shopping_cart,
-                                              size: 25,
+                                              fontSize: 13,
                                             ),
-                                            color: themeProvider.isDarkMode
-                                                ? Colors.white
-                                                : Colors
-                                                    .black, // لون الأيقونة بناءً على الوضع
                                           ),
-                                          IconButton(
-                                              onPressed: () {
-                                                {
-                                                  // إزالة المنتج من المفضلة
-                                                  final productId =
-                                                      product["id"];
-                                                  context
-                                                      .read<
-                                                          AddRemoveFavouriteCubit>()
-                                                      .removeFromFavourites(
-                                                          productId);
-                                                  context
-                                                      .read<FavouriteCubit>()
-                                                      .fetchFavourites();
-                                                }
-                                              },
-                                              icon: Icon(
-                                                size: 25,
-                                                Icons.favorite,
-                                                color: Colors
-                                                    .red, // لون الأيقونة بناءً على الوضع
-                                              )),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  height: double.infinity,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 40),
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {
+                                                BlocProvider.of<AddCartCubit>(
+                                                        context)
+                                                    .addToCart(product["id"]);
+                                              },
+                                              icon: Icon(
+                                                Icons.shopping_cart,
+                                                size: 25,
+                                              ),
+                                              color: themeProvider.isDarkMode
+                                                  ? Colors.white
+                                                  : Colors
+                                                      .black, // لون الأيقونة بناءً على الوضع
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  {
+                                                    // إزالة المنتج من المفضلة
+                                                    final productId =
+                                                        product["id"];
+                                                    context
+                                                        .read<
+                                                            AddRemoveFavouriteCubit>()
+                                                        .removeFromFavourites(
+                                                            productId);
+                                                    context
+                                                        .read<FavouriteCubit>()
+                                                        .fetchFavourites();
+                                                  }
+                                                },
+                                                icon: Icon(
+                                                  size: 25,
+                                                  Icons.favorite,
+                                                  color: Colors
+                                                      .red, // لون الأيقونة بناءً على الوضع
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            );
-          } else if (state is FavouriteErrorState) {
-            return Center(child: Text(state.message));
-          } else {
-            return Center(child: Text('No data available'));
-          }
-        },
+                      );
+                    },
+                  ),
+                ],
+              );
+            } else if (state is FavouriteErrorState) {
+              return Center(child: Text(state.message));
+            } else {
+              return Center(child: Text('No data available'));
+            }
+          },
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:untitled1/widget/coustem_buton.dart';
 import 'package:untitled1/widget/coustem_text_filed.dart';
 
 import '../Drawer/ theme_provider.dart';
+import 'driver.dart';
 
 class DriverLoginPage extends StatelessWidget {
   DriverLoginPage({super.key});
@@ -16,8 +17,6 @@ class DriverLoginPage extends StatelessWidget {
   static String id = "DriverLoginPage";
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController licenseController = TextEditingController(); // رخصة القيادة
-  TextEditingController carTypeController = TextEditingController(); // نوع السيارة
 
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
@@ -26,9 +25,11 @@ class DriverLoginPage extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+      backgroundColor:
+          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       appBar: AppBar(
-        backgroundColor: themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
+        backgroundColor:
+            themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       ),
       body: Stack(
         children: [
@@ -51,7 +52,9 @@ class DriverLoginPage extends StatelessWidget {
                   Text(
                     "Driver Sign in",
                     style: TextStyle(
-                      color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : Colors.black,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                     ),
@@ -85,27 +88,38 @@ class DriverLoginPage extends StatelessWidget {
                             return TextFormField(
                               decoration: InputDecoration(
                                 hintText: "Password",
-                                fillColor: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200],
+                                fillColor: themeProvider.isDarkMode
+                                    ? MyColors.dark_2
+                                    : Colors.grey[200],
                                 filled: true,
                                 hintStyle: TextStyle(
-                                    color: themeProvider.isDarkMode ? Colors.white.withOpacity(0.5) : Colors.black.withOpacity(0.5),
+                                    color: themeProvider.isDarkMode
+                                        ? Colors.white.withOpacity(0.5)
+                                        : Colors.black.withOpacity(0.5),
                                     fontSize: 16),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4),
                                   borderSide: BorderSide(
-                                    color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!,
+                                    color: themeProvider.isDarkMode
+                                        ? MyColors.dark_2
+                                        : Colors.grey[200]!,
                                   ),
                                 ),
                                 border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: themeProvider.isDarkMode ? MyColors.dark_2 : Colors.grey[200]!),
+                                  borderSide: BorderSide(
+                                      color: themeProvider.isDarkMode
+                                          ? MyColors.dark_2
+                                          : Colors.grey[200]!),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: MyColors.buttun),
+                                  borderSide:
+                                      BorderSide(color: MyColors.buttun),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: MyColors.buttun),
+                                  borderSide:
+                                      BorderSide(color: MyColors.buttun),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 errorStyle: TextStyle(
@@ -121,18 +135,25 @@ class DriverLoginPage extends StatelessWidget {
                                         context.read<DriverLoginCubit>().obscure
                                             ? Icons.visibility_off
                                             : Icons.visibility,
-                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                        color: themeProvider.isDarkMode
+                                            ? Colors.white
+                                            : Colors.black,
                                       ),
                                       onPressed: () {
-                                        BlocProvider.of<DriverLoginCubit>(context)
+                                        BlocProvider.of<DriverLoginCubit>(
+                                                context)
                                             .changePasswordState();
                                       },
                                     ),
                                   ],
                                 ),
                               ),
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
-                              obscureText: context.read<DriverLoginCubit>().obscure,
+                              style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black),
+                              obscureText:
+                                  context.read<DriverLoginCubit>().obscure,
                               obscuringCharacter: '*',
                               validator: (value) {
                                 if ((value ?? '').isEmpty) {
@@ -151,7 +172,6 @@ class DriverLoginPage extends StatelessWidget {
                         SizedBox(
                           height: 15,
                         ),
-
                         BlocConsumer<DriverLoginCubit, DriverLoginState>(
                           listener: (context, state) {
                             if (state is DriverLoginErrorState) {
@@ -162,8 +182,12 @@ class DriverLoginPage extends StatelessWidget {
                               );
                             }
                             if (state is DriverLoginSuccessState) {
-                              // Navigate to the next screen after successful login
-                              Navigator.of(context).pushReplacementNamed('/home');
+                              // الانتقال إلى الشاشة التالية بعد تسجيل الدخول بنجاح
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => Driver(),
+                                ),
+                              );
                             }
                           },
                           builder: (context, state) {
@@ -173,20 +197,21 @@ class DriverLoginPage extends StatelessWidget {
                                 child: CoustemButon(
                                   text: "Sign In",
                                   ontap: () {
-                                    if (formkey.currentState!.validate()) {
-                                      final email = emailController.text;
-                                      final password = passwordController.text;
-                                      final license = licenseController.text;
-                                      final carType = carTypeController.text;
-
-                                      // Call the login method from the cubit
-                                      context.read<DriverLoginCubit>().LoginDriver(
-                                        email,
-                                        password,
-                                        license,
-                                        carType,
-                                      );
+                                    if (!formkey.currentState!.validate()) {
+                                      // إذا فشل التحقق، توقف عن التنفيذ
+                                      return;
                                     }
+
+                                    // إذا نجح التحقق، قم بإرسال الطلب إلى السيرفر
+                                    final email = emailController.text;
+                                    final password = passwordController.text;
+
+                                    context
+                                        .read<DriverLoginCubit>()
+                                        .DriverLoginDriver(
+                                          email,
+                                          password,
+                                        );
                                   },
                                 ),
                               ),
@@ -198,17 +223,23 @@ class DriverLoginPage extends StatelessWidget {
                           children: [
                             Text(
                               "Don't have an account? ",
-                              style: TextStyle(color: themeProvider.isDarkMode ? Colors.white : Colors.black),
+                              style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black),
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pushNamed(DriverRegisterPage.id);
+                                Navigator.of(context)
+                                    .pushNamed(DriverRegisterPage.id);
                               },
                               child: Text(
                                 "Create One",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
-                                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ),

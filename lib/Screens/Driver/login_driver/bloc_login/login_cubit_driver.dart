@@ -5,14 +5,15 @@ import 'login_state_driver.dart';
 class DriverLoginCubit extends Cubit<DriverLoginState> {
   DriverLoginCubit() : super(DriverLoginInitialState());
 
-  DriverLoginServerManager driverLoginServerManager = DriverLoginServerManager();
+  DriverLoginServerManager driverLoginServerManager =
+      DriverLoginServerManager();
 
   bool obscure = true;
 
-  void LoginDriver(String email, String password, String license, String carType) async {
+  void DriverLoginDriver(String email, String password) async {
     emit(DriverLoginLoadingState());
     try {
-      await driverLoginServerManager.loginDriver(email, password, license, carType);
+      await driverLoginServerManager.DriverloginDriver(email, password);
       emit(DriverLoginSuccessState());
     } catch (e) {
       emit(DriverLoginErrorState(e.toString()));
