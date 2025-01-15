@@ -23,35 +23,19 @@ class _OrderEmpityState extends State<OrderEmpity> {
           ? MyColors.dark_1
           : Colors.white, // لون الخلفية بناءً على الوضع
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 50,
+          Container(
+            child: Lottie.asset('images/Animation - 1735468941762 (1).json'),
           ),
-          Column(
-            children: [
-              Container(
-                child:
-                    Lottie.asset('images/Animation - 1735468941762 (1).json'),
-              ),
-              Text(
-                "The Order is Empty !",
-                style: TextStyle(
-                    color: themeProvider.isDarkMode
-                        ? Colors.white
-                        : Colors.black, // لون النص بناءً على الوضع
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          CoustemButonM(
-            ontap: () {
-              Navigator.of(context).pushNamed(HomePage.id);
-              setState(() {});
-            },
-            text: "Order now !!",
-            color: MyColors.buttun,
+          Text(
+            "The Order is Empty !",
+            style: TextStyle(
+                color: themeProvider.isDarkMode
+                    ? Colors.white
+                    : Colors.black, // لون النص بناءً على الوضع
+                fontSize: 25,
+                fontWeight: FontWeight.bold),
           ),
         ],
       ),

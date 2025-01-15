@@ -10,7 +10,6 @@ class OrdersCubit extends Cubit<OrdersState> {
   OrdersCubit() : super(OrdersInitial());
 
   Future<void> fetchOrders() async {
-    emit(OrdersLoading());
     try {
       print("mmmssssssssssssssssssssssssssssssssssssm");
       final response = await http.get(
@@ -28,11 +27,9 @@ class OrdersCubit extends Cubit<OrdersState> {
         final Map<String, dynamic> data = json.decode(response.body);
         if (data['status'] == true) {
           final List<dynamic> orders = data['orders'];
-          if (orders.isEmpty) {
-            emit(OrdersEmpty());
-          } else {
-            emit(OrdersLoaded(orders));
-          }
+          emit(OrdersLoaded(orders));
+        } else if (data['status'] == false) {
+          emit(OrdersEmpty());
         } else {
           emit(OrdersError(data['msg']));
         }

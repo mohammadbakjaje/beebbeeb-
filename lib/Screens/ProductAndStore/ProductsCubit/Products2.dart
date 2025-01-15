@@ -1,28 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart'; // أضف هذا الاستيراد
-import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
-import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
-import 'package:untitled1/Screens/Layout/Layout_cubit/layout_states.dart';
-import 'package:untitled1/Screens/ProductAndStore/ProductsCubit/Bloc/product_details_cubit.dart';
-import 'package:untitled1/helper/constants.dart';
-import 'package:untitled1/helper/my_colors.dart';
+import 'package:provider/provider.dart'; // تأكد من استيراد provider
 
-import '../../Drawer/ theme_provider.dart';
+import '../../../helper/constants.dart';
+import '../../../helper/my_colors.dart';
+import '../../Drawer/ theme_provider.dart'; // تأكد من أن هذا المسار صحيح
+import '../../Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
 import '../../Layout/Added/Cart/CartCubit/add_cart_states.dart';
+import '../../Layout/Added/Favorite/Cubit/Add_remove_favourite.dart';
+import '../../Layout/Added/Favorite/Cubit/Check_if_favourite_state.dart';
+import '../../Layout/Added/Favorite/Cubit/check_if_favourite_cubit.dart';
+import '../../Layout/Layout_cubit/layout_cubit.dart';
+import '../../Layout/Layout_cubit/layout_states.dart';
+import 'Bloc/product_details_cubit.dart';
 import 'Bloc/product_details_states.dart';
 
-class Products2 extends StatelessWidget {
+class Products2 extends StatefulWidget {
   static String id = "Products2";
+
+  @override
+  _Products2State createState() => _Products2State();
+}
+
+class _Products2State extends State<Products2> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final cubit = BlocProvider.of<ProductDetailsCubit>(context);
+      final productId = cubit.product?.id; // استخدام ? بدلاً من !
+      if (productId != null) {
+        context.read<CheckIfFavouriteCubit>().checkIfFavourite(productId);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode
-          ? MyColors.dark_1
-          : Colors.white, // لون الخلفية بناءً على الوضع
+      backgroundColor:
+          themeProvider.isDarkMode ? MyColors.dark_1 : Colors.white,
       body: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
         builder: (context, state) {
           ProductDetailsCubit cubit =
@@ -33,23 +52,14 @@ class Products2 extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (state is GetOneProductSuccessState) {
+            if (cubit.product == null) {
+              return Center(
+                child: Text("Product not found"),
+              );
+            }
+
             return BlocBuilder<LayoutCubit, LayoutStates>(
               builder: (context, layoutState) {
-                final favouriteCubit = BlocProvider.of<LayoutCubit>(context);
-
-                // استدعاء fetchFavourites عند تحميل الصفحة
-                if (layoutState is! FavouriteLoadedState) {
-                  favouriteCubit.fetchFavourites();
-                }
-
-                // فحص null قبل الوصول إلى item['product']['id']
-                bool isFavourite = favouriteCubit.favouriteProducts.any((item) {
-                  if (item != null && item['product'] != null) {
-                    return item['product']['id'] == cubit.product!.id;
-                  }
-                  return false;
-                });
-
                 return CustomScrollView(
                   slivers: [
                     SliverAppBar(
@@ -62,7 +72,7 @@ class Products2 extends StatelessWidget {
                       ),
                       backgroundColor: themeProvider.isDarkMode
                           ? MyColors.dark_2
-                          : Colors.grey[200], // لون AppBar بناءً على الوضع
+                          : Colors.grey[200],
                     ),
                     SliverList(
                       delegate: SliverChildListDelegate([
@@ -76,8 +86,7 @@ class Products2 extends StatelessWidget {
                                 style: TextStyle(
                                   color: themeProvider.isDarkMode
                                       ? Colors.white
-                                      : Colors
-                                          .black, // لون النص بناءً على الوضع
+                                      : Colors.black,
                                   fontSize: 28,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -88,8 +97,7 @@ class Products2 extends StatelessWidget {
                                 style: TextStyle(
                                   color: themeProvider.isDarkMode
                                       ? Colors.white
-                                      : Colors
-                                          .black, // لون النص بناءً على الوضع
+                                      : Colors.black,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -108,8 +116,7 @@ class Products2 extends StatelessWidget {
                                         style: TextStyle(
                                           color: themeProvider.isDarkMode
                                               ? Colors.white
-                                              : Colors
-                                                  .black, // لون النص بناءً على الوضع
+                                              : Colors.black,
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -120,42 +127,64 @@ class Products2 extends StatelessWidget {
                                         style: TextStyle(
                                           color: themeProvider.isDarkMode
                                               ? Colors.white
-                                              : Colors
-                                                  .black, // لون النص بناءً على الوضع
+                                              : Colors.black,
                                           fontSize: 16,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  IconButton(
-                                    onPressed: () async {
-                                      if (cubit.product != null) {
-                                        if (isFavourite) {
-                                          await favouriteCubit
-                                              .removeFromFavourites(
-                                                  cubit.product!.id);
+                                  BlocBuilder<CheckIfFavouriteCubit,
+                                      CheckIfFavouriteState>(
+                                    builder: (BuildContext context, state) {
+                                      if (state is FavouriteChecked) {
+                                        if (state.isFavourite == true) {
+                                          return IconButton(
+                                            onPressed: () async {
+                                              await context
+                                                  .read<
+                                                      AddRemoveFavouriteCubit>()
+                                                  .removeFromFavourites(
+                                                      cubit.product!.id);
+                                              context
+                                                  .read<CheckIfFavouriteCubit>()
+                                                  .checkIfFavourite(
+                                                      cubit.product!.id);
+                                            },
+                                            icon: Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ),
+                                          );
                                         } else {
-                                          await favouriteCubit.addToFavourites(
-                                              cubit.product!.id);
+                                          return IconButton(
+                                            onPressed: () async {
+                                              await context
+                                                  .read<
+                                                      AddRemoveFavouriteCubit>()
+                                                  .addToFavourites(
+                                                      cubit.product!.id);
+                                              context
+                                                  .read<CheckIfFavouriteCubit>()
+                                                  .checkIfFavourite(
+                                                      cubit.product!.id);
+                                            },
+                                            icon: Icon(
+                                              Icons.favorite_outline_rounded,
+                                              color: (themeProvider.isDarkMode)
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                              size: 30,
+                                            ),
+                                          );
                                         }
-                                        // تحديث حالة المفضلة بعد الإضافة/الإزالة
-                                        favouriteCubit.fetchFavourites();
+                                      } else if (state
+                                          is CheckIfFavouriteLoading) {
+                                        return CircularProgressIndicator();
                                       } else {
-                                        print('Product is null');
+                                        return Text(".");
                                       }
                                     },
-                                    icon: Icon(
-                                      isFavourite
-                                          ? Icons.favorite
-                                          : Icons.favorite_outline_rounded,
-                                      color: isFavourite
-                                          ? Colors.red
-                                          : (themeProvider.isDarkMode
-                                              ? Colors.white
-                                              : Colors
-                                                  .black), // لون الأيقونة بناءً على الوضع
-                                      size: 30,
-                                    ),
                                   ),
                                 ],
                               ),
@@ -178,8 +207,7 @@ class Products2 extends StatelessWidget {
                                                 .addToCart(cubit.product!.id);
                                           },
                                           style: ElevatedButton.styleFrom(
-                                            backgroundColor: MyColors
-                                                .buttun, // لون الزر ثابت
+                                            backgroundColor: MyColors.buttun,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -188,8 +216,7 @@ class Products2 extends StatelessWidget {
                                           child: Text(
                                             "Add to Cart",
                                             style: TextStyle(
-                                              color: Colors
-                                                  .white, // لون النص داخل الزر
+                                              color: Colors.white,
                                               fontSize: 16,
                                             ),
                                           ),
@@ -212,11 +239,10 @@ class Products2 extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
-                                              duration:
-                                                  const Duration(seconds: 3),
-                                              content: Text(
-                                                state.error,
-                                              )),
+                                            duration:
+                                                const Duration(seconds: 3),
+                                            content: Text(state.error),
+                                          ),
                                         );
                                       }
                                     },
@@ -237,9 +263,7 @@ class Products2 extends StatelessWidget {
               child: Text(
                 "Failed to load product details",
                 style: TextStyle(
-                  color: themeProvider.isDarkMode
-                      ? Colors.white
-                      : Colors.black, // لون النص بناءً على الوضع
+                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
             );

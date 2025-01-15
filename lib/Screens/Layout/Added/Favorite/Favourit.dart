@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Favorite/Cubit/Add_remove_favourite.dart';
+import 'package:untitled1/Screens/Layout/Added/Favorite/Cubit/FavouriteCubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Favorite/Cubit/favourite_states.dart';
 import 'package:untitled1/helper/constants.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import 'package:untitled1/Screens/Drawer/ِCustomDrawer.dart';
@@ -46,8 +49,8 @@ class _FavouritState extends State<Favourit> {
         backgroundColor:
             themeProvider.isDarkMode ? MyColors.dark_1 : MyColors.buttun,
       ),
-      body: BlocBuilder<LayoutCubit, LayoutStates>(
-        builder: (BuildContext context, LayoutStates state) {
+      body: BlocBuilder<FavouriteCubit, FavouriteState>(
+        builder: (context, state) {
           if (state is FavouriteLoadingState) {
             return Center(child: CircularProgressIndicator());
           } else if (state is FavouriteEmpity) {
@@ -184,9 +187,13 @@ class _FavouritState extends State<Favourit> {
                                                   final productId =
                                                       product["id"];
                                                   context
-                                                      .read<LayoutCubit>()
+                                                      .read<
+                                                          AddRemoveFavouriteCubit>()
                                                       .removeFromFavourites(
                                                           productId);
+                                                  context
+                                                      .read<FavouriteCubit>()
+                                                      .fetchFavourites();
                                                 }
                                               },
                                               icon: Icon(

@@ -8,6 +8,7 @@ import '../../../../helper/my_colors.dart';
 import '../../../../widget/ButtonOfOrders.dart';
 import '../../../Drawer/ theme_provider.dart';
 import '../../../Drawer/ِCustomDrawer.dart';
+import '../EditCart/EditCartCubit/edit_cart_cubit.dart';
 import 'OrderCubit/cancel_order_cubit.dart';
 import 'OrderCubit/cancle_order_state.dart';
 import 'OrderEmpity.dart'; // أضف هذا الاستيراد
@@ -240,8 +241,8 @@ class _OrdersState extends State<Orders> {
                             padding: const EdgeInsets.only(
                                 left: 13, right: 13, top: 10),
                             child: ButtonOfOrders(
-                              date: state.orders[i]["created_at"],
-                              clock: '6:25',
+                              date: state.orders[i]["order_date"],
+                              clock: state.orders[i]["order_time"],
                               onPressed: () {},
                               index: index, // تمرير قيمة الـ index
                               onEditPressed: () {
@@ -260,10 +261,6 @@ class _OrdersState extends State<Orders> {
                   ),
                 ),
               );
-            } else if (state is OrdersLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
             } else if (state is OrdersEmpty) {
               return OrderEmpity();
             } else {
@@ -279,7 +276,19 @@ class _OrdersState extends State<Orders> {
 
   // دالة لتعديل الطلب
   void _editOrder(Map<String, dynamic> order) {
-    print("Edit Order: ${order["id"]}");
+    // استدعاء Cubit لتحميل بيانات الطلب
+    context.read<EditCartCubit>().fetchEdit(order["id"]);
+
+    // الانتقال إلى واجهة تعديل الطلب
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => BlocProvider.value(
+          value: context.read<EditCartCubit>(),
+          child: Text("NewScreen"),
+        ),
+      ),
+    );
   }
 
   // دالة لحذف الطلب
@@ -299,7 +308,6 @@ class _OrdersState extends State<Orders> {
             ),
             TextButton(
               onPressed: () {
-                // استدعاء Cubit لإلغاء الطلب
                 context.read<CancelOrderCubit>().cancelOrder(order["id"]);
                 Navigator.pop(context);
               },

@@ -493,6 +493,7 @@ class _CartState extends State<Cart> {
                       return ElevatedButton(
                         onPressed: () {
                           BlocProvider.of<CheckoutCubit>(context).checkout();
+                          BlocProvider.of<ShowCartCubit>(context).fetchCart();
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,

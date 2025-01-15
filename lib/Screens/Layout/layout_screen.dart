@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled1/Screens/Layout/Added/Cart/CartCubit/add_cart_cubit.dart';
+import 'package:untitled1/Screens/Layout/Added/Favorite/Cubit/FavouriteCubit.dart';
 import 'package:untitled1/Screens/Layout/Added/Order/OrderCubit/order_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_cubit.dart';
 import 'package:untitled1/Screens/Layout/Layout_cubit/layout_states.dart';
 import 'package:untitled1/helper/my_colors.dart';
 import '../Drawer/ theme_provider.dart';
+import '../HomePage/MostSells/most_sell_cubit.dart';
 import 'Added/Cart/CartCubit/add_cart_states.dart';
 import 'Added/Cart/CartCubit/show_cart_cubit.dart';
 import 'Added/Cart/CartCubit/total_price_cubit.dart';
@@ -17,7 +19,10 @@ class LayoutScreen extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return BlocConsumer<LayoutCubit, LayoutStates>(
-      builder: (BuildContext context, state) {
+      listener: (BuildContext context, LayoutStates state) {
+        // يمكنك إضافة أي تفاعلات إضافية هنا إذا لزم الأمر
+      },
+      builder: (BuildContext context, LayoutStates state) {
         final cubit = BlocProvider.of<LayoutCubit>(context);
         return BlocListener<AddCartCubit, AddCartState>(
           listener: (BuildContext context, AddCartState state) {
@@ -52,8 +57,12 @@ class LayoutScreen extends StatelessWidget {
                 unselectedItemColor:
                     themeProvider.isDarkMode ? Colors.white70 : Colors.grey,
                 onTap: (index) {
+                  if (index == 0) {
+                    BlocProvider.of<MostSellCubit>(context)
+                        .fetchMostSellProducts();
+                  }
                   if (index == 3) {
-                    cubit.fetchFavourites();
+                    context.read<FavouriteCubit>().fetchFavourites();
                   }
                   if (index == 1) {
                     context.read<ShowCartCubit>().fetchCart();
@@ -64,7 +73,7 @@ class LayoutScreen extends StatelessWidget {
                   }
                   cubit.changeBottomNavIndex(index: index);
                 },
-                items: [
+                items: const [
                   BottomNavigationBarItem(
                     icon: ImageIcon(AssetImage('images/home.png')),
                     label: "*",
@@ -87,16 +96,6 @@ class LayoutScreen extends StatelessWidget {
             body: cubit.layoutScreens[cubit.bottomNavIndex],
           ),
         );
-      },
-      listener: (BuildContext context, Object? state) {
-        if (state is FavouriteErrorState) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
       },
     );
   }
